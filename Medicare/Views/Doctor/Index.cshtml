@@ -21,11 +21,6 @@
                 <label for="specialtyFilter" class="form-label">Specialty</label>
                 <select class="form-select" id="specialtyFilter">
                     <option value="">All Specialties</option>
-                    <option>Cardiology</option>
-                    <option>Neurology</option>
-                    <option>Pediatrics</option>
-                    <option>Orthopedics</option>
-                    <option>Dermatology</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -38,10 +33,10 @@
                 </select>
             </div>
             <div class="col-md-3 d-flex align-items-end">
-                <button class="btn btn-primary me-2">
+                <button class="btn btn-primary me-2" id="filterDataTable">
                     <i class="bi bi-funnel"></i> Apply Filters
                 </button>
-                <button class="btn btn-outline-secondary">
+                <button class="btn btn-outline-secondary" id="filterReset">
                     <i class="bi bi-arrow-counterclockwise"></i> Reset
                 </button>
             </div>
@@ -189,17 +184,72 @@
 @section Scripts {
     <script type="text/javascript">
         $(function () {
-            $('#doctorTable').customedatatable('@Url.Action("GetDoctors", "Doctor")', {}, {
+            var $doctorTable = $('#doctorTable').customedatatable('@Url.Action("GetDoctors", "Doctor")', {}, {
                 length: 5,
                 sortableColumns: ['Name', 'Experience'],
                 rowActionBuilder: function (row) {
                     return `<td>
                         <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
                         <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        <button class="btn btn-sm btn-outline-danger deleteButton" data-id="${row.id}" onclick="deleteDoctor('${row.id}')"><i class="bi bi-trash"></i></button>
                     </td>`;
+                },
+                onDataLoaded: function(info) {
+                    // console.log('Data loaded with filters:', info.filtersApplied);
+                    if (info.filtersApplied.Specialty) {
+                        $('#specialtyFilter').css('background-color', '#e9ecef'); // grey out
+                    }
+                    else{
+                        $('#specialtyFilter').val('');
+                        $('#specialtyFilter').css('background-color', '#ffff'); // grey out
+                       
+                    }
                 }
             }, '#searchDoctor');
+
+
+            $('#specialtyFilter').loadDropdownData(
+                '@Url.Action("DoctorSpecialization", "Dropdown")'
+                ).done(function () {
+                $('#SpesializationId')
+                    .attr('multiple', 'multiple')       // ensure multi-select
+                    .select2({
+                        placeholder: "Select Specializations",
+                        width: '100%',
+                        dropdownParent: $('#createDoctorModal')
+                });
+            });
+
+            $('#filterDataTable').click(function(){
+                // grab selected value
+                const specialty = $('#specialtyFilter').val();
+
+                const tableData = $doctorTable.data('customedatatable-data') || {};
+                 // Make sure 'Data' exists
+                tableData.Data = tableData.Data || {};
+                
+               if (tableData.Data.Specialty !== specialty) {
+                    // Add/update only the filters you want to send
+                    tableData.Data.Specialty = $('#specialtyFilter').val();
+
+                    // Save back
+                    $doctorTable.data('customedatatable-data', tableData);
+
+                    // Reload table
+                    $doctorTable.data('refresh')();
+                }
+            })
+
+            $('#filterReset').click(function() {
+                // Clear plugin-stored filters
+                const tableData = $doctorTable.data('customedatatable-data') || {};
+                if (Object.keys(tableData.Data).length > 0) {
+                    tableData.Data = {};  // remove all applied filters
+                    $doctorTable.data('customedatatable-data', tableData);
+                    // Reload table
+                    $doctorTable.data('refresh')();
+                }
+            });
         });
 
         const createDoctorModal = new bootstrap.Modal(document.getElementById('createDoctorModal'));
@@ -286,5 +336,20 @@
                 form.classList.add('was-validated');
             }
         });
+
+        function deleteDoctor(id){
+            deleteData('@Url.Action("DeleteDoctor", "Doctor")', { id: id }, { showSuccess : true,showError : true, confirmText : 'Doctor will be deleted!',
+                success: function (response) {
+					console.log(response);
+                    // remove row on success
+					if(response.success)
+					{
+                        $("button[data-id='" + id + "']").closest("tr").fadeOut(500, function () {
+                            $(this).remove();
+                        });
+					}
+                }
+            });
+        }
     </script>
 }

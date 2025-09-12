@@ -33,7 +33,15 @@ namespace Medicare.Repository.DbContext
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Appointments)
                 .WithOne(a => a.Doctor)
-                .HasForeignKey(a => a.DoctorId);
+                .HasForeignKey(a => a.DoctorId)
+                ;
+
+            // Apply global query filter (ignores Deleted = true records)
+            modelBuilder.Entity<Doctor>().HasQueryFilter(d => !d.Deleted);
+
+            // Add index for Deleted property
+            modelBuilder.Entity<Doctor>()
+                .HasIndex(d => d.Deleted);
 
             // Patient
             modelBuilder.Entity<Patient>()

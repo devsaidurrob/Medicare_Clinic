@@ -207,6 +207,9 @@ namespace Medicare.Repository.Migrations
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
@@ -238,6 +241,8 @@ namespace Medicare.Repository.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Deleted");
 
                     b.ToTable("Doctors", "OPD");
                 });

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Medicare.Repository.Entity;
+using Medicare.Repository.Utility;
 using Medicare.ViewModels;
 
 namespace Medicare.Utility
@@ -8,6 +9,9 @@ namespace Medicare.Utility
     {
         public MappingProfile()
         {
+            CreateMap<PagingResult<Doctor>, PagingResult<DoctorViewModel>>()
+                .ForMember(dest => dest.Records, opt => opt.MapFrom(src => src.Records));
+
             CreateMap<Doctor, DoctorViewModel>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
                 .ForMember(dest => dest.Departments, opt => opt.MapFrom(src =>

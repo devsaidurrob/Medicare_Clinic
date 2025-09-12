@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Medicare.Models;
 using Medicare.Repository.Entity;
 using Medicare.Repository.Interfaces;
+using Medicare.Repository.Utility;
 using Medicare.Utility;
 using Medicare.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +26,12 @@ namespace Medicare.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<JsonResult> GetDoctors()
+        public async Task<JsonResult> GetDoctors(DoctorFilter filter)
         {
             try
             {
-                var doctors = await _repo.GetAllAsync();
-                var viewModels = _mapper.Map<List<DoctorViewModel>>(doctors);
+                var doctors = await _repo.GetAllAsync(filter);
+                var viewModels = _mapper.Map<PagingResult<DoctorViewModel>>(doctors);
                 return JsonResponseHelper.CreateSuccessResponse(viewModels);
             }
             catch (Exception ex)
@@ -81,6 +83,26 @@ namespace Medicare.Controllers
 
             }
             catch(Exception e)
+            {
+                return JsonResponseHelper.CreateFailureResponse(e.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<JsonResult> DeleteDoctor(Guid id)
+        {
+            try
+            {
+                var success = await _repo.DeleteAsync(id);
+                if (success)
+                {
+                    return JsonResponseHelper.CreateSuccessResponse(success, "Doctor deleted successfully");
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Doctor not found");
+                }
+            }
+            catch (Exception e)
             {
                 return JsonResponseHelper.CreateFailureResponse(e.Message);
             }

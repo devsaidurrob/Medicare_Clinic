@@ -22,6 +22,7 @@ namespace Medicare.Repository.Entity
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Nullable<int> DepartmentId { get; set; }
+        public bool Deleted { get; set; } = false;
 
         public virtual ICollection<Appointment> Appointments { get; set; }
 

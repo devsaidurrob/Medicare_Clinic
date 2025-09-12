@@ -420,6 +420,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.6.7": {
+        "runtime": {
+          "lib/net6.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.6.7.0",
+            "fileVersion": "1.6.7.0"
+          }
+        }
+      },
       "System.Runtime.Caching/4.7.0": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.7.0"
@@ -502,7 +510,8 @@
       "Medicare.Repository/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.36",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.36"
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.36",
+          "System.Linq.Dynamic.Core": "1.6.7"
         },
         "runtime": {
           "Medicare.Repository.dll": {
@@ -763,6 +772,13 @@
       "sha512": "sha512-8RKI7qlT6yuEFBId/Ne2VDfa0bh5aUKJLHRV0YuSnYEtnMNJTrbUJyyXwtqEhV9Ykk2bV997QKBFi3Ni8P+wAw==",
       "path": "system.identitymodel.tokens.jwt/6.36.0",
       "hashPath": "system.identitymodel.tokens.jwt.6.36.0.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.6.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lH+YgtovXbxD6JImHl2VXUtXRUvN8BMEZB2ReZNvS+J5GnGGZV9ivxslQ2nJWmKlBjFTReAKsevnQKE4yLP2pA==",
+      "path": "system.linq.dynamic.core/1.6.7",
+      "hashPath": "system.linq.dynamic.core.1.6.7.nupkg.sha512"
     },
     "System.Runtime.Caching/4.7.0": {
       "type": "package",

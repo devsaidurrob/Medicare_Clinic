@@ -26,19 +26,25 @@
         });
 
         const loadData = (action = 'default') => {
+            const tableData = $table.data('customedatatable-data') || {};
+            const filterData = tableData.Data || {};
+
             $.ajax({
                 url: ajaxUrl,
                 method: 'GET',
                 data: {
-                    ...data,
+                    ...data,                 // plugin's default top-level data
+                    ...filterData,           // dynamically add all custom filters
                     start: (currentPage - 1) * pageSize,
                     length: pageSize,
                     sortColumn, sortDir,
                     search: searchTerm
                 },
                 success: res => {
-                    const records = (res.data || res.records || []).map(normalizeDataKeys);
-                    totalRecords = res.total || res.recordsTotal || records.length;
+                    console.log(res);
+                    // Since API sends { total, records }
+                    const records = (res.data.records || []).map(normalizeDataKeys);
+                    totalRecords = res.data.total || records.length;
                     $tbody.empty();
 
                     if (records.length === 0)
@@ -65,9 +71,30 @@
                     const start = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
                     const end = Math.min(currentPage * pageSize, totalRecords);
                     $paginationInfo.text(`Showing ${start}-${end} of ${totalRecords} doctors`);
+
+                    // ✅ Call callback on successful data load
+                    if (typeof settings.onDataLoaded === 'function') {
+                        settings.onDataLoaded({
+                            filtersApplied: filterData,   // current filters
+                            totalRecords,
+                            currentPage,
+                            pageSize
+                        });
+                    }
                 },
                 error: () => $tbody.html('<tr><td colspan="100%">Failed to load data</td></tr>'),
                 beforeSend: function () {
+
+                    //console.log('AJAX data being sent:', {
+                    //    ...data,
+                    //    ...filterData,
+                    //    start: (currentPage - 1) * pageSize,
+                    //    length: pageSize,
+                    //    sortColumn,
+                    //    sortDir,
+                    //    search: searchTerm
+                    //});
+
                     tableLoader.show(action);
                 },
                 complete: function () {

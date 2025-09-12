@@ -44,6 +44,74 @@
     });
 }
 
+function deleteData(url, data, settings = {}) {
+    //debugger;
+    const {
+        loader = true,
+        loaderText = 'Deleting...',
+        showSuccess = true,
+        showError = true,
+        confirmTitle = "Are you sure?",
+        confirmText = "This action cannot be undone!",
+        confirmButtonText = "Yes, delete it!",
+        success,
+        error
+    } = settings;
+
+    Swal.fire({
+        title: confirmTitle,
+        text: confirmText,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: confirmButtonText
+    }).then((result) => {
+        //debugger
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                dataType: 'json',
+                beforeSend: function () {
+                    if (loader) {
+                        AjaxLoader.show(loaderText);
+                    }
+                },
+                success: function (response) {
+                    //debugger
+                    if (response.success) {
+                        if (showSuccess) {
+                            AlertSystem.success("Deleted!", response.message);
+                        }
+                        if (typeof success === "function") {
+                            success(response);
+                        }
+                    } else if (showError) {
+                        AlertSystem.error("Error!", response.message);
+                    }
+                },
+                error: function (xhr, status, err) {
+                    //debugger
+                    if (showError) {
+                        AlertSystem.error("Error", err);
+                    }
+                    console.error("AJAX error:", err);
+                    if (typeof error === "function") {
+                        error(xhr, status, err);
+                    }
+                },
+                complete: function () {
+                    //debugger;
+                    AjaxLoader.hide();
+                }
+            });
+        }
+    });
+}
+
+
 (function ($) {
     $.fn.populateData = function (url, requestData = {}, settings = {}) {
         const {

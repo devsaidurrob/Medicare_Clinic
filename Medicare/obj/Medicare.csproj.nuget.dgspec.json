@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Others\\Medicare\\Medicare\\Medicare.csproj": {}
+    "D:\\Others\\Medicare_Clinic\\Medicare\\Medicare.csproj": {}
   },
   "projects": {
-    "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj": {
+    "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj",
+        "projectUniqueName": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj",
         "projectName": "Medicare.Repository",
-        "projectPath": "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj",
-        "packagesPath": "C:\\Users\\sdrro\\.nuget\\packages\\",
-        "outputPath": "E:\\Others\\Medicare\\Medicare.Repository\\obj\\",
+        "projectPath": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj",
+        "packagesPath": "C:\\Users\\SaidurRob\\.nuget\\packages\\",
+        "outputPath": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sdrro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SaidurRob\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net6.0": {
@@ -63,6 +63,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.36, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.6.7, )"
             }
           },
           "imports": [
@@ -81,24 +85,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Others\\Medicare\\Medicare\\Medicare.csproj": {
+    "D:\\Others\\Medicare_Clinic\\Medicare\\Medicare.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Others\\Medicare\\Medicare\\Medicare.csproj",
+        "projectUniqueName": "D:\\Others\\Medicare_Clinic\\Medicare\\Medicare.csproj",
         "projectName": "Medicare",
-        "projectPath": "E:\\Others\\Medicare\\Medicare\\Medicare.csproj",
-        "packagesPath": "C:\\Users\\sdrro\\.nuget\\packages\\",
-        "outputPath": "E:\\Others\\Medicare\\Medicare\\obj\\",
+        "projectPath": "D:\\Others\\Medicare_Clinic\\Medicare\\Medicare.csproj",
+        "packagesPath": "C:\\Users\\SaidurRob\\.nuget\\packages\\",
+        "outputPath": "D:\\Others\\Medicare_Clinic\\Medicare\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\sdrro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SaidurRob\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -113,8 +117,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj": {
-                "projectPath": "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj"
+              "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj": {
+                "projectPath": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj"
               }
             }
           }
@@ -129,7 +133,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net6.0": {
@@ -173,7 +177,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
