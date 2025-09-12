@@ -1,0 +1,252 @@
+﻿/* Loader Styles - matches your design system */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px);
+}
+
+.hospital-loader {
+    text-align: center;
+    width: 200px;
+}
+
+.hospital-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.hospital-shape {
+    width: 100%;
+    height: 100%;
+}
+
+.hospital-outline {
+    fill: #1a5276;  /*Your sidebar color */
+    stroke: #154360;  /*Your sidebar hover color */
+    stroke-width: 2;
+    stroke-linejoin: round;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.hospital-cross {
+    stroke: #ffffff;
+    stroke-width: 6;
+    stroke-linecap: round;
+    animation: crossPulse 2s infinite ease-in-out;
+}
+
+.loader-pulse {
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: 20px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+    .loader-pulse::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background: #1a5276;
+        border-radius: 2px;
+        animation: loading 2s infinite ease-in-out;
+    }
+
+.loader-text {
+    color: #1a5276;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    animation: textFade 2s infinite ease-in-out;
+}
+
+ /*Animations*/ 
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+}
+
+@keyframes crossPulse {
+    0%, 100% {
+        stroke-width: 6;
+    }
+
+    50% {
+        stroke-width: 8;
+    }
+}
+
+@keyframes loading {
+    0% {
+        left: -50%;
+        width: 50%;
+    }
+
+    50% {
+        width: 70%;
+    }
+
+    100% {
+        left: 100%;
+        width: 50%;
+    }
+}
+
+@keyframes textFade {
+    0%, 100% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.ajax-loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(207 202 202 / 26%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backdrop-filter: blur(2px);
+}
+
+    .ajax-loader-overlay .loader-pulse {
+        width: 50px;
+        height: 50px;
+        background-color: #1a5276;
+        border-radius: 50%;
+        animation: pulse 1.5s infinite ease-in-out;
+        margin-bottom: 20px;
+    }
+
+    .ajax-loader-overlay .loader-text {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 1.1rem;
+        color: #1a5276;
+        font-weight: 500;
+    }
+
+        .ajax-loader-overlay .loader-text::after {
+            content: '.....';
+            animation: ellipsis 1.5s infinite;
+        }
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+}
+
+@keyframes ellipsis {
+    0% {
+        content: '.';
+    }
+
+    33% {
+        content: '..';
+    }
+
+    66% {
+        content: '...';
+    }
+}
+
+/* Table Loader */
+.table-loader-container {
+    position: relative;
+    min-height: 200px; /* Minimum height to ensure loader visibility */
+}
+
+.table-loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255 255 255 / 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    backdrop-filter: blur(0px);
+}
+    .table-loader-overlay .table-loader-text {
+        color: #1a5276;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .table-loader-overlay .table-loader-text::after {
+        content: '.....';
+        animation: ellipsis 1.5s infinite;
+    }
+
+.table-loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1a5276;
+    border-radius: 50%;
+    animation: table-loader-spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+
+@keyframes table-loader-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.table-loader-blur {
+    filter: blur(1px);
+}
+/* Additional style for empty tables */
+.table-loader-container table {
+    width: 100%;
+    /*min-height: 150px;*/ /* Minimum height for empty tables */
+}

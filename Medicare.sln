@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medicare", "Medicare\Medicare.csproj", "{979526A4-DAA2-47FA-9B35-38C431EC6434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medicare.Repository", "Medicare.Repository\Medicare.Repository.csproj", "{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{979526A4-DAA2-47FA-9B35-38C431EC6434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{979526A4-DAA2-47FA-9B35-38C431EC6434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{979526A4-DAA2-47FA-9B35-38C431EC6434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{979526A4-DAA2-47FA-9B35-38C431EC6434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61144630-A769-43E4-B41D-E7F6B0540BED}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,14 @@
+E:\Others\Medicare\Medicare.Repository\bin\Debug\net6.0\Medicare.Repository.deps.json
+E:\Others\Medicare\Medicare.Repository\bin\Debug\net6.0\Medicare.Repository.dll
+E:\Others\Medicare\Medicare.Repository\bin\Debug\net6.0\Medicare.Repository.pdb
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.GeneratedMSBuildEditorConfig.editorconfig
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.AssemblyInfoInputs.cache
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.AssemblyInfo.cs
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.csproj.CoreCompileInputs.cache
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.dll
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\refint\Medicare.Repository.dll
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.pdb
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\ref\Medicare.Repository.dll
+E:\Others\Medicare\Medicare.Repository\bin\Debug\net6.0\Medicare.Repository.runtimeconfig.json
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.csproj.AssemblyReference.cache
+E:\Others\Medicare\Medicare.Repository\obj\Debug\net6.0\Medicare.Repository.genruntimeconfig.cache

@@ -1,0 +1,210 @@
+﻿:root {
+    --sidebar-bg: #1a5276;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #154360;
+}
+
+body {
+    padding-top: 56px;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 20px 0;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    transition: all 0.3s;
+    width: 250px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+    .sidebar .nav-link {
+        color: var(--sidebar-text);
+        padding: 10px 15px;
+        margin: 5px 10px;
+        border-radius: 5px;
+    }
+
+        .sidebar .nav-link:hover {
+            background-color: var(--sidebar-hover);
+        }
+
+        .sidebar .nav-link.active {
+            background-color: var(--sidebar-hover);
+            font-weight: 600;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+
+    .sidebar.collapsed {
+        width: 70px;
+        overflow: hidden;
+    }
+
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link i {
+            margin-right: 0;
+            font-size: 1.2rem;
+        }
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 70px;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: white !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    color: var(--sidebar-bg) !important;
+    font-weight: 600;
+}
+
+/* Search box styling */
+.search-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+}
+
+@media (max-width: 1200px) {
+    .search-container {
+        width: 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    .search-container {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .navbar-collapse {
+        order: 3;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+        .sidebar .nav-link span {
+            display: none;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 0;
+            font-size: 1.2rem;
+        }
+
+    .main-content {
+        margin-left: 70px;
+    }
+}
+
+/* Filter section styling */
+.filter-section {
+    background-color: #ffff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Sorting controls */
+.sort-controls .btn {
+    min-width: 100px;
+}
+
+/* Table styling */
+.table th.sortable {
+    cursor: pointer;
+    position: relative;
+}
+
+    .table th.sortable:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table th.sortable::after {
+        font-family: "bootstrap-icons";
+        content: "\F229";
+        margin-left: 5px;
+        opacity: 0.3;
+        display: inline-block;
+    }
+
+    .table th.sortable.asc::after {
+        content: "\F229";
+        opacity: 1;
+    }
+
+    .table th.sortable.desc::after {
+        content: "\F229";
+        transform: rotate(180deg);
+        opacity: 1;
+    }
+
+/* Status badges */
+.badge-available {
+    background-color: #28a745;
+}
+
+.badge-on-leave {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge-unavailable {
+    background-color: #dc3545;
+}
+
+/* Pagination styling */
+.pagination-info {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Doctor avatar */
+.doctor-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.modal-body {
+    max-height: 65vh;
+    overflow-y: auto;
+    /*padding-bottom: 20px;*/
+}
+
+form .col-md-6, .col-12 {
+    margin-top: 5px !important;
+}
+.form-label.required::after {
+    content: " *";
+    color: #dc3545; /* Bootstrap's danger color */
+}
