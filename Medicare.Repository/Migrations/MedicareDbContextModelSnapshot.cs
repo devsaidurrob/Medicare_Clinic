@@ -32,7 +32,7 @@ namespace Medicare.Repository.Migrations
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("AppointmentTime")
+                    b.Property<TimeSpan?>("AppointmentTime")
                         .HasColumnType("time");
 
                     b.Property<DateTime>("CreatedAt")
@@ -51,11 +51,9 @@ namespace Medicare.Repository.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remarks")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -300,23 +298,18 @@ namespace Medicare.Repository.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AlternatePhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BloodGroup")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -326,15 +319,12 @@ namespace Medicare.Repository.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmergencyContactName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmergencyContactNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -342,38 +332,30 @@ namespace Medicare.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaritalStatus")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MobileNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NationalId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Occupation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ZipCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -552,6 +534,20 @@ namespace Medicare.Repository.Migrations
                             Description = "Specialist in children's dental health.",
                             Name = "Pediatric Dentist"
                         });
+                });
+
+            modelBuilder.Entity("Medicare.Repository.Utility.DoctorsWithDetailsModel", b =>
+                {
+                    b.Property<string>("DoctorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Specializations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("DoctorsWithDetailsModel", "OPD");
                 });
 
             modelBuilder.Entity("Medicare.Repository.Entity.Appointment", b =>

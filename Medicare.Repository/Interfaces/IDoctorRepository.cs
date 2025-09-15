@@ -15,5 +15,6 @@ namespace Medicare.Repository.Interfaces
         Task<Doctor> AddAsync(Doctor doctor);
         Task<Doctor?> UpdateAsync(Doctor doctor);
         Task<bool> DeleteAsync(Guid id);
+        Task<IEnumerable<DoctorsWithDetailsModel>> GetDoctorsWithDetailsAsync();
     }
 }

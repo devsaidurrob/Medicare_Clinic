@@ -2133,23 +2133,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SaidurRob\\.nuget\\packages\\": {},
+    "C:\\Users\\sdrro\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Others\\Medicare_Clinic\\Medicare\\Medicare.csproj",
+      "projectUniqueName": "E:\\Others\\Medicare\\Medicare\\Medicare.csproj",
       "projectName": "Medicare",
-      "projectPath": "D:\\Others\\Medicare_Clinic\\Medicare\\Medicare.csproj",
-      "packagesPath": "C:\\Users\\SaidurRob\\.nuget\\packages\\",
-      "outputPath": "D:\\Others\\Medicare_Clinic\\Medicare\\obj\\",
+      "projectPath": "E:\\Others\\Medicare\\Medicare\\Medicare.csproj",
+      "packagesPath": "C:\\Users\\sdrro\\.nuget\\packages\\",
+      "outputPath": "E:\\Others\\Medicare\\Medicare\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\SaidurRob\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sdrro\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2164,8 +2164,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj": {
-              "projectPath": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Medicare.Repository.csproj"
+            "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj": {
+              "projectPath": "E:\\Others\\Medicare\\Medicare.Repository\\Medicare.Repository.csproj"
             }
           }
         }
@@ -2180,7 +2180,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net6.0": {
@@ -2224,7 +2224,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305\\RuntimeIdentifierGraph.json"
       }
     }
   }

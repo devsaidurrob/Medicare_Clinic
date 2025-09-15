@@ -17,4 +17,9 @@
         public List<DepartmentViewModel> Departments { get; set; }
         public List<SpecializationViewModel> Specializations { get; set; }
     }
+    public class DoctorsWithDetailsViewModel
+    {
+        public Guid Id { get; set; }
+        public string? Name { get; set; }
+    }
 }

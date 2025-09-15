@@ -51,12 +51,14 @@
                         return $tbody.append('<tr><td colspan="100%">No records found</td></tr>');
 
                     records.forEach(row => {
+                        
                         const $tr = $('<tr>');
                         columnMap.forEach(key => {
                             if (key) {
                                 $tr.append(`<td>${row[key] ?? ''}</td>`);
                             } else {
                                 if (typeof settings.rowActionBuilder === 'function') {
+                                    
                                     const tdHtml = settings.rowActionBuilder(row); // Return complete <td>...</td>
                                     $tr.append(tdHtml);
                                 } else {
@@ -70,7 +72,7 @@
                     renderPagination();
                     const start = totalRecords === 0 ? 0 : (currentPage - 1) * pageSize + 1;
                     const end = Math.min(currentPage * pageSize, totalRecords);
-                    $paginationInfo.text(`Showing ${start}-${end} of ${totalRecords} doctors`);
+                    $paginationInfo.text(`Showing ${start}-${end} of ${totalRecords} records`);
 
                     // ✅ Call callback on successful data load
                     if (typeof settings.onDataLoaded === 'function') {

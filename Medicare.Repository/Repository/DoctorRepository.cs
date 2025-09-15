@@ -102,5 +102,14 @@ namespace Medicare.Repository.Repository
             int retVal = await _context.SaveChangesAsync();
             return retVal > 0;
         }
+
+        public async Task<IEnumerable<DoctorsWithDetailsModel>> GetDoctorsWithDetailsAsync()
+        {
+            var result = await _context.Set<DoctorsWithDetailsModel>()
+             .FromSqlRaw("EXEC opd.GetDoctorsWithDepartmentsAndSpecializations")
+             .ToListAsync();
+
+            return result;
+        }
     }
 }

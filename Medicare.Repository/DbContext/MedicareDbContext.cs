@@ -1,4 +1,5 @@
 ﻿using Medicare.Repository.Entity;
+using Medicare.Repository.Utility;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Medicare.Repository.DbContext
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<DoctorSpecialization> DoctorSpecializations { get; set; }
 
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Set default schema
@@ -90,6 +91,12 @@ namespace Medicare.Repository.DbContext
                 .WithMany(s => s.DoctorSpecializations)
                 .HasForeignKey(ds => ds.SpecializationId);
 
+
+            #region Stored procedure
+
+            modelBuilder.Entity<DoctorsWithDetailsModel>().HasNoKey();
+
+            #endregion
 
             #region Seed Data
 

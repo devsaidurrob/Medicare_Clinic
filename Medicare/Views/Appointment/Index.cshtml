@@ -1,0 +1,427 @@
+﻿@{
+    ViewData["Title"] = "Appointments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Appointments</h2>
+        <button id="btnAddAppointment" class="btn btn-primary" onclick="showCreateAppointmentModal()">
+            <i class="bi bi-plus-circle"></i> Add Appointment
+        </button>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section mb-3">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Search</label>
+                <input type="text" class="form-control" id="searchAppointment" placeholder="Patient or Doctor">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="statusFilter">
+                    <option value="">All</option>
+                    <option>Scheduled</option>
+                    <option>Completed</option>
+                    <option>Cancelled</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-primary me-2" id="filterDataTable">
+                    <i class="bi bi-funnel"></i> Apply Filters
+                </button>
+                <button class="btn btn-outline-secondary" id="filterReset">
+                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment DataTable -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="appointmentTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th data-patientName>Patient Name</th>
+                            <th data-doctorName>Doctor Name</th>
+                            <th data-appointmentDate>Date</th>
+                            <th data-appointmentTime>Time</th>
+                            <th data-status>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <!-- Pagination & Info -->
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <span class="pagination-info"></span>
+                    <ul class="pagination"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Create Appointment Modal -->
+<div class="modal fade" id="createAppointmentModal" tabindex="-1" aria-labelledby="createAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-white">
+                <h5 class="modal-title" id="createAppointmentModalLabel">
+                    <i class="bi bi-calendar-plus me-2"></i>Create New Appointment
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                <form id="appointmentForm">
+                    <!-- Patient Details -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Patient Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="PatientFirstName" class="form-label required">First Name</label>
+                                    <input class="form-control" id="PatientFirstName" name="PatientFirstName" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="PatientLastName" class="form-label required">Last Name</label>
+                                    <input class="form-control" id="PatientLastName" name="PatientLastName" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="PatientPhone" class="form-label required">Phone Number</label>
+                                    <input class="form-control" id="PatientPhone" name="PatientPhone" type="tel" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="PatientEmail" class="form-label required">Email</label>
+                                    <input class="form-control" id="PatientEmail" name="PatientEmail" type="email" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="PatientGender" class="form-label required">Gender</label>
+                                    <select class="form-select" id="PatientGender" name="PatientGender" required>
+                                        <option value="">Select Gender</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="PatientDateOfBirth" class="form-label">Date of Birth</label>
+                                    <input class="form-control" id="PatientDateOfBirth" name="PatientDateOfBirth" type="date" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="PatientAddress" class="form-label">Address</label>
+                                    <textarea class="form-control" id="PatientAddress" name="PatientAddress" rows="2"></textarea>
+                                </div>
+                                @* <div class="col-12">
+                                    <label for="PatientMedicalHistory" class="form-label">Medical History</label>
+                                    <textarea class="form-control" id="PatientMedicalHistory" name="PatientMedicalHistory" rows="2"></textarea>
+                                </div> *@
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Details -->
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Appointment Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="Department" class="form-label required">Department</label>
+                                    <select class="form-select" id="Department" name="Department" required>
+                                        <option value="">Select Department</option>
+                                        <option>Cardiology</option>
+                                        <option>Neurology</option>
+                                        <option>Pediatrics</option>
+                                        <option>Orthopedics</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="Doctor" class="form-label required">Doctor</label>
+                                    <select class="form-select" id="Doctor" name="Doctor" required>
+                                        <option value="">Select Doctor</option>
+                                        <option>Dr. Smith (Cardiology)</option>
+                                        <option>Dr. Johnson (Neurology)</option>
+                                        <option>Dr. Williams (Pediatrics)</option>
+                                        <option>Dr. Brown (Orthopedics)</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="AppointmentDate" class="form-label required">Appointment Date</label>
+                                    <input class="form-control" id="AppointmentDate" name="AppointmentDate" type="date" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="AppointmentTime" class="form-label required">Appointment Time</label>
+                                    <input class="form-control" id="AppointmentTime" name="AppointmentTime" type="time" required />
+                                </div>
+                                <div class="col-md-8"></div>
+                                @* <div class="col-md-4">
+                                    <label for="AppointmentDuration" class="form-label required">Duration (minutes)</label>
+                                    <select class="form-select" id="AppointmentDuration" name="AppointmentDuration" required>
+                                        <option value="15">15 minutes</option>
+                                        <option value="30">30 minutes</option>
+                                        <option value="45">45 minutes</option>
+                                        <option value="60">60 minutes</option>
+                                    </select>
+                                </div> *@
+                               
+                               
+                                @* <div class="col-md-4">
+                                    <label for="AppointmentType" class="form-label required">Appointment Type</label>
+                                    <select class="form-select" id="AppointmentType" name="AppointmentType" required>
+                                        <option value="">Select Type</option>
+                                        <option>Consultation</option>
+                                        <option>Follow-up</option>
+                                        <option>Emergency</option>
+                                        <option>Routine Checkup</option>
+                                    </select>
+                                </div> *@
+                                <div class="col-6">
+                                    <label for="AppointmentReason" class="form-label required">Reason for Appointment</label>
+                                    <textarea class="form-control" id="AppointmentReason" name="AppointmentReason" rows="2" required></textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label for="AppointmentNotes" class="form-label">Additional Notes</label>
+                                    <textarea class="form-control" id="AppointmentNotes" name="AppointmentNotes" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="saveAppointmentBtn">
+                    <i class="bi bi-save me-1"></i> Create Appointment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            // Initialize Appointment DataTable
+            var $appointmentTable = $('#appointmentTable').customedatatable('@Url.Action("GetAppointments", "Appointment")', {}, {
+                length: 10,
+                sortableColumns: ['patientName', 'appointmentDate', 'status'],
+                rowActionBuilder: function(row) {
+                    
+                    return `<td>
+                        <button class="btn btn-sm btn-outline-primary me-1 viewButton" data-id="${row.id}"><i class="bi bi-eye"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary me-1 editButton" data-id="${row.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger deleteButton" data-id="${row.id}" onclick="deleteAppointment('${row.id}')"><i class="bi bi-trash"></i></button>
+                    </td>`;
+                },
+                onDataLoaded: function(info) {
+                    
+                    // Highlight applied filters
+                    if (info.filtersApplied.Status) {
+                        $('#statusFilter').css('background-color', '#e9ecef');
+                    } else {
+                        $('#statusFilter').val('');
+                        $('#statusFilter').css('background-color', '#fff');
+                    }
+                }
+            }, '#searchAppointment');
+
+            // Filter functionality
+            $('#filterDataTable').click(function(){
+                const status = $('#statusFilter').val();
+                const searchTerm = $('#searchAppointment').val();
+
+                const tableData = $appointmentTable.data('customedatatable-data') || {};
+                tableData.Data = tableData.Data || {};
+
+                // Update filters
+                tableData.Data.Status = status;
+                tableData.Data.SearchTerm = searchTerm;
+
+                // Save back and refresh
+                $appointmentTable.data('customedatatable-data', tableData);
+                $appointmentTable.data('refresh')();
+            });
+
+            // Reset filters
+            $('#filterReset').click(function() {
+                const tableData = $appointmentTable.data('customedatatable-data') || {};
+                if (Object.keys(tableData.Data).length > 0) {
+                    tableData.Data = {};
+                    $appointmentTable.data('customedatatable-data', tableData);
+                    $appointmentTable.data('refresh')();
+
+                    // Clear input fields
+                    $('#statusFilter').val('');
+                    $('#searchAppointment').val('');
+                    $('#statusFilter').css('background-color', '#fff');
+                }
+            });
+
+            // Load doctors dropdown
+            $('#Doctor').loadDropdownData(
+                '@Url.Action("GetDoctorsWithDetails", "Dropdown")'
+            ).done(function () {
+                $('#Doctor').select2({
+                    placeholder: "Select Doctor",
+                    width: '100%',
+                    dropdownParent: $('#createAppointmentModal')
+                });
+            });
+
+            // Load departments dropdown
+            $('#Department').loadDropdownData(
+                '@Url.Action("Department", "Dropdown")'
+            ).done(function () {
+                $('#Department').select2({
+                    placeholder: "Select Department",
+                    width: '100%',
+                    dropdownParent: $('#createAppointmentModal')
+                });
+            });
+        });
+
+        // Initialize modal
+        const createAppointmentModal = new bootstrap.Modal(document.getElementById('createAppointmentModal'));
+
+        // Show create appointment modal
+        function showCreateAppointmentModal() {
+            // Set default date and time
+            const now = new Date();
+            document.getElementById('AppointmentDate').value = now.toISOString().slice(0, 10);
+
+            // Round time to nearest 15 minutes
+            const minutes = Math.ceil(now.getMinutes() / 15) * 15;
+            now.setMinutes(minutes);
+            document.getElementById('AppointmentTime').value = now.toTimeString().slice(0, 5);
+
+            // Reset form
+            $('#appointmentForm')[0].reset();
+
+            // Load dropdowns
+            $('#Doctor').loadDropdownData(
+                '@Url.Action("GetDoctors", "Dropdown")'
+            ).done(function () {
+                $('#Doctor').select2({
+                    placeholder: "Select Doctor",
+                    width: '100%',
+                    dropdownParent: $('#createAppointmentModal')
+                });
+            });
+
+            $('#Department').loadDropdownData(
+                '@Url.Action("Department", "Dropdown")'
+            ).done(function () {
+                $('#Department').select2({
+                    placeholder: "Select Department",
+                    width: '100%',
+                    dropdownParent: $('#createAppointmentModal')
+                });
+            });
+
+            createAppointmentModal.show();
+        }
+
+        // Save appointment
+        document.getElementById('saveAppointmentBtn').addEventListener('click', async function () {
+            const form = document.getElementById('appointmentForm');
+            if (form.checkValidity()) {
+                const appointmentData = {
+                    FirstName: $('#PatientFirstName').val(),
+                    LastName: $('#PatientLastName').val(),
+                    Email: $('#PatientEmail').val(),
+                    MobileNumber: $('#PatientPhone').val(),
+                    Gender: $('#PatientGender').val(),
+                    DateOfBirth: $('#PatientDateOfBirth').val(),
+                    Address: $('#PatientAddress').val(),
+                    // PatientMedicalHistory: $('#PatientMedicalHistory').val(),
+                    AppointmentDate: $('#AppointmentDate').val(),
+                    AppointmentTime: $('#AppointmentTime').val(),
+                    // AppointmentDuration: $('#AppointmentDuration').val(),
+                    DoctorId: $('#Doctor').val(),
+                    DepartmentId: $('#Department').val(),
+                    // AppointmentType: $('#AppointmentType').val(),
+                    ReasonForAppointment: $('#AppointmentReason').val(),
+                    Remarks: $('#AppointmentNotes').val(),
+                    // Status: 'Scheduled' // Default status
+                };
+
+                $(this).prop('disabled', true);
+
+                postData('@Url.Action("AddAppointment", "Appointment")', appointmentData, {
+                    success: function (response) {
+                        if (response.success) {
+                            createAppointmentModal.hide();
+                            $('#appointmentTable').data('refresh')();
+                            showSuccessToast('Appointment created successfully');
+                        } else {
+                            showErrorToast(response.message || 'Failed to create appointment');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        showErrorToast('Error creating appointment: ' + error);
+                    },
+                    complete: function() {
+                        $(this).prop('disabled', false);
+                    }
+                });
+            } else {
+                form.classList.add('was-validated');
+            }
+        });
+
+        // Delete appointment
+        function deleteAppointment(id) {
+            deleteData('@Url.Action("DeleteAppointment", "Appointment")', { id: id }, {
+                showSuccess: true,
+                showError: true,
+                confirmText: 'Appointment will be deleted!',
+                success: function (response) {
+                    if (response.success) {
+                        // Remove row on success
+                        $("button[data-id='" + id + "']").closest("tr").fadeOut(500, function () {
+                            $(this).remove();
+                        });
+                    }
+                }
+            });
+        }
+
+        // View appointment details
+        $(document).on('click', '.viewButton', function() {
+            const appointmentId = $(this).data('id');
+            window.location.href = '@Url.Action("Details", "Appointment")/' + appointmentId;
+        });
+
+        // Edit appointment
+        $(document).on('click', '.editButton', function() {
+            const appointmentId = $(this).data('id');
+            // Implementation for editing an appointment
+            // This would typically load the appointment data into the modal
+            console.log('Edit appointment:', appointmentId);
+        });
+
+        // Helper functions for notifications
+        function showSuccessToast(message) {
+            // Implementation for success notification
+            console.log('Success:', message);
+        }
+
+        function showErrorToast(message) {
+            // Implementation for error notification
+            console.error('Error:', message);
+        }
+    </script>
+}
