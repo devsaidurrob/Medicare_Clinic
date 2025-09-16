@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Others\\Medicare_Clinic\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\views\\doctor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\views\\doctor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -46,11 +50,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DoctorController.cs",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Controllers\\DoctorController.cs",
               "RelativeDocumentMoniker": "Medicare\\Controllers\\DoctorController.cs",
@@ -59,12 +63,11 @@
               "ViewState": "AgIAAA4AAAAAAAAAAAAuwB4AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-11T19:53:34.286Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "ajaxHelper.js",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\wwwroot\\js\\ajaxHelper.js",
               "RelativeDocumentMoniker": "Medicare\\wwwroot\\js\\ajaxHelper.js",
@@ -73,18 +76,17 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-09-12T06:09:08.724Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Doctor\\Index.cshtml",
               "RelativeDocumentMoniker": "Medicare\\Views\\Doctor\\Index.cshtml",
               "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Doctor\\Index.cshtml",
               "RelativeToolTip": "Medicare\\Views\\Doctor\\Index.cshtml",
-              "ViewState": "AgIAADIAAAAAAAAAAAAqwD0AAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-12T06:06:42.731Z",
               "IsPinned": true,
@@ -96,7 +98,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Medicare\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Medicare\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-12T12:15:51.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "MappingProfile.cs",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Utility\\MappingProfile.cs",
               "RelativeDocumentMoniker": "Medicare\\Utility\\MappingProfile.cs",
@@ -104,12 +119,11 @@
               "RelativeToolTip": "Medicare\\Utility\\MappingProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T08:15:03.212Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T08:15:03.212Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "PagingResult.cs",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Utility\\PagingResult.cs",
               "RelativeDocumentMoniker": "Medicare.Repository\\Utility\\PagingResult.cs",
@@ -117,12 +131,11 @@
               "RelativeToolTip": "Medicare.Repository\\Utility\\PagingResult.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T07:39:00.076Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T07:39:00.076Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "DoctorRepository.cs",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\DoctorRepository.cs",
               "RelativeDocumentMoniker": "Medicare.Repository\\Repository\\DoctorRepository.cs",
@@ -130,12 +143,11 @@
               "RelativeToolTip": "Medicare.Repository\\Repository\\DoctorRepository.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAawB0AAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T07:32:46.682Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T07:32:46.682Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "IDoctorRepository.cs",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Interfaces\\IDoctorRepository.cs",
               "RelativeDocumentMoniker": "Medicare.Repository\\Interfaces\\IDoctorRepository.cs",
@@ -143,12 +155,11 @@
               "RelativeToolTip": "Medicare.Repository\\Interfaces\\IDoctorRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T07:32:01.417Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T07:32:01.417Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DataTableFilter.cs",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Utility\\DataTableFilter.cs",
               "RelativeDocumentMoniker": "Medicare.Repository\\Utility\\DataTableFilter.cs",
@@ -156,12 +167,11 @@
               "RelativeToolTip": "Medicare.Repository\\Utility\\DataTableFilter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T07:30:57.277Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T07:30:57.277Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "customDataTable.js",
               "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\wwwroot\\js\\customDataTable.js",
               "RelativeDocumentMoniker": "Medicare\\wwwroot\\js\\customDataTable.js",
@@ -169,8 +179,7 @@
               "RelativeToolTip": "Medicare\\wwwroot\\js\\customDataTable.js",
               "ViewState": "AgIAABsAAAAAAAAAAAAAAEwAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-09-12T07:10:36.011Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T07:10:36.011Z"
             }
           ]
         }
