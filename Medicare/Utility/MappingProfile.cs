@@ -9,8 +9,9 @@ namespace Medicare.Utility
     {
         public MappingProfile()
         {
-            CreateMap<PagingResult<Doctor>, PagingResult<DoctorViewModel>>()
-                .ForMember(dest => dest.Records, opt => opt.MapFrom(src => src.Records));
+            CreateMap(typeof(PagingResult<>), typeof(PagingResult<>));
+
+            #region Doctor
 
             CreateMap<Doctor, DoctorViewModel>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
@@ -20,9 +21,67 @@ namespace Medicare.Utility
                                         src.DoctorSpecializations.Select(dd => dd.Specialization)))
                 .ReverseMap();
 
+            CreateMap<DoctorsWithDetailsModel, DoctorsWithDetailsViewModel>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.DoctorName} ({src.Specializations})"));
+
+            CreateMap<DoctorViewModel, User>()
+                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone));
+
+            #endregion
+
             CreateMap<Department, DepartmentViewModel>().ReverseMap();
             CreateMap<Specialization, SpecializationViewModel>().ReverseMap();
 
+
+            CreateMap<Appointment, AppointmentViewModel>()
+                .ForMember(dest => dest.DoctorName,
+                           opt => opt.MapFrom(src => src.Doctor != null
+                                          ? src.Doctor.FirstName + " " + src.Doctor.LastName
+                                          : string.Empty))
+                .ForMember(dest => dest.PatientName,
+                           opt => opt.MapFrom(src => src.Patient != null
+                                                      ? src.Patient.FirstName + " " + src.Patient.LastName
+                                                      : string.Empty))
+                .ForMember(dest => dest.DepartmentName,
+                           opt => opt.MapFrom(src => src.Department != null
+                                                      ? src.Department.Name
+                                                      : string.Empty))
+                .ForMember(dest => dest.AppointmentDate,
+                           opt => opt.MapFrom(src => src.AppointmentDate.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.AppointmentTime,
+                           opt => opt.MapFrom(src => src.AppointmentTime.HasValue
+                                                      ? src.AppointmentTime.Value.ToString(@"hh\:mm")
+                                                      : string.Empty));
+
+            CreateMap<Appointment, DoctorsAppointmentViewModel>()
+                .ForMember(dest => dest.DoctorName,
+                           opt => opt.MapFrom(src => src.Doctor != null
+                                          ? src.Doctor.FirstName + " " + src.Doctor.LastName
+                                          : string.Empty))
+                .ForMember(dest => dest.PatientName,
+                           opt => opt.MapFrom(src => src.Patient != null
+                                                      ? src.Patient.FirstName + " " + src.Patient.LastName
+                                                      : string.Empty))
+                .ForMember(dest => dest.DepartmentName,
+                           opt => opt.MapFrom(src => src.Department != null
+                                                      ? src.Department.Name
+                                                      : string.Empty))
+                .ForMember(dest => dest.AppointmentDate,
+                           opt => opt.MapFrom(src => src.AppointmentDate.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.AppointmentTime,
+                           opt => opt.MapFrom(src => src.AppointmentTime.HasValue
+                                                      ? src.AppointmentTime.Value.ToString(@"hh\:mm")
+                                                      : string.Empty))
+                .ForMember(dest => dest.PatientGender, opt => opt.MapFrom(src => src.Patient.Gender));
+
+            CreateMap<CreateAppointmentViewModel, Appointment>();
+
+            CreateMap<CreateAppointmentViewModel, Patient>();
+
+            CreateMap<User, UserViewModel>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+            CreateMap<CreateUserViewModel, User>();
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Medicare.Repository.Entity;
+using Medicare.Repository.Utility;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,19 +23,56 @@ namespace Medicare.Repository.DbContext
         public DbSet<DoctorDepartment> DoctorDepartments { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<DoctorSpecialization> DoctorSpecializations { get; set; }
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Set default schema
             modelBuilder.HasDefaultSchema("OPD");
 
+            // User configuration
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasIndex(u => u.UserName).IsUnique();
+                entity.HasIndex(u => u.Email).IsUnique();
+                entity.HasIndex(u => u.PhoneNumber).IsUnique();
+            });
+
+            // Apply global query filter (ignores Deleted = true records)
+            modelBuilder.Entity<User>().HasQueryFilter(d => !d.Deleted);
+
+            // Add index for Deleted property
+            modelBuilder.Entity<User>()
+                .HasIndex(d => d.Deleted);
+
+            // Role configuration
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasIndex(r => r.Name).IsUnique(); // Prevent duplicate roles
+                entity.Property(r => r.Name).HasMaxLength(50).IsRequired();
+            });
+
+            // UserRole configuration (many-to-many)
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                entity.HasOne(ur => ur.User)
+                      .WithMany(u => u.Roles)
+                      .HasForeignKey(ur => ur.UserId);
+
+                entity.HasOne(ur => ur.Role)
+                      .WithMany(r => r.Users)
+                      .HasForeignKey(ur => ur.RoleId);
+            });
+
             // Doctor
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Appointments)
                 .WithOne(a => a.Doctor)
-                .HasForeignKey(a => a.DoctorId)
-                ;
+                .HasForeignKey(a => a.DoctorId);
 
             // Apply global query filter (ignores Deleted = true records)
             modelBuilder.Entity<Doctor>().HasQueryFilter(d => !d.Deleted);
@@ -91,6 +129,12 @@ namespace Medicare.Repository.DbContext
                 .HasForeignKey(ds => ds.SpecializationId);
 
 
+            #region Stored procedure
+
+            modelBuilder.Entity<DoctorsWithDetailsModel>().HasNoKey();
+
+            #endregion
+
             #region Seed Data
 
             modelBuilder.Entity<Department>().HasData(
@@ -144,6 +188,12 @@ namespace Medicare.Repository.DbContext
                 new Specialization { Id = 24, Name = "Oral Surgeon", Description = "Performs surgical procedures on mouth and jaw." },
                 new Specialization { Id = 25, Name = "Pediatric Dentist", Description = "Specialist in children's dental health." }
 
+            );
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = Guid.NewGuid(), Name = "Admin" },
+                new Role { Id = Guid.NewGuid(), Name = "Receptionist" },
+                new Role { Id = Guid.NewGuid(), Name = "Doctor" }
             );
 
             #endregion

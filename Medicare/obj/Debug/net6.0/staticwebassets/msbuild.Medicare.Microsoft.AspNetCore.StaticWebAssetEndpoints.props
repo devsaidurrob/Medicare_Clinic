@@ -15,14 +15,14 @@
     <StaticWebAssetEndpoint Include="_content/Medicare/css/site.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"3916"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8=\u0022"},{"Name":"Last-Modified","Value":"Fri, 12 Sep 2025 06:04:45 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4364"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk=\u0022"},{"Name":"Last-Modified","Value":"Tue, 16 Sep 2025 06:36:58 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Medicare/css/site.wgmdhrabal.css">
+    <StaticWebAssetEndpoint Include="_content/Medicare/css/site.mzvz0cw51e.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"wgmdhrabal"},{"Name":"integrity","Value":"sha256-APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8="},{"Name":"label","Value":"_content/Medicare/css/site.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"3916"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8=\u0022"},{"Name":"Last-Modified","Value":"Fri, 12 Sep 2025 06:04:45 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"mzvz0cw51e"},{"Name":"integrity","Value":"sha256-snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk="},{"Name":"label","Value":"_content/Medicare/css/site.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4364"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk=\u0022"},{"Name":"Last-Modified","Value":"Tue, 16 Sep 2025 06:36:58 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Medicare/favicon.61n19gt1b8.ico">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>
@@ -48,17 +48,17 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-rIH1WloWL5CjQmW1blpsA50aH2ybvr3xA\u002BFuo\u002Bylgzg="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"6596"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022rIH1WloWL5CjQmW1blpsA50aH2ybvr3xA\u002BFuo\u002Bylgzg=\u0022"},{"Name":"Last-Modified","Value":"Fri, 12 Sep 2025 07:04:54 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Medicare/js/customDataTable.43zm1rgww8.js">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\customDataTable.js'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"43zm1rgww8"},{"Name":"integrity","Value":"sha256-IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo="},{"Name":"label","Value":"_content/Medicare/js/customDataTable.js"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"7795"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo=\u0022"},{"Name":"Last-Modified","Value":"Fri, 12 Sep 2025 10:50:29 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Medicare/js/customDataTable.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\customDataTable.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"7795"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo=\u0022"},{"Name":"Last-Modified","Value":"Fri, 12 Sep 2025 10:50:29 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"7859"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 16 Sep 2025 06:36:58 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Medicare/js/customDataTable.tn8upjt8mb.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\customDataTable.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tn8upjt8mb"},{"Name":"integrity","Value":"sha256-WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4="},{"Name":"label","Value":"_content/Medicare/js/customDataTable.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"7859"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 16 Sep 2025 06:36:58 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Medicare/js/customDropdown.5xpphsdtv9.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\customDropdown.js'))</AssetFile>

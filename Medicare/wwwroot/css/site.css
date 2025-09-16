@@ -201,10 +201,34 @@ body {
     /*padding-bottom: 20px;*/
 }
 
-form .col-md-6, .col-12 {
+form .col-md-6, .col-md-4, .col-12 {
     margin-top: 5px !important;
 }
 .form-label.required::after {
     content: " *";
     color: #dc3545; /* Bootstrap's danger color */
+}
+.form-control {
+    padding: .175rem .75rem;
+}
+.form-select {
+    padding: .175rem 2.25rem .175rem .75rem;
+}
+.btn {
+    padding: .175rem .75rem;
+}
+.form-label {
+    margin-bottom: .2rem;
+    font-weight: 500;
+}
+table > tbody > tr > td {
+    padding: .1rem .5rem !important;
+}
+
+#prescriptionEditor {
+    height: 300px !important; /* or 400px, adjust as needed */
+}
+
+.ql-container {
+    height: 300px !important;
 }

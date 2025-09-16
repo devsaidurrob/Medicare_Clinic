@@ -16,13 +16,15 @@ namespace Medicare.Repository.Entity
         public Guid DoctorId { get; set; }
         public int? DepartmentId { get; set; }
         public System.DateTime AppointmentDate { get; set; }
-        public System.TimeSpan AppointmentTime { get; set; }
-        public string Status { get; set; }
-        public string Remarks { get; set; }
-        public System.DateTime CreatedAt { get; set; }
+        public System.TimeSpan? AppointmentTime { get; set; }
+        public string? Status { get; set; }
+        public string? Remarks { get; set; }
+        public System.DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Guid CreatedUser { get; set; }
 
+        public string? PrescriptionContent { get; set; }
+        public string? PrescriptionFile { get; set; }
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }
         public virtual Department? Department { get; set; }

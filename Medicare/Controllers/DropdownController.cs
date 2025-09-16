@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Medicare.Repository.Entity;
 using Medicare.Repository.Interfaces;
 using Medicare.Repository.Repository;
 using Medicare.Utility;
@@ -11,13 +12,16 @@ namespace Medicare.Controllers
     {
         private readonly IDepartmentRepository _departmentRepository;
         private readonly ISpecializationRepository _specializationRepository;
+        private readonly IDoctorRepository _doctorRepository;
+        private readonly IRoleManagerRepository _roleRepository;
         private IMapper _mapper;
         public DropdownController(IDepartmentRepository departmentRepository,ISpecializationRepository specializationRepository,
-            IMapper mapper)
+            IDoctorRepository doctorRepository, IRoleManagerRepository roleManagerRepository, IMapper mapper)
         {
             _departmentRepository = departmentRepository;
             _specializationRepository = specializationRepository;
-
+            _doctorRepository = doctorRepository;
+            _roleRepository = roleManagerRepository;
             _mapper = mapper;   
         }
         public async Task<JsonResult> DoctorSpecialization()
@@ -32,11 +36,17 @@ namespace Medicare.Controllers
             var viewModels = _mapper.Map<List<DepartmentViewModel>>(departments);
             return JsonResponseHelper.CreateSuccessResponse(viewModels);
         }
-        //public async Task<JsonResult> Doctor()
-        //{
-        //    var doctors = await _doctorRepository.GetAll();
-        //    var viewModels = _mapper.Map<List<DoctorViewModel>>(doctors);
-        //    return JsonResponseHelper.CreateSuccessResponse(viewModels);
-        //}
+        public async Task<JsonResult> GetDoctorsWithDetails()
+        {
+            var doctors = await _doctorRepository.GetDoctorsWithDetailsAsync();
+            var viewModels = _mapper.Map<List<DoctorsWithDetailsViewModel>>(doctors);
+            return JsonResponseHelper.CreateSuccessResponse(viewModels);
+        }
+        public async Task<JsonResult> Roles()
+        {
+            var roles = await _roleRepository.GetAllAsync();
+            
+            return JsonResponseHelper.CreateSuccessResponse(roles);
+        }
     }
 }

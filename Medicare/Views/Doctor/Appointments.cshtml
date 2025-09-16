@@ -1,0 +1,264 @@
+﻿@{
+	ViewData["Title"] = "Appointments";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+	<div class="d-flex justify-content-between mb-3">
+		<h2>Appointments</h2>
+	</div>
+
+	<!-- Filter Section -->
+	<div class="filter-section mb-3">
+		<div class="row g-3">
+			<div class="col-md-3">
+				<label class="form-label">Search</label>
+				<input type="text" class="form-control" id="searchAppointment" placeholder="Patient or Doctor">
+			</div>
+			<div class="col-md-3">
+				<label class="form-label">Status</label>
+				<select class="form-select" id="statusFilter">
+					<option value="">All</option>
+					<option>Scheduled</option>
+					<option>Completed</option>
+					<option>Cancelled</option>
+				</select>
+			</div>
+			<div class="col-md-3 d-flex align-items-end">
+				<button class="btn btn-primary me-2" id="filterDataTable">
+					<i class="bi bi-funnel"></i> Apply Filters
+				</button>
+				<button class="btn btn-outline-secondary" id="filterReset">
+					<i class="bi bi-arrow-counterclockwise"></i> Reset
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Appointment DataTable -->
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="appointmentTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th data-patientName>Patient Name</th>
+							<th data-doctorName>Doctor Name</th>
+							<th data-appointmentDate>Date</th>
+							<th data-appointmentTime>Time</th>
+							<th data-status>Status</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+
+				<!-- Pagination & Info -->
+				<div class="d-flex justify-content-between align-items-center mt-2">
+					<span class="pagination-info"></span>
+					<ul class="pagination"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Create Appointment Modal -->
+<div class="modal fade" id="createAppointmentModal" tabindex="-1" aria-labelledby="createAppointmentModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-white">
+				<h5 class="modal-title" id="createAppointmentModalLabel">
+					<i class="bi bi-calendar-plus me-2"></i>Create Prescription
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+				<form>
+					<!-- Header: Clinic (Left) + Doctor (Right) -->
+					<div class="row pb-3">
+						<!-- Clinic Details -->
+						<div class="col-md-6">
+							<h4 class="fw-bold">
+								<a class="navbar-brand" href="/">
+									<i b-6dy4apolrw="" class="bi bi-hospital me-2"></i>MediCare
+								</a>
+							</h4>
+							<p class="mb-1">Clinic Address, City, State</p>
+							<p class="mb-0">Phone: +91-1234567890</p>
+							<p class="mb-0">Email: clinic@example.com</p>
+						</div>
+
+						<!-- Doctor Details -->
+						<div class="col-md-6 text-end">
+							<h5 class="fw-semibold">Dr. John Doe</h5>
+							<p class="mb-0">MBBS, MD - General Physician</p>
+							<p class="mb-0">Reg. No: 123456</p>
+							<p class="mb-0">Contact: +91-9876543210</p>
+						</div>
+					</div>
+
+					<!-- Prescription Rich Text Editor -->
+					<div class="mb-3">
+						@* <label class="form-label fw-semibold">Prescription (Medicines & Advice)</label> *@
+						<div id="prescriptionEditor" class="prescriptionEditor" style="min-height:400px"></div>
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					<i class="bi bi-x-circle me-1"></i> Cancel
+				</button>
+				<button type="submit" class="btn btn-primary" id="savePrescription">
+					<i class="bi bi-save me-1"></i> Save
+				</button>
+				<button type="button" class="btn btn-outline-success" id="printPrescriptionBtn">
+					<i class="bi bi-printer me-1"></i> Save & Print
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts {
+	<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+	<script type="text/javascript">
+		const appointmentRowStore = new Map();
+		var appointmentId;
+		var quill;
+
+
+		$(function () {
+			// Initialize Appointment DataTable
+			var $appointmentTable = $('#appointmentTable').customedatatable('@Url.Action("GetAppointments", "Doctor")', {}, {
+				length: 10,
+				sortableColumns: ['patientName', 'appointmentDate', 'status'],
+				rowActionBuilder: function(row) {
+					console.log(row);
+					appointmentRowStore.set(row.id, row); // store object by ID
+					return `<td>
+						<button class="btn btn-sm btn-outline-primary me-1 viewButton" type="button" onclick="addPrescription('${row.id}')">Add Prescription</button>
+					</td>`;
+				},
+				onDataLoaded: function(info) {
+
+					// Highlight applied filters
+					if (info.filtersApplied.Status) {
+						$('#statusFilter').css('background-color', '#e9ecef');
+					} else {
+						$('#statusFilter').val('');
+						$('#statusFilter').css('background-color', '#fff');
+					}
+				}
+			}, '#searchAppointment');
+
+			// Filter functionality
+			$('#filterDataTable').click(function(){
+				const status = $('#statusFilter').val();
+				const searchTerm = $('#searchAppointment').val();
+
+				const tableData = $appointmentTable.data('customedatatable-data') || {};
+				tableData.Data = tableData.Data || {};
+
+				// Update filters
+				tableData.Data.Status = status;
+				tableData.Data.SearchTerm = searchTerm;
+
+				// Save back and refresh
+				$appointmentTable.data('customedatatable-data', tableData);
+				$appointmentTable.data('refresh')();
+			});
+
+			// Reset filters
+			$('#filterReset').click(function() {
+				const tableData = $appointmentTable.data('customedatatable-data') || {};
+				if (Object.keys(tableData.Data).length > 0) {
+					tableData.Data = {};
+					$appointmentTable.data('customedatatable-data', tableData);
+					$appointmentTable.data('refresh')();
+
+					// Clear input fields
+					$('#statusFilter').val('');
+					$('#searchAppointment').val('');
+					$('#statusFilter').css('background-color', '#fff');
+				}
+			});
+
+			quill = new Quill('#prescriptionEditor', {
+				  theme: 'snow',
+				  placeholder: 'Write prescription here...',
+				  modules: {
+					toolbar: [
+					  ['bold', 'italic', 'underline'],
+					  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+					  [{ 'align': ['', 'center', 'right'] }]
+					]
+				  }
+			});
+		});
+
+		// Initialize modal
+		const createAppointmentModal = new bootstrap.Modal(document.getElementById('createAppointmentModal'));
+
+		function addPrescription(id){
+			const row = appointmentRowStore.get(id);
+			appointmentId = id;
+			console.log(row);
+
+			 // patient info prepopulate inside Quill
+				let patientText = `<p style="text-align:right"><strong>${row.patientname}</strong></p>
+								   <p><strong>Complaints:</strong><br><br></p>
+								   <p><strong>Medicine:</strong><br><br></p>
+								   <p style="margin-top:100px;"><strong>Advice:</strong><br><br></p>`;
+				quill.root.innerHTML = patientText;
+
+			createAppointmentModal.show();
+		}
+
+		 // Save appointment
+		document.getElementById('savePrescription').addEventListener('click', async function () {
+			const form = document.getElementById('appointmentForm');
+			let content = quill.root.innerHTML;
+				const prescriptionData = {
+					appointmentId: appointmentId,
+					prescription: quill.root.innerHTML,
+				};
+
+				$(this).prop('disabled', true);
+
+				postData('@Url.Action("AddAppointment", "Appointment")', appointmentData, {
+					success: function (response) {
+						if (response.success) {
+							createAppointmentModal.hide();
+							$('#appointmentTable').data('refresh')();
+							showSuccessToast('Appointment created successfully');
+						} else {
+							showErrorToast(response.message || 'Failed to create appointment');
+						}
+					},
+					error: function (xhr, status, error) {
+						showErrorToast('Error creating appointment: ' + error);
+					},
+					complete: function() {
+						$(this).prop('disabled', false);
+					}
+				});
+		});
+
+		// Helper functions for notifications
+		function showSuccessToast(message) {
+			// Implementation for success notification
+			console.log('Success:', message);
+		}
+
+		function showErrorToast(message) {
+			// Implementation for error notification
+			console.error('Error:', message);
+		}
+	</script>
+}

@@ -62,14 +62,18 @@ namespace Medicare.Repository.Repository
         {
             return await _context.Doctors
                 .Include(d => d.Appointments)
+                .Include(d => d.DoctorDepartments)
+                    .ThenInclude(dd => dd.Department)
+                .Include(d => d.DoctorSpecializations)
+                    .ThenInclude(ds => ds.Specialization)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<Doctor> AddAsync(Doctor doctor)
         {
             doctor.CreatedAt = DateTime.UtcNow;
-            _context.Doctors.Add(doctor);
-            await _context.SaveChangesAsync();
+            await _context.Doctors.AddAsync(doctor);
+            //await _context.SaveChangesAsync();
             return doctor;
         }
 
@@ -101,6 +105,15 @@ namespace Medicare.Repository.Repository
             doctor.Deleted = true;
             int retVal = await _context.SaveChangesAsync();
             return retVal > 0;
+        }
+
+        public async Task<IEnumerable<DoctorsWithDetailsModel>> GetDoctorsWithDetailsAsync()
+        {
+            var result = await _context.Set<DoctorsWithDetailsModel>()
+             .FromSqlRaw("EXEC opd.GetDoctorsWithDepartmentsAndSpecializations")
+             .ToListAsync();
+
+            return result;
         }
     }
 }

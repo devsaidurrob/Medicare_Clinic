@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ZfM+oQfZ7wbx+PYi6FIwxH4L5bv34QzAjrI4dCN/LEI=",
+  "Hash": "Ys4ZCd5RiTCRd9SaVPyVvpP+cmIGDzJmntJYK6T/4qU=",
   "Source": "Medicare",
   "BasePath": "_content/Medicare",
   "Mode": "Default",
@@ -94,8 +94,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "wgmdhrabal",
-      "Integrity": "APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8=",
+      "Fingerprint": "mzvz0cw51e",
+      "Integrity": "snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -157,8 +157,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "43zm1rgww8",
-      "Integrity": "IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo=",
+      "Fingerprint": "tn8upjt8mb",
+      "Integrity": "WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\customDataTable.js"
@@ -1518,7 +1518,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3916"
+          "Value": "4364"
         },
         {
           "Name": "Content-Type",
@@ -1526,11 +1526,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8=\""
+          "Value": "\"snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 06:04:45 GMT"
+          "Value": "Tue, 16 Sep 2025 06:36:58 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1540,12 +1540,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8="
+          "Value": "sha256-snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk="
         }
       ]
     },
     {
-      "Route": "css/site.wgmdhrabal.css",
+      "Route": "css/site.mzvz0cw51e.css",
       "AssetFile": "D:\\Others\\Medicare_Clinic\\Medicare\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -1555,7 +1555,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3916"
+          "Value": "4364"
         },
         {
           "Name": "Content-Type",
@@ -1563,11 +1563,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8=\""
+          "Value": "\"snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 06:04:45 GMT"
+          "Value": "Tue, 16 Sep 2025 06:36:58 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1577,7 +1577,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "wgmdhrabal"
+          "Value": "mzvz0cw51e"
         },
         {
           "Name": "label",
@@ -1585,7 +1585,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-APCBqD72wcW9VAp0fuGrpOBrCsvXAJ9Zs/GVfnWFmJ8="
+          "Value": "sha256-snwLrEuSq4YQ/tMJ7oF5zTHgZ/n3M3XQJ02ZCt7c4Pk="
         }
       ]
     },
@@ -1754,51 +1754,6 @@
       ]
     },
     {
-      "Route": "js/customDataTable.43zm1rgww8.js",
-      "AssetFile": "D:\\Others\\Medicare_Clinic\\Medicare\\wwwroot\\js\\customDataTable.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "7795"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 10:50:29 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "43zm1rgww8"
-        },
-        {
-          "Name": "label",
-          "Value": "js/customDataTable.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo="
-        }
-      ]
-    },
-    {
       "Route": "js/customDataTable.js",
       "AssetFile": "D:\\Others\\Medicare_Clinic\\Medicare\\wwwroot\\js\\customDataTable.js",
       "Selectors": [],
@@ -1809,7 +1764,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7795"
+          "Value": "7859"
         },
         {
           "Name": "Content-Type",
@@ -1817,11 +1772,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo=\""
+          "Value": "\"WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 10:50:29 GMT"
+          "Value": "Tue, 16 Sep 2025 06:36:58 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1831,7 +1786,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-IEjSItBLd7Bl5tgqkKZFwhr3ro7MoYDyrbQoFse5eZo="
+          "Value": "sha256-WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4="
+        }
+      ]
+    },
+    {
+      "Route": "js/customDataTable.tn8upjt8mb.js",
+      "AssetFile": "D:\\Others\\Medicare_Clinic\\Medicare\\wwwroot\\js\\customDataTable.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7859"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 16 Sep 2025 06:36:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tn8upjt8mb"
+        },
+        {
+          "Name": "label",
+          "Value": "js/customDataTable.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-WTzZKpZdCgQelS5FNV1X8AhyUqwp/OxKRb0EQruHzg4="
         }
       ]
     },

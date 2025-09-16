@@ -19,4 +19,15 @@ namespace Medicare.Repository.Utility
     {
         public int? Specialty { get; set; }
     }
+    public class AppointmentFilter : DataTableFilter
+    {
+        public string? PatientName { get; set; }
+        public Guid? DoctorId { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+    }
+    public class UserFilter:DataTableFilter
+    {
+        public bool? Active { get; set; }
+    }
 }
