@@ -13,13 +13,15 @@ namespace Medicare.Controllers
         private readonly IDepartmentRepository _departmentRepository;
         private readonly ISpecializationRepository _specializationRepository;
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IRoleManagerRepository _roleRepository;
         private IMapper _mapper;
         public DropdownController(IDepartmentRepository departmentRepository,ISpecializationRepository specializationRepository,
-            IDoctorRepository doctorRepository, IMapper mapper)
+            IDoctorRepository doctorRepository, IRoleManagerRepository roleManagerRepository, IMapper mapper)
         {
             _departmentRepository = departmentRepository;
             _specializationRepository = specializationRepository;
             _doctorRepository = doctorRepository;
+            _roleRepository = roleManagerRepository;
             _mapper = mapper;   
         }
         public async Task<JsonResult> DoctorSpecialization()
@@ -39,6 +41,12 @@ namespace Medicare.Controllers
             var doctors = await _doctorRepository.GetDoctorsWithDetailsAsync();
             var viewModels = _mapper.Map<List<DoctorsWithDetailsViewModel>>(doctors);
             return JsonResponseHelper.CreateSuccessResponse(viewModels);
+        }
+        public async Task<JsonResult> Roles()
+        {
+            var roles = await _roleRepository.GetAllAsync();
+            
+            return JsonResponseHelper.CreateSuccessResponse(roles);
         }
     }
 }

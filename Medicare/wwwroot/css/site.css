@@ -224,3 +224,11 @@ form .col-md-6, .col-md-4, .col-12 {
 table > tbody > tr > td {
     padding: .1rem .5rem !important;
 }
+
+#prescriptionEditor {
+    height: 300px !important; /* or 400px, adjust as needed */
+}
+
+.ql-container {
+    height: 300px !important;
+}

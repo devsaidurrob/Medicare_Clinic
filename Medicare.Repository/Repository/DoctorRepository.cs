@@ -68,8 +68,8 @@ namespace Medicare.Repository.Repository
         public async Task<Doctor> AddAsync(Doctor doctor)
         {
             doctor.CreatedAt = DateTime.UtcNow;
-            _context.Doctors.Add(doctor);
-            await _context.SaveChangesAsync();
+            await _context.Doctors.AddAsync(doctor);
+            //await _context.SaveChangesAsync();
             return doctor;
         }
 

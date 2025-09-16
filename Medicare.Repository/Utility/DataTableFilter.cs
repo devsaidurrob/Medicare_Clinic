@@ -26,4 +26,8 @@ namespace Medicare.Repository.Utility
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
     }
+    public class UserFilter:DataTableFilter
+    {
+        public bool? Active { get; set; }
+    }
 }

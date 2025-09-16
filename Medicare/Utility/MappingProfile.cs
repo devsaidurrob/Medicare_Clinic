@@ -24,6 +24,9 @@ namespace Medicare.Utility
             CreateMap<DoctorsWithDetailsModel, DoctorsWithDetailsViewModel>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.DoctorName} ({src.Specializations})"));
 
+            CreateMap<DoctorViewModel, User>()
+                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone));
+
             #endregion
 
             CreateMap<Department, DepartmentViewModel>().ReverseMap();
@@ -54,6 +57,10 @@ namespace Medicare.Utility
 
             CreateMap<CreateAppointmentViewModel, Patient>();
 
+            CreateMap<User, UserViewModel>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+            CreateMap<CreateUserViewModel, User>();
+            
         }
     }
 }

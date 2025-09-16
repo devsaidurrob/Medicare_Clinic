@@ -5,6 +5,7 @@ using Medicare.Repository.Utility;
 using Medicare.Utility;
 using Medicare.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Medicare.Controllers
 {
@@ -32,6 +33,11 @@ namespace Medicare.Controllers
         {
             try
             {
+                // Check if current user has Doctor role
+                if (User.IsInRole("Doctor"))
+                {
+                    filter.DoctorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                }
                 var appoitments = await _repo.GetAllAsync(filter);
                 var viewModels = _mapper.Map<PagingResult<AppointmentViewModel>>(appoitments);
                 return JsonResponseHelper.CreateSuccessResponse(viewModels);

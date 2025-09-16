@@ -174,8 +174,8 @@
                                         <option value="60">60 minutes</option>
                                     </select>
                                 </div> *@
-                               
-                               
+
+
                                 @* <div class="col-md-4">
                                     <label for="AppointmentType" class="form-label required">Appointment Type</label>
                                     <select class="form-select" id="AppointmentType" name="AppointmentType" required>
@@ -219,7 +219,7 @@
                 length: 10,
                 sortableColumns: ['patientName', 'appointmentDate', 'status'],
                 rowActionBuilder: function(row) {
-                    
+
                     return `<td>
                         <button class="btn btn-sm btn-outline-primary me-1 viewButton" data-id="${row.id}"><i class="bi bi-eye"></i></button>
                         <button class="btn btn-sm btn-outline-secondary me-1 editButton" data-id="${row.id}"><i class="bi bi-pencil"></i></button>
@@ -227,7 +227,7 @@
                     </td>`;
                 },
                 onDataLoaded: function(info) {
-                    
+
                     // Highlight applied filters
                     if (info.filtersApplied.Status) {
                         $('#statusFilter').css('background-color', '#e9ecef');

@@ -363,6 +363,42 @@ namespace Medicare.Repository.Migrations
                     b.ToTable("Patients", "OPD");
                 });
 
+            modelBuilder.Entity("Medicare.Repository.Entity.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Roles", "OPD");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("43e4423f-dbb1-4e6d-a87d-a596d53e2b06"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("4c1e5cc9-aa1b-4133-9db0-81707ad7e3cd"),
+                            Name = "Receptionist"
+                        },
+                        new
+                        {
+                            Id = new Guid("1f0555af-5d23-4a78-9173-f67050cc2464"),
+                            Name = "Doctor"
+                        });
+                });
+
             modelBuilder.Entity("Medicare.Repository.Entity.Specialization", b =>
                 {
                     b.Property<int>("Id")
@@ -536,6 +572,90 @@ namespace Medicare.Repository.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Medicare.Repository.Entity.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Deleted");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.ToTable("Users", "OPD");
+                });
+
+            modelBuilder.Entity("Medicare.Repository.Entity.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles", "OPD");
+                });
+
             modelBuilder.Entity("Medicare.Repository.Utility.DoctorsWithDetailsModel", b =>
                 {
                     b.Property<string>("DoctorName")
@@ -614,6 +734,25 @@ namespace Medicare.Repository.Migrations
                     b.Navigation("Specialization");
                 });
 
+            modelBuilder.Entity("Medicare.Repository.Entity.UserRole", b =>
+                {
+                    b.HasOne("Medicare.Repository.Entity.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Medicare.Repository.Entity.User", "User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Medicare.Repository.Entity.Department", b =>
                 {
                     b.Navigation("DoctorDepartments");
@@ -633,9 +772,19 @@ namespace Medicare.Repository.Migrations
                     b.Navigation("Appointments");
                 });
 
+            modelBuilder.Entity("Medicare.Repository.Entity.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Medicare.Repository.Entity.Specialization", b =>
                 {
                     b.Navigation("DoctorSpecializations");
+                });
+
+            modelBuilder.Entity("Medicare.Repository.Entity.User", b =>
+                {
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

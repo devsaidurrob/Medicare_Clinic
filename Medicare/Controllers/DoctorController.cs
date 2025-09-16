@@ -9,15 +9,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicare.Controllers
 {
+
     public class DoctorController : Controller
     {
         private readonly IDoctorRepository _repo;
+        private readonly IUserRepository _userRepo;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        public DoctorController(IDoctorRepository repo, IUnitOfWork unitOfWork, IMapper mapper)
+        public DoctorController(IDoctorRepository repo, IUserRepository userRepo, IUnitOfWork unitOfWork,
+            EmailService emailService, IConfiguration configuration, IMapper mapper)
         {
             _repo = repo;
+            _userRepo = userRepo;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
+            _configuration = configuration;
             _mapper = mapper;
         }
         [HttpGet]
@@ -55,10 +63,13 @@ namespace Medicare.Controllers
             }
             try
             {
+                var user = new User();
                 // Map Doctor
                 var doctor = _mapper.Map<Doctor>(doctorViewModel);
                 doctor.Id = Guid.NewGuid();
                 doctor.CreatedAt = DateTime.UtcNow;
+
+
 
                 // Map Departments
                 if (doctorViewModel.Departments != null && doctorViewModel.Departments.Any())
@@ -79,10 +90,38 @@ namespace Medicare.Controllers
                 // Add doctor via repository
                 await _repo.AddAsync(doctor);
 
-                return JsonResponseHelper.CreateSuccessResponse(doctor, "Doctor added successfully");
+                if (doctorViewModel.CreateLogin)
+                {
+                    user = _mapper.Map<User>(doctorViewModel);
+                    user.Id = doctor.Id;
+                    user.UserName = user.Email.Split('@')[0].ToString();
+                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(_configuration["AppSettings:DefaultPassword"]);
+                    user.Roles = new List<UserRole>()
+                    {
+                        new UserRole{ RoleId =  new Guid("1F0555AF-5D23-4A78-9173-F67050CC2464"), UserId = user.Id}
+                    };
+                    var userresult = await _userRepo.AddAsync(user);
+                }
 
+                int retVal = await _unitOfWork.SaveChangesAsync();
+                if (retVal > 0)
+                {
+                    string subject = "Your Medicare Doctor Login";
+                    string body = $@"
+                            <h2>Welcome to Medicare</h2>
+                            <p>Your account has been created.</p>
+                            <p><b>Username:</b> {user.UserName}</p>
+                            <p><b>Password:</b> {user.PasswordHash}</p>
+                            <p>Please change your password after first login.</p>";
+
+                    //await _emailService.SendEmailAsync(user.Email, subject, body);
+
+                    return JsonResponseHelper.CreateSuccessResponse(_mapper.Map<DoctorViewModel>(doctor), "Doctor added successfully");
+                }
+                else
+                    return JsonResponseHelper.CreateFailureResponse("An Error Occured");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return JsonResponseHelper.CreateFailureResponse(e.Message);
             }
@@ -106,6 +145,12 @@ namespace Medicare.Controllers
             {
                 return JsonResponseHelper.CreateFailureResponse(e.Message);
             }
+        }
+
+        [HttpGet]
+        public IActionResult Appointments()
+        {
+            return View();
         }
     }
 }

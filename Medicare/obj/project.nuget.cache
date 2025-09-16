@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "4cDIoHj33jo=",
+  "dgSpecHash": "hFJ16kxYqvE=",
   "success": true,
   "projectFilePath": "E:\\Others\\Medicare\\Medicare\\Medicare.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sdrro\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\sdrro\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\sdrro\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\sdrro\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\sdrro\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.7\\microsoft.data.sqlclient.2.1.7.nupkg.sha512",
