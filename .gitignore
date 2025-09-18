@@ -1,21 +1,18 @@
-# Ignore everything
-/*
+# Visual Studio working folder
+.vs/
 
-# Keep Medicare folder itself
-!Medicare/
-
-# Inside Medicare, ignore everything
-
-
-# But keep wwwroot folder
-!/Medicare/wwwroot/
-
-# Keep .gitignore itself
-!.gitignore
-
-# Standard .NET build ignores
+# Build results
 bin/
 obj/
+
+# User-specific files
 *.user
 *.suo
-*.vs/
+
+# Temporary files
+*.cache
+*.log
+
+# Rider / JetBrains IDE
+.idea/
+*.iml
