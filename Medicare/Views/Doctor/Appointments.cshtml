@@ -226,17 +226,17 @@
 			let content = quill.root.innerHTML;
 				const prescriptionData = {
 					appointmentId: appointmentId,
-					prescription: quill.root.innerHTML,
+					prescriptionContent: quill.root.innerHTML,
 				};
 
 				$(this).prop('disabled', true);
 
-				postData('@Url.Action("AddAppointment", "Appointment")', appointmentData, {
+				postData('@Url.Action("AddPrescription", "Doctor")', prescriptionData, {
 					success: function (response) {
 						if (response.success) {
 							createAppointmentModal.hide();
 							$('#appointmentTable').data('refresh')();
-							showSuccessToast('Appointment created successfully');
+							// showSuccessToast('Appointment created successfully');
 						} else {
 							showErrorToast(response.message || 'Failed to create appointment');
 						}

@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using Medicare.Models;
 using Medicare.Repository.Entity;
 using Medicare.Repository.Interfaces;
@@ -7,6 +6,8 @@ using Medicare.Repository.Utility;
 using Medicare.Utility;
 using Medicare.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
+using System.Security.Claims;
 
 namespace Medicare.Controllers
 {
@@ -101,7 +102,7 @@ namespace Medicare.Controllers
                     user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(_configuration["AppSettings:DefaultPassword"]);
                     user.Roles = new List<UserRole>()
                     {
-                        new UserRole{ RoleId =  new Guid("1F0555AF-5D23-4A78-9173-F67050CC2464"), UserId = user.Id}
+                        new UserRole{ RoleId =  new Guid("EF591562-61C9-4C4F-9352-DF5BCE617F8A"), UserId = user.Id}
                     };
                     var userresult = await _userRepo.AddAsync(user);
                 }
@@ -176,21 +177,44 @@ namespace Medicare.Controllers
                 return JsonResponseHelper.CreateFailureResponse(ex.Message);
             }
         }
-        //[HttpPost]
-        //public async Task<JsonResult> AddPrescription(CreatePrescriptionViewModel prescriptionViewModel)
-        //{
-        //    try
-        //    {
-        //        var appointment = await _appointmentRepo.GetByIdAsync(prescriptionViewModel.AppointmentId);
-        //        if (appointment != null)
-        //        {
-        //            appointment.PrescriptionContent = prescriptionViewModel.PrescriptionContent;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonResponseHelper.CreateFailureResponse(ex.Message);
-        //    }
-        //}
+        [HttpPost]
+        public async Task<JsonResult> AddPrescription(CreatePrescriptionViewModel prescriptionViewModel)
+        {
+            try
+            {
+                var appointment = await _appointmentRepo.GetByIdAsync(prescriptionViewModel.AppointmentId);
+                if (appointment != null)
+                {
+                    // Create PDF doc
+                    var document = new PrescriptionDocument(prescriptionViewModel.PrescriptionContent);
+
+                    appointment.PrescriptionContent = prescriptionViewModel.PrescriptionContent;
+                    //appointment.Status = "Completed";
+
+                    await _appointmentRepo.UpdateAsync(appointment);
+
+                    int retVal = await _unitOfWork.SaveChangesAsync();
+
+                    if (retVal > 0)
+                    {
+                        // Directory check
+                        var folderPath = Path.Combine("wwwroot", "prescriptions");
+                        if (!Directory.Exists(folderPath))
+                            Directory.CreateDirectory(folderPath);
+
+                        // Generate & save
+                        var filePath = Path.Combine(folderPath, $"Prescription_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+                        document.GeneratePdf(filePath);
+
+                        return JsonResponseHelper.CreateSuccessResponse(_mapper.Map<AppointmentViewModel>(appointment));
+                    }
+                }
+                return JsonResponseHelper.CreateFailureResponse("An Error Occured");
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
     }
 }

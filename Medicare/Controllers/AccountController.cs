@@ -31,11 +31,16 @@ namespace Medicare.Controllers
 
             if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
+                var profileImg = string.IsNullOrEmpty("")
+                                    ? $"https://ui-avatars.com/api/?name={user.FirstName} {user.LastName}&background=random"
+                                    : "";
                 var claims = new List<Claim> {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("FullName", $"{user.FirstName} {user.LastName}"),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
+                    new Claim("ProfilePhoto", profileImg)
                 };
 
                 if (user.Roles.Any(x => x.Role.Name == "Doctor"))

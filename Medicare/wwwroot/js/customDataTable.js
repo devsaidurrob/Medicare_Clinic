@@ -55,7 +55,13 @@
                         const $tr = $('<tr>');
                         columnMap.forEach(key => {
                             if (key) {
-                                $tr.append(`<td>${row[key] ?? ''}</td>`);
+                                if (settings.columnHtmlBuilder && typeof settings.columnHtmlBuilder[key] === 'function') {
+                                    // Use custom builder for this column
+                                    $tr.append(settings.columnHtmlBuilder[key](row));
+                                } else {
+                                    // Default plain text
+                                    $tr.append(`<td>${row[key] ?? ''}</td>`);
+                                }
                             } else {
                                 if (typeof settings.rowActionBuilder === 'function') {
                                     

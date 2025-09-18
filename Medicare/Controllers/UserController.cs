@@ -13,7 +13,7 @@ namespace Medicare.Controllers
     {
         private readonly IUserRepository _repo;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
         public UserController(IUserRepository repo, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _repo = repo;
@@ -61,8 +61,8 @@ namespace Medicare.Controllers
                 user.PasswordHash = hashedPassword;
                 user.Roles = viewModel.UserRoles.Select(x => new UserRole()
                 {
-                     RoleId = x,
-                     UserId = user.Id
+                    RoleId = x,
+                    UserId = user.Id
                 }).ToList();
                 var userResult = await _repo.AddAsync(user);
 
@@ -91,6 +91,30 @@ namespace Medicare.Controllers
                 {
                     return JsonResponseHelper.CreateFailureResponse("Doctor not found");
                 }
+            }
+            catch (Exception e)
+            {
+                return JsonResponseHelper.CreateFailureResponse(e.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<JsonResult> ChangeUserStatus(UpdateUserViewModel model)
+        {
+            try
+            {
+                var user = await _repo.GetByIdAsync(model.Id);
+                if (user != null)
+                {
+                    user.IsActive = model.IsActive;
+                    await _repo.UpdateAsync(user);
+
+                    int retVal = await _unitOfWork.SaveChangesAsync();
+                    if (retVal > 0)
+                        return JsonResponseHelper.CreateSuccessResponse(_mapper.Map<UserViewModel>(user), (user.IsActive) ? "User Active Now" : "User Inactive Now");
+
+
+                }
+                return JsonResponseHelper.CreateFailureResponse("User Not Found");
             }
             catch (Exception e)
             {

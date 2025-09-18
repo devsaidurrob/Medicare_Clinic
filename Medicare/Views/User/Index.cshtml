@@ -59,6 +59,7 @@
                             <th class="sortable" data-Email>Email</th>
                             <th class="sortable" data-UserName>Username</th>
                             <th class="sortable" data-PhoneNumber>Mobile</th>
+                            <th class="sortable" data-Roles>Roles</th>
                             @* <th class="sortable" data-Role>Role</th> *@
                             <th data-IsActive>Active</th>
                             <th>Actions</th>
@@ -258,6 +259,21 @@
             var $userTable = $('#userTable').customedatatable('@Url.Action("GetUsers", "User")', {}, {
                 length: 5,
                 sortableColumns: ['FullName', 'Email', 'Role', 'Status'],
+                columnHtmlBuilder: {
+                    isactive: function (row) {
+                        const checked = row.isactive ? "checked" : "";
+                        return `<td>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input active-toggle"
+                                       type="checkbox"
+                                       data-id="${row.id}" ${checked}>
+                            </div>
+                        </td>`;
+                    },
+                    roles: function (row) {
+                        return `<td><strong>${row.roles}</strong></td>`;
+                    }
+                },
                 rowActionBuilder: function (row) {
                     return `<td>
                         <button class="btn btn-sm btn-outline-primary me-1" onclick="viewUser('${row.id}')"><i class="bi bi-eye"></i></button>
@@ -305,7 +321,67 @@
                 }
             });
 
-             
+            $($userTable).on('click', '.active-toggle', function () {
+                const $toggleButton = $(this);
+                const userId = $($toggleButton).data('id');
+                const isActive = $($toggleButton).is(':checked');
+
+                    // Dynamically set context values
+                const context = isActive
+                    ? {
+                        title: "Activate User?",
+                        text: "Are you sure you want to activate this user?",
+                        confirmButtonText: "Yes, Activate",
+                        confirmButtonColor: "#198754" // Bootstrap green
+                    }
+                    : {
+                        title: "Deactivate User?",
+                        text: "Are you sure you want to deactivate this user?",
+                        confirmButtonText: "Yes, Deactivate",
+                        confirmButtonColor: "#d33" // Bootstrap red
+                    };
+
+                Swal.fire({
+                    title: context.title,
+                    text: context.text,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: context.confirmButtonColor,
+                    cancelButtonColor: "#6c757d", // Bootstrap secondary
+                    confirmButtonText: context.confirmButtonText
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Call API here
+                        $.ajax({
+                            url: '@Url.Action("ChangeUserStatus", "User")',
+                            type: 'POST',
+                            data: { id: userId, isActive: isActive },
+                            beforeSend: function () {
+                                AjaxLoader.show();
+                            },
+                            complete: function () {
+                                AjaxLoader.hide();
+                            },
+                            success: function (response) {
+                                if(response.success){
+                                    Swal.fire("Success", response.message, "success");
+                                }
+                                else{
+                                    Swal.fire("Error", "Failed to update user status", "error");
+                                     $($toggleButton).prop('checked', !isActive);
+                                }
+                            },
+                            error: function (response) {
+                                Swal.fire("Error", "Failed to update user status", "error");
+                                 $($toggleButton).prop('checked', !isActive);
+                            }
+                        });
+                    } else {
+                        // Revert the toggle if cancelled
+                        $($toggleButton).prop('checked', !isActive);
+                    }
+                });
+            });
         });
 
         const createUserModal = new bootstrap.Modal(document.getElementById('createUserModal'));

@@ -5,6 +5,7 @@ namespace Medicare.ViewModels
 {
     public class UserViewModel
     {
+        public Guid Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? FullName { get; set; }
@@ -13,6 +14,7 @@ namespace Medicare.ViewModels
         public string? Email { get; set; } 
         public string? PhoneNumber { get; set; }
         public bool IsActive { get; set; }
+        public string? Roles { get; set; }
     }
     public class CreateUserViewModel
     {
@@ -44,5 +46,10 @@ namespace Medicare.ViewModels
 
         public bool IsActive { get; set; } = true;
         public List<Guid> UserRoles { get; set; }
+    }
+    public class UpdateUserViewModel
+    {
+        public Guid Id { get; set; }
+        public bool IsActive { get; set; }
     }
 }

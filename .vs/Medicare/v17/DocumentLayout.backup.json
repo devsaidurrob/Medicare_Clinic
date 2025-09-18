@@ -1,50 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Others\\Medicare_Clinic\\",
+  "WorkspaceRootPath": "E:\\Others\\Medicare\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|d:\\others\\medicare_clinic\\medicare.repository\\migrations\\20250916120604_alter_appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|solutionrelative:medicare.repository\\migrations\\20250916120604_alter_appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|e:\\others\\medicare\\medicare\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|e:\\others\\medicare\\medicare\\utility\\prescriptiondocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\utility\\prescriptiondocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|e:\\others\\medicare\\medicare\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|d:\\others\\medicare_clinic\\medicare.repository\\repository\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|solutionrelative:medicare.repository\\repository\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|d:\\others\\medicare_clinic\\medicare.repository\\repository\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|solutionrelative:medicare.repository\\repository\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|d:\\others\\medicare_clinic\\medicare.repository\\repository\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|solutionrelative:medicare.repository\\repository\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|d:\\others\\medicare_clinic\\medicare.repository\\repository\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|solutionrelative:medicare.repository\\repository\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\viewmodels\\doctorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\viewmodels\\doctorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|d:\\others\\medicare_clinic\\medicare.repository\\entity\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{955A6E65-D93C-464E-B1BA-A5DE3B4AA540}|Medicare.Repository\\Medicare.Repository.csproj|solutionrelative:medicare.repository\\entity\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\views\\doctor\\appointments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|e:\\others\\medicare\\medicare\\views\\doctor\\appointments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\views\\doctor\\appointments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|d:\\others\\medicare_clinic\\medicare\\views\\appointment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\views\\appointment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|e:\\others\\medicare\\medicare\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{979526A4-DAA2-47FA-9B35-38C431EC6434}|Medicare\\Medicare.csproj|solutionrelative:medicare\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -57,151 +33,72 @@
           "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DoctorController.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Controllers\\DoctorController.cs",
-              "RelativeDocumentMoniker": "Medicare\\Controllers\\DoctorController.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\Controllers\\DoctorController.cs",
-              "RelativeToolTip": "Medicare\\Controllers\\DoctorController.cs",
-              "ViewState": "AgIAAKYAAAAAAAAAAAAYwLoAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T10:51:02.293Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250916120604_alter_appointment.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Migrations\\20250916120604_alter_appointment.cs",
-              "RelativeDocumentMoniker": "Medicare.Repository\\Migrations\\20250916120604_alter_appointment.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Migrations\\20250916120604_alter_appointment.cs",
-              "RelativeToolTip": "Medicare.Repository\\Migrations\\20250916120604_alter_appointment.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAgwB4AAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T12:06:05.244Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "Medicare\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "Medicare\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAASwCIAAABJAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\Others\\Medicare\\Medicare\\Program.cs",
+              "RelativeDocumentMoniker": "Medicare\\Program.cs",
+              "ToolTip": "E:\\Others\\Medicare\\Medicare\\Program.cs*",
+              "RelativeToolTip": "Medicare\\Program.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T12:05:01.54Z",
+              "WhenOpened": "2025-09-17T20:53:52.289Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "AppointmentRepository.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\AppointmentRepository.cs",
-              "RelativeDocumentMoniker": "Medicare.Repository\\Repository\\AppointmentRepository.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\AppointmentRepository.cs",
-              "RelativeToolTip": "Medicare.Repository\\Repository\\AppointmentRepository.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAtwEgAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:58:51.394Z",
+              "Title": "Appointments.cshtml",
+              "DocumentMoniker": "E:\\Others\\Medicare\\Medicare\\Views\\Doctor\\Appointments.cshtml",
+              "RelativeDocumentMoniker": "Medicare\\Views\\Doctor\\Appointments.cshtml",
+              "ToolTip": "E:\\Others\\Medicare\\Medicare\\Views\\Doctor\\Appointments.cshtml",
+              "RelativeToolTip": "Medicare\\Views\\Doctor\\Appointments.cshtml",
+              "ViewState": "AgIAAM4AAAAAAAAAAAAxwOIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-17T20:43:50.458Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DepartmentRepository.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\DepartmentRepository.cs",
-              "RelativeDocumentMoniker": "Medicare.Repository\\Repository\\DepartmentRepository.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\DepartmentRepository.cs",
-              "RelativeToolTip": "Medicare.Repository\\Repository\\DepartmentRepository.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACYAAAAZAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "PrescriptionDocument.cs",
+              "DocumentMoniker": "E:\\Others\\Medicare\\Medicare\\Utility\\PrescriptionDocument.cs",
+              "RelativeDocumentMoniker": "Medicare\\Utility\\PrescriptionDocument.cs",
+              "ToolTip": "E:\\Others\\Medicare\\Medicare\\Utility\\PrescriptionDocument.cs",
+              "RelativeToolTip": "Medicare\\Utility\\PrescriptionDocument.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAowDYAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:59:35.858Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PatientRepository.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\PatientRepository.cs",
-              "RelativeDocumentMoniker": "Medicare.Repository\\Repository\\PatientRepository.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\PatientRepository.cs",
-              "RelativeToolTip": "Medicare.Repository\\Repository\\PatientRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:59:33.235Z",
+              "WhenOpened": "2025-09-17T20:42:08.43Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "DoctorRepository.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\DoctorRepository.cs",
-              "RelativeDocumentMoniker": "Medicare.Repository\\Repository\\DoctorRepository.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Repository\\DoctorRepository.cs",
-              "RelativeToolTip": "Medicare.Repository\\Repository\\DoctorRepository.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\Others\\Medicare\\Medicare\\appsettings.json",
+              "RelativeDocumentMoniker": "Medicare\\appsettings.json",
+              "ToolTip": "E:\\Others\\Medicare\\Medicare\\appsettings.json",
+              "RelativeToolTip": "Medicare\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-17T20:37:41.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DoctorController.cs",
+              "DocumentMoniker": "E:\\Others\\Medicare\\Medicare\\Controllers\\DoctorController.cs",
+              "RelativeDocumentMoniker": "Medicare\\Controllers\\DoctorController.cs",
+              "ToolTip": "E:\\Others\\Medicare\\Medicare\\Controllers\\DoctorController.cs",
+              "RelativeToolTip": "Medicare\\Controllers\\DoctorController.cs",
+              "ViewState": "AgIAAMUAAAAAAAAAAAAhwM4AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:59:27.052Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Appointment.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Entity\\Appointment.cs",
-              "RelativeDocumentMoniker": "Medicare.Repository\\Entity\\Appointment.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare.Repository\\Entity\\Appointment.cs",
-              "RelativeToolTip": "Medicare.Repository\\Entity\\Appointment.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:56:43.496Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DoctorViewModel.cs",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\ViewModels\\DoctorViewModel.cs",
-              "RelativeDocumentMoniker": "Medicare\\ViewModels\\DoctorViewModel.cs",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\ViewModels\\DoctorViewModel.cs",
-              "RelativeToolTip": "Medicare\\ViewModels\\DoctorViewModel.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAIA1wBkAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:53:51.319Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Appointment\\Index.cshtml",
-              "RelativeDocumentMoniker": "Medicare\\Views\\Appointment\\Index.cshtml",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Appointment\\Index.cshtml",
-              "RelativeToolTip": "Medicare\\Views\\Appointment\\Index.cshtml",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAAAFUBAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-16T11:43:04.823Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Appointments.cshtml",
-              "DocumentMoniker": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Doctor\\Appointments.cshtml",
-              "RelativeDocumentMoniker": "Medicare\\Views\\Doctor\\Appointments.cshtml",
-              "ToolTip": "D:\\Others\\Medicare_Clinic\\Medicare\\Views\\Doctor\\Appointments.cshtml",
-              "RelativeToolTip": "Medicare\\Views\\Doctor\\Appointments.cshtml",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAiwIkAAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-16T08:08:16.952Z",
+              "WhenOpened": "2025-09-17T20:13:32.441Z",
               "EditorCaption": ""
             }
           ]

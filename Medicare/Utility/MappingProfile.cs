@@ -79,7 +79,10 @@ namespace Medicare.Utility
             CreateMap<CreateAppointmentViewModel, Patient>();
 
             CreateMap<User, UserViewModel>()
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
+                .ForMember(dest => dest.Roles,
+                    opt => opt.MapFrom(src => string.Join("|",
+                        src.Roles.Select(ur => ur.Role.Name))));
             CreateMap<CreateUserViewModel, User>();
             
         }

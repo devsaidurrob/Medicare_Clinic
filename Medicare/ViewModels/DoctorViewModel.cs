@@ -26,6 +26,15 @@
     public class CreatePrescriptionViewModel
     {
         public Guid AppointmentId { get; set; }
+        public DoctorViewModel Doctor { get; set; }
+        public ClinicDetails Clinic { get; set; }
         public string? PrescriptionContent { get; set; }
+    }
+    public class ClinicDetails
+    {
+        public string? Name { get; set; }
+        public string? Address { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
     }
 }

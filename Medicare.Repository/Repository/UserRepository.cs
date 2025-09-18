@@ -23,7 +23,10 @@ namespace Medicare.Repository.Repository
 
         public async Task<PagingResult<User>> GetAllAsync(UserFilter filter)
         {
-            var query = _context.Users.AsQueryable();
+            var query = _context.Users
+                .Include(ur => ur.Roles)
+                .ThenInclude(r => r.Role)
+                .AsQueryable();
 
             // Apply filters
             if (filter.Active != null)
@@ -76,7 +79,7 @@ namespace Medicare.Repository.Repository
         public async Task<User> UpdateAsync(User entity)
         {
             _context.Users.Update(entity);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -98,9 +101,10 @@ namespace Medicare.Repository.Repository
                 .Include(u => u.Roles)
                 .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u =>
-                    u.UserName == identifier ||
+                    u.IsActive == true &&
+                    (u.UserName == identifier ||
                     u.Email == identifier ||
-                    u.PhoneNumber == identifier);
+                    u.PhoneNumber == identifier));
         }
     }
 }
