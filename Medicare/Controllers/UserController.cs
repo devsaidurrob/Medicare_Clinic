@@ -121,5 +121,10 @@ namespace Medicare.Controllers
                 return JsonResponseHelper.CreateFailureResponse(e.Message);
             }
         }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
     }
 }

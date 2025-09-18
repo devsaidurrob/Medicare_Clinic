@@ -65,12 +65,12 @@
 
 </div>
 
-<!-- Create Appointment Modal -->
-<div class="modal fade" id="createAppointmentModal" tabindex="-1" aria-labelledby="createAppointmentModalLabel" aria-hidden="true">
+<!-- Create Prescription Modal -->
+<div class="modal fade" id="createPrescriptionModal" tabindex="-1" aria-labelledby="createPrescriptionModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header bg-white">
-				<h5 class="modal-title" id="createAppointmentModalLabel">
+				<h5 class="modal-title" id="createPrescriptionModalLabel">
 					<i class="bi bi-calendar-plus me-2"></i>Create Prescription
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -138,12 +138,28 @@
 			var $appointmentTable = $('#appointmentTable').customedatatable('@Url.Action("GetAppointments", "Doctor")', {}, {
 				length: 10,
 				sortableColumns: ['patientName', 'appointmentDate', 'status'],
+				 columnHtmlBuilder: {
+					status: function (row) {
+						debugger;
+								return `<td>
+											<span class="badge ${row.status === 'Scheduled' ? 'bg-info' : row.status === 'Completed' ? 'bg-success' : 'bg-default'}">
+												${row.status}
+											</span>
+										</td>`;
+					}
+				},
 				rowActionBuilder: function(row) {
-					console.log(row);
 					appointmentRowStore.set(row.id, row); // store object by ID
-					return `<td>
-						<button class="btn btn-sm btn-outline-primary me-1 viewButton" type="button" onclick="addPrescription('${row.id}')">Add Prescription</button>
-					</td>`;
+					if(row.status === 'Scheduled'){
+						return `<td>
+							<button class="btn btn-sm btn-outline-primary me-1 viewButton" type="button" onclick="addPrescription('${row.id}')">Add Prescription</button>
+						</td>`;
+					}
+						else{
+						return `<td>
+									
+								</td>`;
+					}
 				},
 				onDataLoaded: function(info) {
 
@@ -203,7 +219,7 @@
 		});
 
 		// Initialize modal
-		const createAppointmentModal = new bootstrap.Modal(document.getElementById('createAppointmentModal'));
+		const createPrescriptionModal = new bootstrap.Modal(document.getElementById('createPrescriptionModal'));
 
 		function addPrescription(id){
 			const row = appointmentRowStore.get(id);
@@ -217,7 +233,7 @@
 								   <p style="margin-top:100px;"><strong>Advice:</strong><br><br></p>`;
 				quill.root.innerHTML = patientText;
 
-			createAppointmentModal.show();
+			createPrescriptionModal.show();
 		}
 
 		 // Save appointment
@@ -234,7 +250,7 @@
 				postData('@Url.Action("AddPrescription", "Doctor")', prescriptionData, {
 					success: function (response) {
 						if (response.success) {
-							createAppointmentModal.hide();
+							createPrescriptionModal.hide();
 							$('#appointmentTable').data('refresh')();
 							// showSuccessToast('Appointment created successfully');
 						} else {

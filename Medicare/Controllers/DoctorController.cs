@@ -183,13 +183,13 @@ namespace Medicare.Controllers
             try
             {
                 var appointment = await _appointmentRepo.GetByIdAsync(prescriptionViewModel.AppointmentId);
-                if (appointment != null)
+                if (appointment != null && appointment.Status == "Scheduled")
                 {
                     // Create PDF doc
                     var document = new PrescriptionDocument(prescriptionViewModel.PrescriptionContent);
 
                     appointment.PrescriptionContent = prescriptionViewModel.PrescriptionContent;
-                    //appointment.Status = "Completed";
+                    appointment.Status = "Completed";
 
                     await _appointmentRepo.UpdateAsync(appointment);
 
@@ -210,6 +210,32 @@ namespace Medicare.Controllers
                     }
                 }
                 return JsonResponseHelper.CreateFailureResponse("An Error Occured");
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
+        public async Task<JsonResult> GetProfile()
+        {
+            try
+            {
+                var doctorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                var doctor = await _repo.GetByIdAsync(doctorId);
+                if (doctor != null)
+                {
+                    var viewModel = _mapper.Map<DoctorViewModel>(doctor);
+                    return JsonResponseHelper.CreateSuccessResponse(viewModel);
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Doctor not found");
+                }
             }
             catch (Exception ex)
             {

@@ -1,0 +1,675 @@
+﻿@{
+    ViewData["Title"] = "Doctor Profile";
+}
+@using System.Security.Claims
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        border: none;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    .rounded-3 {
+        border-radius: 0.75rem !important;
+    }
+
+    .text-primary {
+        color: #4e73df !important;
+    }
+
+    .bg-primary {
+        background-color: #4e73df !important;
+    }
+
+    .badge {
+        font-weight: 500;
+        padding: 0.35em 0.65em;
+    }
+
+    .profile-icon {
+        width: 24px;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .edit-btn {
+        transition: all 0.15s ease;
+    }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.2);
+        }
+
+    .modal-content {
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.2);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #5a5c69;
+        margin-bottom: 0.5rem;
+    }
+
+    .required::after {
+        content: "*";
+        color: #e74a3b;
+        margin-left: 4px;
+    }
+</style>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body d-flex align-items-center">
+                    <img src="@User.FindFirst("ProfilePhoto")?.Value" class="rounded-circle me-4 border" style="width:120px;height:120px;object-fit:cover;" alt="Doctor Photo" id="profilePhoto" />
+                    <div>
+                        <h3 class="mb-1 fw-bold text-primary" id="doctorName">Dr. @User.FindFirst("FullName")?.Value</h3>
+                        <p class="mb-1 text-muted" id="doctorSpecialization">Cardiologist | MBBS, MD</p>
+                        <span class="badge bg-success" id="availabilityStatus"><i class="bi bi-check-circle me-1"></i>Available</span>
+                    </div>
+                    <div class="ms-auto">
+                        <button class="btn btn-outline-primary btn-sm edit-btn" id="editProfileBtn"><i class="bi bi-pencil me-1"></i>Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Details -->
+    <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-primary text-white fw-semibold">Personal Information</div>
+                <div class="card-body">
+                    <p><i class="bi bi-person profile-icon text-primary"></i><strong>Full Name:</strong> <span id="fullName">Dr. @User.FindFirst("FullName")?.Value</span></p>
+                    <p><i class="bi bi-gender-ambiguous profile-icon text-primary"></i><strong>Gender:</strong> <span id="gender">Loading....</span></p>
+                    <p><i class="bi bi-telephone profile-icon text-primary"></i><strong>Phone:</strong> <span id="phone">+91 @User.FindFirst(ClaimTypes.MobilePhone)?.Value</span></p>
+                    <p><i class="bi bi-envelope profile-icon text-primary"></i><strong>Email:</strong> <span id="email">@User.FindFirst(ClaimTypes.Email)?.Value</span></p>
+                    <p><i class="bi bi-geo-alt profile-icon text-primary"></i><strong>Address:</strong> <span id="address">Loading....</span></p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-primary text-white fw-semibold">Schedule & Availability</div>
+                <div class="card-body">
+                    <h6 class="fw-bold text-dark mb-3">Weekly Availability</h6>
+                    <div id="weeklySchedule">
+                        <!-- Schedule will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-primary text-white fw-semibold">Professional Information</div>
+                <div class="card-body">
+                    <h5 class="fw-bold text-dark">Department</h5>
+                    <div id="departments">
+                        <span class="badge bg-info text-dark me-2 mb-2">Cardiology</span>
+                        <span class="badge bg-info text-dark me-2 mb-2">Internal Medicine</span>
+                    </div>
+                    <hr />
+                    <h5 class="fw-bold text-dark">Specializations</h5>
+                    <div id="specializations">
+                        <span class="badge bg-info text-dark me-2 mb-2">Cardiology</span>
+                        <span class="badge bg-info text-dark me-2 mb-2">Internal Medicine</span>
+                    </div>
+                    <hr />
+
+                    <h5 class="fw-bold text-dark">Experience</h5>
+                    <p id="experience">15+ years of practice in treating cardiac patients. Consultant at Apollo Hospitals.</p>
+                    <hr />
+
+                    <h5 class="fw-bold text-dark">Education</h5>
+                    <ul class="list-unstyled" id="education">
+                        <li><i class="bi bi-mortarboard text-primary me-2"></i>MD, Cardiology - AIIMS Delhi</li>
+                        <li><i class="bi bi-mortarboard text-primary me-2"></i>MBBS - Grant Medical College</li>
+                    </ul>
+                    <hr />
+
+                    <h5 class="fw-bold text-dark">Consultation Fee</h5>
+                    <p id="consultationFee">$150 per session</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-primary text-white fw-semibold">About Me</div>
+                <div class="card-body">
+                    <p id="biography">Dr. John Smith is a renowned cardiologist with over 15 years of experience. He specializes in interventional cardiology and has performed over 1000 successful heart surgeries. He believes in providing patient-centric care with a focus on holistic treatment approaches.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editProfileModalLabel"><i class="bi bi-person-gear me-2"></i>Edit Profile</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="profileForm">
+                    <ul class="nav nav-pills mb-4" id="editProfileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="personal-tab" data-bs-toggle="pill" data-bs-target="#personal" type="button" role="tab">Personal</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="professional-tab" data-bs-toggle="pill" data-bs-target="#professional" type="button" role="tab">Professional</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="schedule-tab" data-bs-toggle="pill" data-bs-target="#schedule" type="button" role="tab">Schedule</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="editProfileTabsContent">
+                        <!-- Personal Information Tab -->
+                        <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editFirstName" class="form-label required">First Name</label>
+                                    <input type="text" class="form-control" id="editFirstName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editLastName" class="form-label required">Last Name</label>
+                                    <input type="text" class="form-control" id="editLastName" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editGender" class="form-label required">Gender</label>
+                                    <select class="form-select" id="editGender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editPhone" class="form-label required">Phone</label>
+                                    <input type="tel" class="form-control" id="editPhone" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editEmail" class="form-label required">Email</label>
+                                <input type="email" class="form-control" id="editEmail" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editAddress" class="form-label">Address</label>
+                                <textarea class="form-control" id="editAddress" rows="2"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editProfilePhoto" class="form-label">Profile Photo</label>
+                                <input class="form-control" type="file" id="editProfilePhoto" accept="image/*">
+                            </div>
+                        </div>
+
+                        <!-- Professional Information Tab -->
+                        <div class="tab-pane fade" id="professional" role="tabpanel">
+                            <div class="mb-3">
+                                <label for="editSpecializations" class="form-label required">Specializations</label>
+                                <select class="form-select" id="editSpecializations" multiple required>
+                                    <option value="Cardiology">Cardiology</option>
+                                    <option value="Internal Medicine">Internal Medicine</option>
+                                    <option value="Pediatrics">Pediatrics</option>
+                                    <option value="Neurology">Neurology</option>
+                                    <option value="Orthopedics">Orthopedics</option>
+                                    <option value="Dermatology">Dermatology</option>
+                                </select>
+                                <div class="form-text">Hold Ctrl/Cmd to select multiple specializations</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editQualifications" class="form-label required">Qualifications</label>
+                                <textarea class="form-control" id="editQualifications" rows="2" required></textarea>
+                                <div class="form-text">Separate qualifications with commas</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editExperience" class="form-label">Experience</label>
+                                <textarea class="form-control" id="editExperience" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editBiography" class="form-label">Biography</label>
+                                <textarea class="form-control" id="editBiography" rows="4"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editConsultationFee" class="form-label required">Consultation Fee ($)</label>
+                                <input type="number" class="form-control" id="editConsultationFee" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <!-- Schedule Tab -->
+                        <div class="tab-pane fade" id="schedule" role="tabpanel">
+                            <div class="mb-3">
+                                <label class="form-check-label mb-3">Select your available days and times:</label>
+                                <div id="availabilityForm">
+                                    <!-- Availability form will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="editAvailabilityStatus">
+                                <label class="form-check-label" for="editAvailabilityStatus">
+                                    Currently available for appointments
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* <div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body d-flex align-items-center">
+                    <img src="@User.FindFirst("ProfilePhoto")?.Value" class="rounded-circle me-4 border" style="width:120px;height:120px;object-fit:cover;" alt="Doctor Photo" />
+                    <div>
+                        <h3 class="mb-1 fw-bold text-primary">Dr. John Smith</h3>
+                        <p class="mb-1 text-muted">Cardiologist | MBBS, MD</p>
+                        <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Available</span>
+                    </div>
+                    <div class="ms-auto">
+                        <a asp-action="Edit" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil me-1"></i>Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Details -->
+    <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-primary text-white fw-semibold">Personal Information</div>
+                <div class="card-body">
+                    <p><i class="bi bi-person me-2 text-primary"></i><strong>Full Name:</strong> Dr. John Smith</p>
+                    <p><i class="bi bi-gender-ambiguous me-2 text-primary"></i><strong>Gender:</strong> Male</p>
+                    <p><i class="bi bi-telephone me-2 text-primary"></i><strong>Phone:</strong> +91 9876543210</p>
+                    <p><i class="bi bi-envelope me-2 text-primary"></i><strong>Email:</strong> johnsmith@hospital.com</p>
+                    <p><i class="bi bi-geo-alt me-2 text-primary"></i><strong>Address:</strong> 45, MG Road, Mumbai</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-primary text-white fw-semibold">Professional Information</div>
+                <div class="card-body">
+                    <h5 class="fw-bold text-dark">Specializations</h5>
+                    <span class="badge bg-info text-dark me-2 mb-2">Cardiology</span>
+                    <span class="badge bg-info text-dark me-2 mb-2">Internal Medicine</span>
+                    <hr />
+
+                    <h5 class="fw-bold text-dark">Experience</h5>
+                    <p>15+ years of practice in treating cardiac patients. Consultant at Apollo Hospitals.</p>
+                    <hr />
+
+                    <h5 class="fw-bold text-dark">Education</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-mortarboard text-primary me-2"></i>MD, Cardiology - AIIMS Delhi</li>
+                        <li><i class="bi bi-mortarboard text-primary me-2"></i>MBBS - Grant Medical College</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> *@
+
+@section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const specializationsContainer = document.getElementById('specializations');
+            const departmentsContainer = document.getElementById('departments');
+
+            // Initialize modal
+            const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+
+            // Sample doctor data (in a real application, this would come from an API)
+            let doctorData = {
+                firstName: "John",
+                lastName: "Smith",
+                gender: "Male",
+                phone: "+91 9876543210",
+                email: "johnsmith@hospital.com",
+                address: "45, MG Road, Mumbai",
+                profilePhoto: "https://via.placeholder.com/120",
+                specializations: ["Cardiology", "Internal Medicine"],
+                qualifications: "MBBS, MD",
+                experience: "15+ years of practice in treating cardiac patients. Consultant at Apollo Hospitals.",
+                education: [
+                    "MD, Cardiology - AIIMS Delhi",
+                    "MBBS - Grant Medical College"
+                ],
+                biography: "Dr. John Smith is a renowned cardiologist with over 15 years of experience. He specializes in interventional cardiology and has performed over 1000 successful heart surgeries. He believes in providing patient-centric care with a focus on holistic treatment approaches.",
+                consultationFee: "150",
+                availability: {
+                    status: "Available",
+                    schedule: [
+                        { day: "Monday", available: true, startTime: "09:00", endTime: "17:00" },
+                        { day: "Tuesday", available: true, startTime: "09:00", endTime: "17:00" },
+                        { day: "Wednesday", available: true, startTime: "09:00", endTime: "17:00" },
+                        { day: "Thursday", available: true, startTime: "09:00", endTime: "17:00" },
+                        { day: "Friday", available: true, startTime: "09:00", endTime: "16:00" },
+                        { day: "Saturday", available: false, startTime: "", endTime: "" },
+                        { day: "Sunday", available: false, startTime: "", endTime: "" }
+                    ]
+                }
+            };
+
+            // Load doctor data into the page
+            function loadDoctorData() {
+
+                $.ajax({
+                    url: '@Url.Action("GetProfile", "Doctor")',
+                    method: 'GET',
+                    data: {},
+                    success: function (response) {
+                        console.log(response)
+                        debugger;
+                        if(response.success){
+                        // Personal information
+                            document.getElementById('doctorName').textContent = `Dr. ${response.data.firstName} ${response.data.lastName}`;
+                            document.getElementById('fullName').textContent = `Dr. ${response.data.firstName} ${response.data.lastName}`;
+                            document.getElementById('gender').textContent = response.data.gender;
+                            document.getElementById('phone').textContent = response.data.phone;
+                            document.getElementById('email').textContent = response.data.email;
+                            document.getElementById('address').textContent = response.data.address;
+
+                            // Professional information
+
+                            specializationsContainer.innerHTML = '';
+                            response.data.specializations.forEach(spec => {
+                                debugger;
+                                const badge = document.createElement('span');
+                                badge.className = 'badge bg-info text-dark me-2 mb-2';
+                                badge.textContent = spec.name;
+                                specializationsContainer.appendChild(badge);
+                            });
+
+                            departmentsContainer.innerHTML = '';
+                            response.data.departments.forEach(dept => {
+                                debugger;
+                                const badge = document.createElement('span');
+                                badge.className = 'badge bg-info text-dark me-2 mb-2';
+                                badge.textContent = dept.name;
+                                departmentsContainer.appendChild(badge);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Failed to load data:', error);
+                        if (showError) {
+                            AlertSystem.error('Error!', response.message);
+                        }
+                        deferred.reject(error);
+                    },
+                    beforeSend: function () {
+                        AjaxLoader.show();
+                    },
+                    complete: function () {
+                        AjaxLoader.hide();
+                    }
+                });
+
+                
+
+                // Professional information
+                document.getElementById('doctorSpecialization').textContent = `${doctorData.specializations[0]} | ${doctorData.qualifications}`;
+
+                // Update specializations badges
+                
+                
+
+                document.getElementById('experience').textContent = doctorData.experience;
+
+                // Update education list
+                const educationContainer = document.getElementById('education');
+                educationContainer.innerHTML = '';
+                doctorData.education.forEach(edu => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<i class="bi bi-mortarboard text-primary me-2"></i>${edu}`;
+                    educationContainer.appendChild(listItem);
+                });
+
+                document.getElementById('biography').textContent = doctorData.biography;
+                document.getElementById('consultationFee').textContent = `$${doctorData.consultationFee} per session`;
+
+                // Update availability status
+                document.getElementById('availabilityStatus').innerHTML =
+                    `<i class="bi bi-check-circle me-1"></i>${doctorData.availability.status}`;
+
+                // Update weekly schedule
+                renderWeeklySchedule();
+            }
+
+            // Render weekly schedule
+            function renderWeeklySchedule() {
+                const scheduleContainer = document.getElementById('weeklySchedule');
+                scheduleContainer.innerHTML = '';
+
+                doctorData.availability.schedule.forEach(day => {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'd-flex justify-content-between align-items-center mb-2';
+
+                    if (day.available) {
+                        dayElement.innerHTML = `
+                            <span class="fw-medium">${day.day}</span>
+                            <span class="text-success">${day.startTime} - ${day.endTime}</span>
+                        `;
+                    } else {
+                        dayElement.innerHTML = `
+                            <span class="fw-medium">${day.day}</span>
+                            <span class="text-muted">Not available</span>
+                        `;
+                    }
+
+                    scheduleContainer.appendChild(dayElement);
+                });
+            }
+
+            // Populate edit form with current data
+            function populateEditForm() {
+                // Personal tab
+                document.getElementById('editFirstName').value = doctorData.firstName;
+                document.getElementById('editLastName').value = doctorData.lastName;
+                document.getElementById('editGender').value = doctorData.gender;
+                document.getElementById('editPhone').value = doctorData.phone;
+                document.getElementById('editEmail').value = doctorData.email;
+                document.getElementById('editAddress').value = doctorData.address;
+
+                // Professional tab
+                const specSelect = document.getElementById('editSpecializations');
+                Array.from(specSelect.options).forEach(option => {
+                    option.selected = doctorData.specializations.includes(option.value);
+                });
+
+                document.getElementById('editQualifications').value = doctorData.qualifications;
+                document.getElementById('editExperience').value = doctorData.experience;
+                document.getElementById('editBiography').value = doctorData.biography;
+                document.getElementById('editConsultationFee').value = doctorData.consultationFee;
+
+                // Schedule tab
+                renderAvailabilityForm();
+                document.getElementById('editAvailabilityStatus').checked = doctorData.availability.status === "Available";
+            }
+
+            // Render availability form
+            function renderAvailabilityForm() {
+                const availabilityForm = document.getElementById('availabilityForm');
+                availabilityForm.innerHTML = '';
+
+                doctorData.availability.schedule.forEach(day => {
+                    const dayRow = document.createElement('div');
+                    dayRow.className = 'row mb-2';
+
+                    dayRow.innerHTML = `
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input day-checkbox" type="checkbox" data-day="${day.day}" ${day.available ? 'checked' : ''}>
+                                <label class="form-check-label">${day.day}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control form-control-sm start-time" data-day="${day.day}" value="${day.startTime}" ${day.available ? '' : 'disabled'}>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control form-control-sm end-time" data-day="${day.day}" value="${day.endTime}" ${day.available ? '' : 'disabled'}>
+                        </div>
+                    `;
+
+                    availabilityForm.appendChild(dayRow);
+                });
+
+                // Add event listeners to enable/disable time inputs based on checkbox
+                document.querySelectorAll('.day-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const day = this.dataset.day;
+                        const startTime = document.querySelector(`.start-time[data-day="${day}"]`);
+                        const endTime = document.querySelector(`.end-time[data-day="${day}"]`);
+
+                        if (this.checked) {
+                            startTime.disabled = false;
+                            endTime.disabled = false;
+                        } else {
+                            startTime.disabled = true;
+                            endTime.disabled = true;
+                        }
+                    });
+                });
+            }
+
+            // Save updated profile data
+            function saveProfileData() {
+                // Get data from form
+                const updatedData = {
+                    firstName: document.getElementById('editFirstName').value,
+                    lastName: document.getElementById('editLastName').value,
+                    gender: document.getElementById('editGender').value,
+                    phone: document.getElementById('editPhone').value,
+                    email: document.getElementById('editEmail').value,
+                    address: document.getElementById('editAddress').value,
+                    specializations: Array.from(document.getElementById('editSpecializations').selectedOptions).map(opt => opt.value),
+                    qualifications: document.getElementById('editQualifications').value,
+                    experience: document.getElementById('editExperience').value,
+                    biography: document.getElementById('editBiography').value,
+                    consultationFee: document.getElementById('editConsultationFee').value,
+                    availability: {
+                        status: document.getElementById('editAvailabilityStatus').checked ? "Available" : "Unavailable",
+                        schedule: []
+                    }
+                };
+
+                // Get availability schedule
+                document.querySelectorAll('.day-checkbox').forEach(checkbox => {
+                    const day = checkbox.dataset.day;
+                    const startTime = document.querySelector(`.start-time[data-day="${day}"]`).value;
+                    const endTime = document.querySelector(`.end-time[data-day="${day}"]`).value;
+
+                    updatedData.availability.schedule.push({
+                        day: day,
+                        available: checkbox.checked,
+                        startTime: startTime,
+                        endTime: endTime
+                    });
+                });
+
+                // Handle profile photo upload
+                const photoInput = document.getElementById('editProfilePhoto');
+                if (photoInput.files.length > 0) {
+                    // In a real application, you would upload the file to a server
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        updatedData.profilePhoto = e.target.result;
+                        doctorData = updatedData;
+                        loadDoctorData();
+
+                        // Show success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Profile Updated',
+                            text: 'Your profile has been updated successfully.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    };
+                    reader.readAsDataURL(photoInput.files[0]);
+                } else {
+                    // No new photo selected, keep the existing one
+                    updatedData.profilePhoto = doctorData.profilePhoto;
+                    doctorData = updatedData;
+                    loadDoctorData();
+
+                    // Show success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Profile Updated',
+                        text: 'Your profile has been updated successfully.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            }
+
+            // Event listeners
+            document.getElementById('editProfileBtn').addEventListener('click', function() {
+                populateEditForm();
+                editProfileModal.show();
+            });
+
+            document.getElementById('saveProfileBtn').addEventListener('click', function() {
+                // Validate form
+                const form = document.getElementById('profileForm');
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                saveProfileData();
+                editProfileModal.hide();
+            });
+
+            // Initialize the page with doctor data
+            loadDoctorData();
+        });
+    </script>
+}

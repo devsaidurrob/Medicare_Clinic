@@ -1,0 +1,21 @@
+# Ignore everything
+/*
+
+# Keep Medicare folder itself
+!Medicare/
+
+# Inside Medicare, ignore everything
+
+
+# But keep wwwroot folder
+!/Medicare/wwwroot/
+
+# Keep .gitignore itself
+!.gitignore
+
+# Standard .NET build ignores
+bin/
+obj/
+*.user
+*.suo
+*.vs/
