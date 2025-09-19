@@ -62,6 +62,7 @@ namespace Medicare.Repository.Repository
         {
             return await _context.Doctors
                 .Include(d => d.Appointments)
+                .Include(e => e.Educations)
                 .Include(d => d.DoctorDepartments)
                     .ThenInclude(dd => dd.Department)
                 .Include(d => d.DoctorSpecializations)

@@ -12,11 +12,24 @@
         public string Phone { get; set; }
         public string Address { get; set; }
         public string RegistrationNumber { get; set; }
+        public string? DisplayTitle { get; set; }
+        public string? Experience { get; set; }
         public bool CreateLogin { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public List<DepartmentViewModel> Departments { get; set; }
         public List<SpecializationViewModel> Specializations { get; set; }
+        public List<DoctorsEducationViewModel> Educations { get; set; }
+    }
+    public class DoctorsEducationViewModel
+    {
+        public int Id { get; set; }
+        public Guid DoctorId { get; set; }
+        public string Degree { get; set; }
+        public string Institution { get; set; }
+        public string FieldOfStudy { get; set; }
+        public int YearOfCompletion { get; set; }
+        public string? Notes { get; set; }
     }
     public class DoctorsWithDetailsViewModel
     {

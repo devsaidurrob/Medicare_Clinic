@@ -77,7 +77,8 @@
                     <img src="@User.FindFirst("ProfilePhoto")?.Value" class="rounded-circle me-4 border" style="width:120px;height:120px;object-fit:cover;" alt="Doctor Photo" id="profilePhoto" />
                     <div>
                         <h3 class="mb-1 fw-bold text-primary" id="doctorName">Dr. @User.FindFirst("FullName")?.Value</h3>
-                        <p class="mb-1 text-muted" id="doctorSpecialization">Cardiologist | MBBS, MD</p>
+                        <p class="mb-1 text-muted" id="doctorSpecialization">Title</p>
+                        <p class="mb-1 text-muted">Registration No: <span id="doctorRegistrationNo"></span></p>
                         <span class="badge bg-success" id="availabilityStatus"><i class="bi bi-check-circle me-1"></i>Available</span>
                     </div>
                     <div class="ms-auto">
@@ -103,15 +104,6 @@
                 </div>
             </div>
 
-            <div class="card shadow-sm border-0 rounded-3 mb-4">
-                <div class="card-header bg-primary text-white fw-semibold">Schedule & Availability</div>
-                <div class="card-body">
-                    <h6 class="fw-bold text-dark mb-3">Weekly Availability</h6>
-                    <div id="weeklySchedule">
-                        <!-- Schedule will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Right Column -->
@@ -119,7 +111,7 @@
             <div class="card shadow-sm border-0 rounded-3 mb-4">
                 <div class="card-header bg-primary text-white fw-semibold">Professional Information</div>
                 <div class="card-body">
-                    <h5 class="fw-bold text-dark">Department</h5>
+                    <h5 class="fw-bold text-dark">Departments</h5>
                     <div id="departments">
                         <span class="badge bg-info text-dark me-2 mb-2">Cardiology</span>
                         <span class="badge bg-info text-dark me-2 mb-2">Internal Medicine</span>
@@ -148,12 +140,12 @@
                 </div>
             </div>
 
-            <div class="card shadow-sm border-0 rounded-3">
+            @* <div class="card shadow-sm border-0 rounded-3">
                 <div class="card-header bg-primary text-white fw-semibold">About Me</div>
                 <div class="card-body">
                     <p id="biography">Dr. John Smith is a renowned cardiologist with over 15 years of experience. He specializes in interventional cardiology and has performed over 1000 successful heart surgeries. He believes in providing patient-centric care with a focus on holistic treatment approaches.</p>
                 </div>
-            </div>
+            </div> *@
         </div>
     </div>
 </div>
@@ -360,6 +352,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const specializationsContainer = document.getElementById('specializations');
             const departmentsContainer = document.getElementById('departments');
+            const educationContainer = document.getElementById('education');
 
             // Initialize modal
             const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
@@ -409,6 +402,9 @@
                         if(response.success){
                         // Personal information
                             document.getElementById('doctorName').textContent = `Dr. ${response.data.firstName} ${response.data.lastName}`;
+                            document.getElementById('doctorSpecialization').textContent = response.data.displayTitle;
+                            document.getElementById('doctorRegistrationNo').textContent = response.data.registrationNumber;
+                            
                             document.getElementById('fullName').textContent = `Dr. ${response.data.firstName} ${response.data.lastName}`;
                             document.getElementById('gender').textContent = response.data.gender;
                             document.getElementById('phone').textContent = response.data.phone;
@@ -433,6 +429,26 @@
                                 badge.className = 'badge bg-info text-dark me-2 mb-2';
                                 badge.textContent = dept.name;
                                 departmentsContainer.appendChild(badge);
+                            });
+
+                            educationContainer.innerHTML = '';
+                                response.data.educations.forEach(ed => {
+                                const li = document.createElement('li');
+
+                                // Add icon
+                                const icon = document.createElement('i');
+                                icon.className = 'bi bi-mortarboard text-primary me-2';
+
+                                // Add text (degree name, institution, etc.)
+                                const fieldOfStudy = ed.fieldOfStudy ? `, ${ed.fieldOfStudy}` : '';
+                                const text = document.createTextNode(`${ed.degree}${fieldOfStudy} - ${ed.institution}`);
+
+                                // Append icon + text to li
+                                li.appendChild(icon);
+                                li.appendChild(text);
+
+                                // Append li to ul
+                                educationContainer.appendChild(li);
                             });
                         }
                     },

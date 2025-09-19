@@ -33,5 +33,6 @@ namespace Medicare.Repository.Entity
 
         // Many-to-many with Specialization
         public virtual ICollection<DoctorSpecialization> DoctorSpecializations { get; set; }
+        public virtual ICollection<DoctorsEducation> Educations { get; set; }
     }
 }

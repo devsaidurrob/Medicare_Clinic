@@ -27,6 +27,8 @@ namespace Medicare.Utility
             CreateMap<DoctorViewModel, User>()
                  .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone));
 
+            CreateMap<DoctorsEducation, DoctorsEducationViewModel>();
+
             #endregion
 
             CreateMap<Department, DepartmentViewModel>().ReverseMap();
