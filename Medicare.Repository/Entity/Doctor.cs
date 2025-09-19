@@ -21,6 +21,10 @@ namespace Medicare.Repository.Entity
         public string RegistrationNumber { get; set; }
         public DateTime? ProfessionStartDate { get; set; }
         public string?  DisplayTitle { get; set; }
+        public decimal? ConsultationFee { get; set; }
+
+
+
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Nullable<int> DepartmentId { get; set; }

@@ -168,7 +168,7 @@
                             <button class="nav-link" id="professional-tab" data-bs-toggle="pill" data-bs-target="#professional" type="button" role="tab">Professional</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="schedule-tab" data-bs-toggle="pill" data-bs-target="#schedule" type="button" role="tab">Schedule</button>
+                            <button class="nav-link" id="education-tab" data-bs-toggle="pill" data-bs-target="#educationTab" type="button" role="tab">Education</button>
                         </li>
                     </ul>
 
@@ -221,16 +221,17 @@
                         <!-- Professional Information Tab -->
                         <div class="tab-pane fade" id="professional" role="tabpanel">
                             <div class="mb-3">
+                                <label for="editDepartments" class="form-label required">Specializations</label>
+                                <select class="form-select" id="editDepartments" multiple required>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="editSpecializations" class="form-label required">Specializations</label>
                                 <select class="form-select" id="editSpecializations" multiple required>
-                                    <option value="Cardiology">Cardiology</option>
-                                    <option value="Internal Medicine">Internal Medicine</option>
-                                    <option value="Pediatrics">Pediatrics</option>
-                                    <option value="Neurology">Neurology</option>
-                                    <option value="Orthopedics">Orthopedics</option>
-                                    <option value="Dermatology">Dermatology</option>
+                                    
                                 </select>
-                                <div class="form-text">Hold Ctrl/Cmd to select multiple specializations</div>
+                                
                             </div>
 
                             <div class="mb-3">
@@ -255,22 +256,27 @@
                             </div>
                         </div>
 
-                        <!-- Schedule Tab -->
-                        <div class="tab-pane fade" id="schedule" role="tabpanel">
-                            <div class="mb-3">
-                                <label class="form-check-label mb-3">Select your available days and times:</label>
-                                <div id="availabilityForm">
-                                    <!-- Availability form will be populated by JavaScript -->
-                                </div>
+                        <!-- Education -->
+                        <div class="tab-pane fade" id="educationTab" role="tabpanel">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h6 class="fw-bold text-dark">Education</h6>
+                                <button type="button" class="btn btn-sm btn-primary" id="addEducationBtn"><i class="bi bi-plus-lg"></i> Add</button>
                             </div>
 
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="editAvailabilityStatus">
-                                <label class="form-check-label" for="editAvailabilityStatus">
-                                    Currently available for appointments
-                                </label>
-                            </div>
+                            <table class="table table-bordered table-striped" id="educationTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Degree</th>
+                                        <th>Field of Study</th>
+                                        <th>Institution</th>
+                                        <th>Year</th>
+                                        <th style="width:110px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -282,6 +288,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="educationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="educationModalLabel">Add Education</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="educationForm">
+                    <input type="hidden" id="eduId">
+                    <div class="mb-3">
+                        <label class="form-label">Degree</label>
+                        <input type="text" class="form-control" id="eduDegree" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Field of Study</label>
+                        <input type="text" class="form-control" id="eduField">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Institution</label>
+                        <input type="text" class="form-control" id="eduInstitution" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Year of Completion</label>
+                        <input type="number" class="form-control" id="eduYear" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" id="saveEducationBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @* <div class="container-fluid py-4">
@@ -350,44 +391,39 @@
 @section Scripts{
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            
             const specializationsContainer = document.getElementById('specializations');
             const departmentsContainer = document.getElementById('departments');
             const educationContainer = document.getElementById('education');
 
             // Initialize modal
             const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+            const eduModal = new bootstrap.Modal(document.getElementById('educationModal'));
 
-            // Sample doctor data (in a real application, this would come from an API)
-            let doctorData = {
-                firstName: "John",
-                lastName: "Smith",
-                gender: "Male",
-                phone: "+91 9876543210",
-                email: "johnsmith@hospital.com",
-                address: "45, MG Road, Mumbai",
-                profilePhoto: "https://via.placeholder.com/120",
-                specializations: ["Cardiology", "Internal Medicine"],
-                qualifications: "MBBS, MD",
-                experience: "15+ years of practice in treating cardiac patients. Consultant at Apollo Hospitals.",
-                education: [
-                    "MD, Cardiology - AIIMS Delhi",
-                    "MBBS - Grant Medical College"
-                ],
-                biography: "Dr. John Smith is a renowned cardiologist with over 15 years of experience. He specializes in interventional cardiology and has performed over 1000 successful heart surgeries. He believes in providing patient-centric care with a focus on holistic treatment approaches.",
-                consultationFee: "150",
-                availability: {
-                    status: "Available",
-                    schedule: [
-                        { day: "Monday", available: true, startTime: "09:00", endTime: "17:00" },
-                        { day: "Tuesday", available: true, startTime: "09:00", endTime: "17:00" },
-                        { day: "Wednesday", available: true, startTime: "09:00", endTime: "17:00" },
-                        { day: "Thursday", available: true, startTime: "09:00", endTime: "17:00" },
-                        { day: "Friday", available: true, startTime: "09:00", endTime: "16:00" },
-                        { day: "Saturday", available: false, startTime: "", endTime: "" },
-                        { day: "Sunday", available: false, startTime: "", endTime: "" }
-                    ]
-                }
-            };
+            var doctorData = {};
+            
+            $('#editSpecializations').loadDropdownData(
+                '@Url.Action("DoctorSpecialization", "Dropdown")'
+                ).done(function () {
+                $('#editSpecializations')
+                    .attr('multiple', 'multiple')       // ensure multi-select
+                    .select2({
+                        placeholder: "Select Specializations",
+                        width: '100%',
+                        dropdownParent: $('#editProfileModal')
+                });
+            });
+            $('#editDepartments').loadDropdownData(
+                '@Url.Action("Department", "Dropdown")'
+                ).done(function () {
+                $('#editDepartments')
+                    .attr('multiple', 'multiple')       // ensure multi-select
+                    .select2({
+                        placeholder: "Select Departments",
+                        width: '100%',
+                        dropdownParent: $('#editProfileModal')
+                });
+            });
 
             // Load doctor data into the page
             function loadDoctorData() {
@@ -398,7 +434,7 @@
                     data: {},
                     success: function (response) {
                         console.log(response)
-                        debugger;
+                        doctorData = response.data;
                         if(response.success){
                         // Personal information
                             document.getElementById('doctorName').textContent = `Dr. ${response.data.firstName} ${response.data.lastName}`;
@@ -410,12 +446,12 @@
                             document.getElementById('phone').textContent = response.data.phone;
                             document.getElementById('email').textContent = response.data.email;
                             document.getElementById('address').textContent = response.data.address;
+                            document.getElementById('consultationFee').textContent =`₹${response.data.consultationFee} per session`;;
 
                             // Professional information
 
                             specializationsContainer.innerHTML = '';
                             response.data.specializations.forEach(spec => {
-                                debugger;
                                 const badge = document.createElement('span');
                                 badge.className = 'badge bg-info text-dark me-2 mb-2';
                                 badge.textContent = spec.name;
@@ -424,7 +460,6 @@
 
                             departmentsContainer.innerHTML = '';
                             response.data.departments.forEach(dept => {
-                                debugger;
                                 const badge = document.createElement('span');
                                 badge.className = 'badge bg-info text-dark me-2 mb-2';
                                 badge.textContent = dept.name;
@@ -470,57 +505,32 @@
                 
 
                 // Professional information
-                document.getElementById('doctorSpecialization').textContent = `${doctorData.specializations[0]} | ${doctorData.qualifications}`;
+                // document.getElementById('doctorSpecialization').textContent = `${doctorData.specializations[0]} | ${doctorData.qualifications}`;
 
                 // Update specializations badges
                 
                 
 
-                document.getElementById('experience').textContent = doctorData.experience;
+                // document.getElementById('experience').textContent = doctorData.experience;
 
                 // Update education list
-                const educationContainer = document.getElementById('education');
-                educationContainer.innerHTML = '';
-                doctorData.education.forEach(edu => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `<i class="bi bi-mortarboard text-primary me-2"></i>${edu}`;
-                    educationContainer.appendChild(listItem);
-                });
+                // const educationContainer = document.getElementById('education');
+                // educationContainer.innerHTML = '';
+                // doctorData.education.forEach(edu => {
+                //     const listItem = document.createElement('li');
+                //     listItem.innerHTML = `<i class="bi bi-mortarboard text-primary me-2"></i>${edu}`;
+                //     educationContainer.appendChild(listItem);
+                // });
 
-                document.getElementById('biography').textContent = doctorData.biography;
-                document.getElementById('consultationFee').textContent = `$${doctorData.consultationFee} per session`;
+                // document.getElementById('biography').textContent = doctorData.biography;
+                // document.getElementById('consultationFee').textContent = `$${doctorData.consultationFee} per session`;
 
                 // Update availability status
-                document.getElementById('availabilityStatus').innerHTML =
-                    `<i class="bi bi-check-circle me-1"></i>${doctorData.availability.status}`;
+                // document.getElementById('availabilityStatus').innerHTML =
+                //     `<i class="bi bi-check-circle me-1"></i>${doctorData.availability.status}`;
 
                 // Update weekly schedule
-                renderWeeklySchedule();
-            }
-
-            // Render weekly schedule
-            function renderWeeklySchedule() {
-                const scheduleContainer = document.getElementById('weeklySchedule');
-                scheduleContainer.innerHTML = '';
-
-                doctorData.availability.schedule.forEach(day => {
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'd-flex justify-content-between align-items-center mb-2';
-
-                    if (day.available) {
-                        dayElement.innerHTML = `
-                            <span class="fw-medium">${day.day}</span>
-                            <span class="text-success">${day.startTime} - ${day.endTime}</span>
-                        `;
-                    } else {
-                        dayElement.innerHTML = `
-                            <span class="fw-medium">${day.day}</span>
-                            <span class="text-muted">Not available</span>
-                        `;
-                    }
-
-                    scheduleContainer.appendChild(dayElement);
-                });
+                // renderWeeklySchedule();
             }
 
             // Populate edit form with current data
@@ -544,54 +554,12 @@
                 document.getElementById('editBiography').value = doctorData.biography;
                 document.getElementById('editConsultationFee').value = doctorData.consultationFee;
 
+                // Education Tab
+                renderEducationList(doctorData.educations);
+
                 // Schedule tab
-                renderAvailabilityForm();
-                document.getElementById('editAvailabilityStatus').checked = doctorData.availability.status === "Available";
-            }
-
-            // Render availability form
-            function renderAvailabilityForm() {
-                const availabilityForm = document.getElementById('availabilityForm');
-                availabilityForm.innerHTML = '';
-
-                doctorData.availability.schedule.forEach(day => {
-                    const dayRow = document.createElement('div');
-                    dayRow.className = 'row mb-2';
-
-                    dayRow.innerHTML = `
-                        <div class="col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input day-checkbox" type="checkbox" data-day="${day.day}" ${day.available ? 'checked' : ''}>
-                                <label class="form-check-label">${day.day}</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="time" class="form-control form-control-sm start-time" data-day="${day.day}" value="${day.startTime}" ${day.available ? '' : 'disabled'}>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="time" class="form-control form-control-sm end-time" data-day="${day.day}" value="${day.endTime}" ${day.available ? '' : 'disabled'}>
-                        </div>
-                    `;
-
-                    availabilityForm.appendChild(dayRow);
-                });
-
-                // Add event listeners to enable/disable time inputs based on checkbox
-                document.querySelectorAll('.day-checkbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        const day = this.dataset.day;
-                        const startTime = document.querySelector(`.start-time[data-day="${day}"]`);
-                        const endTime = document.querySelector(`.end-time[data-day="${day}"]`);
-
-                        if (this.checked) {
-                            startTime.disabled = false;
-                            endTime.disabled = false;
-                        } else {
-                            startTime.disabled = true;
-                            endTime.disabled = true;
-                        }
-                    });
-                });
+                // renderAvailabilityForm();
+                // document.getElementById('editAvailabilityStatus').checked = doctorData.availability.status === "Available";
             }
 
             // Save updated profile data
@@ -666,6 +634,26 @@
                 }
             }
 
+            function renderEducationList(educations) {
+                debugger;
+                const tbody = document.querySelector('#educationTable tbody');
+                tbody.innerHTML = '';
+                educations.forEach(edu => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${edu.degree || ''}</td>
+                        <td>${edu.fieldOfStudy || ''}</td>
+                        <td>${edu.institution || ''}</td>
+                        <td>${edu.yearOfCompletion || ''}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary edit-edu" data-id="${edu.id}"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-sm btn-outline-danger delete-edu" data-id="${edu.id}"><i class="bi bi-trash"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
             // Event listeners
             document.getElementById('editProfileBtn').addEventListener('click', function() {
                 populateEditForm();
@@ -682,6 +670,92 @@
 
                 saveProfileData();
                 editProfileModal.hide();
+            });
+
+            // Add new
+            document.getElementById('addEducationBtn').addEventListener('click', () => {
+                document.getElementById('educationForm').reset();
+                document.getElementById('eduId').value = '';
+                document.getElementById('educationModalLabel').textContent = 'Add Education';
+                eduModal.show();
+            });
+
+            // Save
+            document.getElementById('saveEducationBtn').addEventListener('click', () => {
+                // Validate form
+                const form = document.getElementById('educationForm');
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                const edu = {
+                    id: document.getElementById('eduId').value || null,
+					DoctorId: doctorData.id,
+                    degree: document.getElementById('eduDegree').value,
+                    fieldOfStudy: document.getElementById('eduField').value,
+                    institution: document.getElementById('eduInstitution').value,
+                    yearOfCompletion: document.getElementById('eduYear').value
+                };
+
+                if (edu.id) {
+                    // Update existing
+
+                    const index = doctorData.educations.findIndex(e => e.id == edu.id);
+                    doctorData.educations[index] = edu;
+                } else {
+                    postData('@Url.Action("AddEducation", "Doctor")', edu, {
+                        success: function (response) {
+                            console.log(response);
+                            if (response.success) {
+                               doctorData.educations.push(edu);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Failed to load data:', error);
+                        },
+                        complete: function() {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+                }
+
+                renderEducationList(doctorData.educations);
+                eduModal.hide();
+            });
+
+            // Edit 
+            $(document).on('click', '.edit-edu', function () {
+                const id = $(this).data('id');
+                const edu = doctorData.educations.find(e => e.id == id);
+
+                $('#eduId').val(edu.id);
+                $('#eduDegree').val(edu.degree);
+                $('#eduField').val(edu.fieldOfStudy);
+                $('#eduInstitution').val(edu.institution);
+                $('#eduYear').val(edu.yearOfCompletion);
+                $('#educationModalLabel').text('Edit Education');
+                eduModal.show();
+            });
+
+            // Delete
+            $(document).on('click', '.delete-edu', function () {
+                const id = $(this).data('id');
+                deleteData('@Url.Action("DeleteEducation", "Doctor")', { id: id }, {
+                    showSuccess: true,
+                    showError: true,
+                    confirmText: 'Record will be deleted!',
+                    success: function (response) {
+                        if (response.success) {
+                            // Remove row on success
+                            $("button[data-id='" + id + "']").closest("tr").fadeOut(500, function () {
+                                $(this).remove();
+                            });
+                        }
+                    }
+                });
+                // doctorData.educations = doctorData.educations.filter(e => e.id != id);
+                // renderEducationList(doctorData.educations);
             });
 
             // Initialize the page with doctor data

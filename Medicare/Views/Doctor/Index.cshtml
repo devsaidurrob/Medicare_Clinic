@@ -1,417 +1,313 @@
 ﻿@{
-    ViewData["Title"] = "Doctor Management";
+	ViewData["Title"] = "Medicare";
 }
+<!-- Custom CSS -->
+<style>
+	.dashboard-card {
+		background: white;
+		border-radius: 12px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+		transition: transform 0.3s, box-shadow 0.3s;
+		height: 100%;
+		border: none;
+	}
+
+	.stat-card {
+		display: flex;
+		align-items: center;
+		padding: 1.5rem;
+	}
+
+	.stat-icon {
+		width: 60px;
+		height: 60px;
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.8rem;
+		margin-right: 1.2rem;
+	}
+
+	.stat-content {
+		flex: 1;
+	}
+
+	.stat-number {
+		font-size: 1.8rem 28.8px;
+		font-weight: 700;
+		margin-bottom: 0.2rem;
+	}
+
+	.stat-title {
+		font-size: 0.9rem;
+		color: #718096;
+		font-weight: 500;
+	}
+</style>
 
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Doctor Management</h2>
-        <button class="btn btn-primary" type="button" onclick="showCreateDoctorModal()">
-            <i class="bi bi-plus-circle"></i> Add New Doctor
-        </button>
-    </div>
+	<!-- Page Header -->
+	<div class="row mb-4">
+		<div class="col-12">
+			<div class="d-flex justify-content-between align-items-center">
+				<div>
+					<h2 class="h4 mb-1">Doctor Dashboard</h2>
+					<p class="text-muted mb-0">Welcome back, Dr. Smith. Here's what's happening today.</p>
+				</div>
+				<div>
+					<button class="btn btn-primary">
+						<i class="bi bi-plus-circle me-1"></i> New Appointment
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Filter Section -->
-    <div class="filter-section mb-3">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <label for="searchDoctor" class="form-label">Search</label>
-                <input type="text" class="form-control" id="searchDoctor" placeholder="Name, specialty...">
-            </div>
-            <div class="col-md-3">
-                <label for="specialtyFilter" class="form-label">Specialty</label>
-                <select class="form-select" id="specialtyFilter">
-                    <option value="">All Specialties</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="statusFilter" class="form-label">Status</label>
-                <select class="form-select" id="statusFilter">
-                    <option value="">All Statuses</option>
-                    <option>Available</option>
-                    <option>On Leave</option>
-                    <option>Unavailable</option>
-                </select>
-            </div>
-            <div class="col-md-3 d-flex align-items-end">
-                <button class="btn btn-primary me-2" id="filterDataTable">
-                    <i class="bi bi-funnel"></i> Apply Filters
-                </button>
-                <button class="btn btn-outline-secondary" id="filterReset">
-                    <i class="bi bi-arrow-counterclockwise"></i> Reset
-                </button>
-            </div>
-        </div>
-    </div>
+	<!-- Stats Cards -->
+	<div class="row mb-4">
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="dashboard-card">
+				<div class="stat-card">
+					<div class="stat-icon bg-primary bg-opacity-10 text-primary">
+						<i class="bi bi-people-fill"></i>
+					</div>
+					<div class="stat-content">
+						<div class="stat-number" id="totalPatients">0</div>
+						<div class="stat-title">Total Patients</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="dashboard-card">
+				<div class="stat-card">
+					<div class="stat-icon bg-success bg-opacity-10 text-success">
+						<i class="bi bi-calendar-check"></i>
+					</div>
+					<div class="stat-content">
+						<div class="stat-number" id="todayAppointments">0</div>
+						<div class="stat-title">Today's Appointments</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="dashboard-card">
+				<div class="stat-card">
+					<div class="stat-icon bg-warning bg-opacity-10 text-warning">
+						<i class="bi bi-clock-history"></i>
+					</div>
+					<div class="stat-content">
+						<div class="stat-number" id="pendingAppointments">0</div>
+						<div class="stat-title">Pending Appointments</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3 mb-3">
+			<div class="dashboard-card">
+				<div class="stat-card">
+					<div class="stat-icon bg-info bg-opacity-10 text-info">
+						<i class="bi bi-star-fill"></i>
+					</div>
+					<div class="stat-content">
+						<div class="stat-number" id="satisfactionRate">0%</div>
+						<div class="stat-title">Patient Satisfaction</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Sorting Controls -->
-    @* <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="sort-controls">
-            <span class="me-2">Sort by:</span>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-secondary active">Name (A-Z)</button>
-                <button type="button" class="btn btn-outline-secondary">Recently Added</button>
-                <button type="button" class="btn btn-outline-secondary">Consultation Fee</button>
-            </div>
-        </div>
-        <div class="pagination-info"></div>
-    </div> *@
+	<!-- Charts & Appointments -->
+	<div class="row mb-4">
+		<div class="col-lg-8 mb-4">
+			<div class="dashboard-card">
+				<div class="card-body">
+					<h5 class="card-title mb-4">Appointments Overview</h5>
+					<div class="chart-container">
+						<canvas id="appointmentsChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 mb-4">
+			<div class="dashboard-card">
+				<div class="card-body">
+					<h5 class="card-title mb-4">Upcoming Appointments</h5>
+					<div id="upcomingAppointmentsList">
+						<!-- Appointments will be loaded here via AJAX -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Doctors Table -->
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="doctorTable">
-                    <thead>
-                        <tr>
-                            <th class="sortable asc" data-FullName>Name</th>
-                            <th class="sortable" data-phone>Phone</th>
-                            <th class="sortable" data-address>Address</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <!-- Pagination -->
-            <nav aria-label="Doctor pagination">
-                <ul class="pagination justify-content-end mt-4"></ul>
-            </nav>
-        </div>
-    </div>
+	<!-- Patients & Schedule -->
+	<div class="row">
+		<div class="col-lg-7 mb-4">
+			<div class="dashboard-card">
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-center mb-4">
+						<h5 class="card-title mb-0">Recent Patients</h5>
+						<a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+					</div>
+					<div class="patient-list" id="recentPatientsList">
+						<!-- Patients will be loaded here via AJAX -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5 mb-4">
+			<div class="dashboard-card">
+				<div class="card-body">
+					<h5 class="card-title mb-4">Today's Schedule</h5>
+					<div id="todaySchedule">
+						<!-- Today's schedule will be loaded here via AJAX -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<!-- Create Doctor Modal -->
-<div class="modal fade" id="createDoctorModal" tabindex="-1" aria-labelledby="createDoctorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-white">
-                <h5 class="modal-title" id="createDoctorModalLabel">
-                    <i class="bi bi-person-plus me-2"></i>Add New Doctor
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-                <form id="doctorForm">
-                    <!-- Personal Information -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-light">
-                            <h6 class="mb-0">Personal Information</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label for="FirstName" class="form-label required">First Name</label>
-                                    <input class="form-control" id="FirstName" name="FirstName" required />
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="LastName" class="form-label required">Last Name</label>
-                                    <input class="form-control" id="LastName" name="LastName" required />
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="Email" class="form-label required">Email</label>
-                                    <input class="form-control" id="Email" name="Email" type="email" required />
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="Phone" class="form-label required">Phone Number</label>
-                                    <input class="form-control" id="Phone" name="Phone" type="tel" required />
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="Gender" class="form-label required">Gender</label>
-                                    <select class="form-select" id="Gender" name="Gender" required>
-                                        <option value="">Select Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="DateOfBirth" class="form-label">Date of Birth</label>
-                                    <input class="form-control" id="DateOfBirth" name="DateOfBirth" type="date" />
-                                </div><div class="col-md-4">
-                                    <label for="Photo" class="form-label">Profile Photo</label>
-                                    <input class="form-control" type="file" id="Photo" name="Photo" accept="image/*" />
-                                </div>
-                                <div class="col-md-8">
-                                    <label for="Address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="Address" name="Address" rows="2"></textarea>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Professional Information -->
-                    <div class="card mb-3">
-                        <div class="card-header bg-light">
-                            <h6 class="mb-0">Professional Information</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label required">Registration Number</label>
-                                    <input class="form-control" id="RegistrationNumber" name="RegistrationNumber" required />
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="SpesializationId" class="form-label required">Specialization</label>
-                                    <select class="form-select" id="SpesializationId" name="SpesializationId" multiple="multiple" required></select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="DepartmentId" class="form-label">Department</label>
-                                    <select class="form-select" id="DepartmentId" name="DepartmentId" multiple="multiple"></select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="CreatedAt" class="form-label">Created At</label>
-                                    <input class="form-control" id="CreatedAt" name="CreatedAt" readonly />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Login Information Section -->
-                    <div class="card mb-3">
-                        <div class="card-header bg-light">
-                            <h6 class="mb-0">Login Information</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="CreateLogin" name="CreateLogin">
-                                <label class="form-check-label" for="CreateLogin">
-                                    Create Login For This Doctor
-                                </label>
-                            </div>
-
-                            <div id="loginFields" style="display: none; margin-top: 15px;">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="Username" class="form-label required">Username</label>
-                                        <input class="form-control" id="Username" name="Username" disabled />
-
-                                        <p class="text-primary"><i>*Default Password will be sent to the Email Id</i></p>
-                                    </div>
-                                   @*  <div class="col-md-6">
-                                        <label for="Password" class="form-label required">Password</label>
-                                        <input class="form-control" id="Password" name="Password" type="password" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="ConfirmPassword" class="form-label required">Confirm Password</label>
-                                        <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" type="password" />
-                                    </div> *@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle me-1"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-primary" id="saveDoctorBtn">
-                    <i class="bi bi-save me-1"></i> Save Doctor
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts {
-    <script type="text/javascript">
-        $(function () {
-            var $doctorTable = $('#doctorTable').customedatatable('@Url.Action("GetDoctors", "Doctor")', {}, {
-                length: 5,
-                sortableColumns: ['Name', 'Experience'],
-                rowActionBuilder: function (row) {
-                    return `<td>
-                        <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger deleteButton" data-id="${row.id}" onclick="deleteDoctor('${row.id}')"><i class="bi bi-trash"></i></button>
-                    </td>`;
-                },
-                onDataLoaded: function(info) {
-                    // console.log('Data loaded with filters:', info.filtersApplied);
-                    if (info.filtersApplied.Specialty) {
-                        $('#specialtyFilter').css('background-color', '#e9ecef'); // grey out
-                    }
-                    else{
-                        $('#specialtyFilter').val('');
-                        $('#specialtyFilter').css('background-color', '#ffff'); // grey out
-                       
-                    }
-                }
-            }, '#searchDoctor');
+	<script>
+		// Dummy data for the dashboard
+		const dashboardData = {
+			stats: {
+				totalPatients: 1248,
+				todayAppointments: 12,
+				pendingAppointments: 5,
+				satisfactionRate: 96
+			},
+			appointmentsChart: {
+				labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+				completed: [12, 15, 10, 17, 14, 8, 4],
+				cancelled: [2, 1, 3, 0, 2, 1, 0]
+			},
+			upcomingAppointments: [
+				{ time: '09:30 AM', patient: 'Sarah Johnson', purpose: 'Regular Checkup' },
+				{ time: '10:45 AM', patient: 'Michael Brown', purpose: 'Follow-up Visit' },
+				{ time: '01:15 PM', patient: 'Emma Wilson', purpose: 'Consultation' },
+				{ time: '03:00 PM', patient: 'Robert Davis', purpose: 'Dental Cleaning' },
+				{ time: '04:30 PM', patient: 'Jennifer Lee', purpose: 'Treatment' }
+			],
+			recentPatients: [
+				{ name: 'James Anderson', age: 42, condition: 'Hypertension', time: '10:30 AM', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
+				{ name: 'Lisa Garcia', age: 35, condition: 'Migraine', time: 'Yesterday', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
+				{ name: 'Thomas Clark', age: 58, condition: 'Diabetes', time: 'Yesterday', img: 'https://randomuser.me/api/portraits/men/62.jpg' },
+				{ name: 'Maria Rodriguez', age: 29, condition: 'Pregnancy', time: 'Aug 12', img: 'https://randomuser.me/api/portraits/women/28.jpg' },
+				{ name: 'William Taylor', age: 65, condition: 'Arthritis', time: 'Aug 11', img: 'https://randomuser.me/api/portraits/men/75.jpg' }
+			],
+			todaySchedule: [
+				{ time: '09:00 AM - 10:00 AM', patient: 'Sarah Johnson', type: 'Appointment' },
+				{ time: '10:30 AM - 11:30 AM', patient: 'Board Meeting', type: 'Meeting' },
+				{ time: '12:00 PM - 01:00 PM', patient: 'Lunch Break', type: 'Break' },
+				{ time: '02:00 PM - 03:30 PM', patient: 'Training Session', type: 'Meeting' },
+				{ time: '04:00 PM - 05:00 PM', patient: 'Michael Brown', type: 'Appointment' }
+			]
+		};
 
+		// Simulate AJAX call with setTimeout
+		document.addEventListener('DOMContentLoaded', function() {
+			setTimeout(() => {
+				// Load stats
+				document.getElementById('totalPatients').textContent = dashboardData.stats.totalPatients.toLocaleString();
+				document.getElementById('todayAppointments').textContent = dashboardData.stats.todayAppointments;
+				document.getElementById('pendingAppointments').textContent = dashboardData.stats.pendingAppointments;
+				document.getElementById('satisfactionRate').textContent = dashboardData.stats.satisfactionRate + '%';
 
-            $('#specialtyFilter').loadDropdownData(
-                '@Url.Action("DoctorSpecialization", "Dropdown")'
-                ).done(function () {
-                $('#SpesializationId')
-                    .attr('multiple', 'multiple')       // ensure multi-select
-                    .select2({
-                        placeholder: "Select Specializations",
-                        width: '100%',
-                        dropdownParent: $('#createDoctorModal')
-                });
-            });
+				// Load upcoming appointments
+				const appointmentsList = document.getElementById('upcomingAppointmentsList');
+				appointmentsList.innerHTML = dashboardData.upcomingAppointments.map(appointment => `
+					<div class="appointment-item">
+						<div class="appointment-time">${appointment.time}</div>
+						<div class="appointment-patient">${appointment.patient}</div>
+						<div class="appointment-purpose">${appointment.purpose}</div>
+					</div>
+				`).join('');
 
-            $('#filterDataTable').click(function(){
-                // grab selected value
-                const specialty = $('#specialtyFilter').val();
+				// Load recent patients
+				const patientsList = document.getElementById('recentPatientsList');
+				patientsList.innerHTML = dashboardData.recentPatients.map(patient => `
+					<div class="patient-item">
+						<img src="${patient.img}" alt="${patient.name}" class="patient-img">
+						<div class="patient-info">
+							<div class="patient-name">${patient.name}</div>
+							<div class="patient-details">${patient.age} years • ${patient.condition}</div>
+						</div>
+						<div class="patient-time">${patient.time}</div>
+					</div>
+				`).join('');
 
-                const tableData = $doctorTable.data('customedatatable-data') || {};
-                 // Make sure 'Data' exists
-                tableData.Data = tableData.Data || {};
-                
-               if (tableData.Data.Specialty !== specialty) {
-                    // Add/update only the filters you want to send
-                    tableData.Data.Specialty = $('#specialtyFilter').val();
+				// Load today's schedule
+				const scheduleList = document.getElementById('todaySchedule');
+				scheduleList.innerHTML = dashboardData.todaySchedule.map(item => `
+					<div class="appointment-item ${item.type === 'Break' ? 'border-left-warning' : (item.type === 'Meeting' ? 'border-left-info' : 'border-left-primary')}">
+						<div class="appointment-time">${item.time}</div>
+						<div class="appointment-patient">${item.patient}</div>
+						<div class="appointment-purpose">${item.type}</div>
+					</div>
+				`).join('');
 
-                    // Save back
-                    $doctorTable.data('customedatatable-data', tableData);
-
-                    // Reload table
-                    $doctorTable.data('refresh')();
-                }
-            })
-
-            $('#filterReset').click(function() {
-                // Clear plugin-stored filters
-                const tableData = $doctorTable.data('customedatatable-data') || {};
-                if (Object.keys(tableData.Data).length > 0) {
-                    tableData.Data = {};  // remove all applied filters
-                    $doctorTable.data('customedatatable-data', tableData);
-                    // Reload table
-                    $doctorTable.data('refresh')();
-                }
-            });
-
-
-            $('#Email').on('input', function () {
-                 let email = $(this).val();
-                 if (email.includes('@@')) {
-                    let username = email.split('@@')[0];
-                    $('#Username').val(username);
-                 }
-                 else{
-                    $('#Username').val(email);
-                 }
-            });
-        });
-
-        const createDoctorModal = new bootstrap.Modal(document.getElementById('createDoctorModal'));
-
-        function showCreateDoctorModal() {
-            const now = new Date();
-            document.getElementById('CreatedAt').value = now.toISOString().slice(0, 16);
-
-            createDoctorModal.show();
-
-             $('#SpesializationId').loadDropdownData(
-                '@Url.Action("DoctorSpecialization", "Dropdown")'
-                ).done(function () {
-                $('#SpesializationId')
-                    .attr('multiple', 'multiple')       // ensure multi-select
-                    .select2({
-                        placeholder: "Select Specializations",
-                        width: '100%',
-                        dropdownParent: $('#createDoctorModal')
-                });
-            });
-
-            // Load Departments (multi-select)
-            $('#DepartmentId').loadDropdownData(
-                '@Url.Action("Department", "Dropdown")'
-                ).done(function () {
-                $('#DepartmentId')
-                    .attr('multiple', 'multiple')       // ensure multi-select
-                    .select2({
-                        placeholder: "Select Departments",
-                        width: '100%',
-                        dropdownParent: $('#createDoctorModal')
-                 });
-            });
-
-            // $('#SpesializationId')
-            // .loadDropdownData('@Url.Action("DoctorSpecialization", "Dropdown")', {}, 'SpecializationId', 'Name')
-            // .select2({ placeholder: "Select Specializations", width: '100%' });
-
-            // $('#DepartmentId')
-            // .loadDropdownData('@Url.Action("Department", "Dropdown")', {}, 'DepartmentId', 'Name')
-            // .select2({ placeholder: "Select Departments", width: '100%' });
-        }
-
-        document.getElementById('saveDoctorBtn').addEventListener('click', async function () {
-            const form = document.getElementById('doctorForm');
-            if (form.checkValidity()) {
-                const selectedDepartments = $('#DepartmentId').select2('data').map(d => ({
-                    Id: parseInt(d.id)
-                }));
-
-                const selectedSpecializations = $('#SpesializationId').select2('data').map(d => ({
-                    Id: parseInt(d.id)
-                }));
-
-                const doctorData = {
-                    FirstName: $('#FirstName').val(),
-                    LastName: $('#LastName').val(),
-                    Gender: $('#Gender').val(),
-                    DateOfBirth: $('#DateOfBirth').val(),
-                    Email: $('#Email').val(),
-                    Phone: $('#Phone').val(),
-                    Address: $('#Address').val(),
-                    RegistrationNumber: $('#RegistrationNumber').val(),
-                    Departments: selectedDepartments,  // array
-                    Specializations: selectedSpecializations, // array
-                    CreatedAt: new Date($('#CreatedAt').val()).toISOString(),
-                    FullName: `${$('#FirstName').val()} ${$('#LastName').val()}`,
-                    Photo: $('#Photo')[0].files.length > 0 ? $('#Photo')[0].files[0].name : null,
-
-                    CreateLogin:$('#CreateLogin').is(':checked')
-                };
-                console.log(doctorData);
-                debugger;
-                $(this).prop('disabled', true);
-                postData('@Url.Action("AddDoctor", "Doctor")', doctorData, {
-                    success: function (response) {
-                        if (response.success) {
-                            createDoctorModal.hide();
-                            $('#doctorTable').data('refresh')();
-                        }
-                    }
-                });
-                $(this).removeAttr('disabled');
-            } else {
-                form.classList.add('was-validated');
-            }
-        });
-
-        document.getElementById('CreateLogin').addEventListener('change', function() {
-            const loginFields = document.getElementById('loginFields');
-            const usernameField = document.getElementById('Username');
-
-            if (this.checked) {
-                loginFields.style.display = 'block';
-                // usernameField.setAttribute('required', 'required');
-            } else {
-                loginFields.style.display = 'none';
-                usernameField.removeAttribute('required');
-                usernameField.value = '';
-            }
-        });
-
-        function deleteDoctor(id){
-            deleteData('@Url.Action("DeleteDoctor", "Doctor")', { id: id }, { showSuccess : true,showError : true, confirmText : 'Doctor will be deleted!',
-                success: function (response) {
-					console.log(response);
-                    // remove row on success
-					if(response.success)
-					{
-                        $("button[data-id='" + id + "']").closest("tr").fadeOut(500, function () {
-                            $(this).remove();
-                        });
+				// Initialize chart
+				const ctx = document.getElementById('appointmentsChart').getContext('2d');
+				new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: dashboardData.appointmentsChart.labels,
+						datasets: [
+							{
+								label: 'Completed',
+								data: dashboardData.appointmentsChart.completed,
+								backgroundColor: 'rgba(44, 111, 187, 0.7)',
+								borderColor: 'rgba(44, 111, 187, 1)',
+								borderWidth: 1
+							},
+							{
+								label: 'Cancelled',
+								data: dashboardData.appointmentsChart.cancelled,
+								backgroundColor: 'rgba(220, 53, 69, 0.7)',
+								borderColor: 'rgba(220, 53, 69, 1)',
+								borderWidth: 1
+							}
+						]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						scales: {
+							y: {
+								beginAtZero: true,
+								ticks: {
+									stepSize: 5
+								}
+							}
+						},
+						plugins: {
+							legend: {
+								position: 'top',
+							}
+						}
 					}
-                }
-            });
-        }
-    </script>
+				});
+			}, 1000); // Simulate network delay
+		});
+
+		// Sidebar toggle functionality
+		document.getElementById('sidebarToggle').addEventListener('click', function() {
+			document.getElementById('sidebar').classList.toggle('collapsed');
+			document.getElementById('mainContent').classList.toggle('expanded');
+
+			const icon = this.querySelector('i');
+			if (document.getElementById('sidebar').classList.contains('collapsed')) {
+				icon.classList.replace('bi-list', 'bi-layout-sidebar');
+			} else {
+				icon.classList.replace('bi-layout-sidebar', 'bi-list');
+			}
+		});
+	</script>
 }

@@ -17,16 +17,19 @@ namespace Medicare.Controllers
         private readonly IDoctorRepository _repo;
         private readonly IAppointmentRepository _appointmentRepo;
         private readonly IUserRepository _userRepo;
+        private readonly IDoctorsEducationRepository _edicationRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly EmailService _emailService;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        public DoctorController(IDoctorRepository repo, IUserRepository userRepo, IAppointmentRepository appointmentRepository, IUnitOfWork unitOfWork,
+        public DoctorController(IDoctorRepository repo, IUserRepository userRepo, IAppointmentRepository appointmentRepository,
+            IDoctorsEducationRepository doctorsEducationRepository, IUnitOfWork unitOfWork,
             EmailService emailService, IConfiguration configuration, IMapper mapper)
         {
             _repo = repo;
             _userRepo = userRepo;
             _appointmentRepo = appointmentRepository;
+            _edicationRepo = doctorsEducationRepository;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
             _configuration = configuration;
@@ -34,6 +37,10 @@ namespace Medicare.Controllers
         }
         [HttpGet]
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult DoctorList()
         {
             return View();
         }
@@ -183,7 +190,7 @@ namespace Medicare.Controllers
             try
             {
                 var appointment = await _appointmentRepo.GetByIdAsync(prescriptionViewModel.AppointmentId);
-                if (appointment != null && appointment.Status == "Scheduled")
+                if (appointment != null/* && appointment.Status == "Scheduled"*/)
                 {
                     // Create PDF doc
                     var document = new PrescriptionDocument(prescriptionViewModel.PrescriptionContent);
@@ -235,6 +242,60 @@ namespace Medicare.Controllers
                 else
                 {
                     return JsonResponseHelper.CreateFailureResponse("Doctor not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<JsonResult> AddEducation(DoctorsEducationViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState
+                        .Where(x => x.Value.Errors.Count > 0)
+                        .ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                        );
+
+                    return JsonResponseHelper.CreateFailureResponse("Validation failed", errors);
+                }
+                var educationEntity = _mapper.Map<DoctorsEducation>(model);
+                educationEntity.FieldOfStudy = educationEntity.FieldOfStudy == null ? "" : educationEntity.FieldOfStudy;
+                var education = await _edicationRepo.AddAsync(educationEntity);
+                if (education != null)
+                {
+                    var viewModel = _mapper.Map<DoctorsEducation>(education);
+                    return JsonResponseHelper.CreateSuccessResponse(viewModel);
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Education not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<JsonResult> DeleteEducation(int id)
+        {
+            try
+            {
+                var result = await _edicationRepo.DeleteAsync(id);
+                if (result)
+                {
+                    return JsonResponseHelper.CreateSuccessResponse(true);
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Education not found");
                 }
             }
             catch (Exception ex)

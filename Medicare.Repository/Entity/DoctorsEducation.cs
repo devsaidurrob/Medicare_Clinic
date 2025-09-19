@@ -32,7 +32,7 @@ namespace Medicare.Repository.Entity
 
         // Field of Study / Specialization
         [StringLength(150)]
-        public string FieldOfStudy { get; set; }
+        public string FieldOfStudy { get; set; } = "";
 
         // Year of Completion
         public int YearOfCompletion { get; set; }

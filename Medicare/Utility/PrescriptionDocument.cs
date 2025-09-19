@@ -37,39 +37,137 @@ namespace Medicare.Utility
 
         private void ComposeHeader(IContainer container)
         {
-            container.Row(row =>
+            container.Column(col =>
             {
-                // Clinic Details (left)
-                row.RelativeItem().Column(col =>
+                col.Item().Row(row =>
                 {
-                    col.Item().Text("MediCare").Bold().FontSize(16);
-                    col.Item().Text("Clinic Address, City, State").FontSize(11);
-                    col.Item().Text("Phone: +91-1234567890").FontSize(11);
-                    col.Item().Text("Email: clinic@example.com").FontSize(11);
+                    // Clinic Details (left)
+                    row.RelativeItem().Column(c =>
+                    {
+                        c.Item().Text("MediCare").Bold().FontSize(16);
+                        c.Item().Text("Clinic Address, City, State").FontSize(11);
+                        c.Item().Text("Phone: +91-1234567890").FontSize(11);
+                        c.Item().Text("Email: clinic@example.com").FontSize(11);
+                    });
+
+                    // Doctor Details (right)
+                    row.RelativeItem().AlignRight().Column(c =>
+                    {
+                        c.Item().Text("Dr. John Doe").Bold().FontSize(14);
+                        c.Item().Text("MBBS, MD - General Physician").FontSize(11);
+                        c.Item().Text("Reg. No: 123456").FontSize(11);
+                        c.Item().Text("Contact: +91-9876543210").FontSize(11);
+                    });
                 });
 
-                // Doctor Details (right)
-                row.RelativeItem().AlignRight().Column(col =>
-                {
-                    col.Item().Text("Dr. John Doe").Bold().FontSize(14);
-                    col.Item().Text("MBBS, MD - General Physician").FontSize(11);
-                    col.Item().Text("Reg. No: 123456").FontSize(11);
-                    col.Item().Text("Contact: +91-9876543210").FontSize(11);
-                });
+                // 🔹 Add divider line after header
+                col.Item().PaddingVertical(5).LineHorizontal(1);
             });
         }
 
         private void ComposePrescriptionContent(IContainer container)
         {
-            container.Column(col =>
+            container.Padding(15).Column(col =>
             {
-                col.Item().Text("Prescription").Bold().FontSize(14).Underline().AlignCenter();
-                col.Item().PaddingTop(10).Element(x =>
+                col.Item().Text("Prescription")
+                    .Bold()
+                    .FontSize(14)
+                    .Underline()
+                    .AlignCenter();
+
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(_prescriptionContent);
+
+                foreach (var node in doc.DocumentNode.ChildNodes)
                 {
-                    // Convert Quill HTML → Plain Text (basic)  
-                    x.Text(_prescriptionContent).FontSize(12);
-                });
+                    if (node.Name == "p")
+                    {
+                        // Extract inline styles if present
+                        var styles = ParseStyles(node.GetAttributeValue("style", ""));
+
+                        // Apply margin as spacing before this item
+                        if (styles.MarginTop > 0)
+                            col.Spacing(styles.MarginTop);
+
+                        col.Item()
+                            .Padding(styles.Padding) // apply padding
+                            .PaddingTop(styles.PaddingTop)
+                            .PaddingBottom(styles.PaddingBottom)
+                            .PaddingLeft(styles.PaddingLeft)
+                            .PaddingRight(styles.PaddingRight)
+                            .Text(text =>
+                            {
+                                foreach (var child in node.ChildNodes)
+                                {
+                                    if (child.Name == "strong")
+                                        text.Span(child.InnerText).Bold();
+                                    else
+                                        text.Span(child.InnerText);
+                                }
+                            });
+
+                        // Apply margin-bottom as spacing after
+                        if (styles.MarginBottom > 0)
+                            col.Spacing(styles.MarginBottom);
+                    }
+                }
             });
         }
+
+
+
+        private class StyleInfo
+        {
+            public float Padding { get; set; }
+            public float PaddingTop { get; set; }
+            public float PaddingBottom { get; set; }
+            public float PaddingLeft { get; set; }
+            public float PaddingRight { get; set; }
+            public float MarginTop { get; set; }
+            public float MarginBottom { get; set; }
+            public float MarginLeft { get; set; }
+            public float MarginRight { get; set; }
+        }
+
+        private StyleInfo ParseStyles(string style)
+        {
+            var info = new StyleInfo();
+
+            if (string.IsNullOrWhiteSpace(style)) return info;
+
+            var rules = style.Split(';', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var rule in rules)
+            {
+                var parts = rule.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 2) continue;
+
+                var key = parts[0].Trim().ToLower();
+                var value = parts[1].Trim().Replace("px", ""); // only px supported
+                if (!float.TryParse(value, out float number)) continue;
+
+                switch (key)
+                {
+                    case "margin":
+                        info.MarginTop = info.MarginBottom = info.MarginLeft = info.MarginRight = number;
+                        break;
+                    case "margin-top": info.MarginTop = number; break;
+                    case "margin-bottom": info.MarginBottom = number; break;
+                    case "margin-left": info.MarginLeft = number; break;
+                    case "margin-right": info.MarginRight = number; break;
+
+                    case "padding":
+                        info.PaddingTop = info.PaddingBottom = info.PaddingLeft = info.PaddingRight = number;
+                        break;
+                    case "padding-top": info.PaddingTop = number; break;
+                    case "padding-bottom": info.PaddingBottom = number; break;
+                    case "padding-left": info.PaddingLeft = number; break;
+                    case "padding-right": info.PaddingRight = number; break;
+                }
+            }
+
+            return info;
+        }
+
+
     }
 }

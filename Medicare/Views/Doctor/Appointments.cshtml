@@ -140,7 +140,6 @@
 				sortableColumns: ['patientName', 'appointmentDate', 'status'],
 				 columnHtmlBuilder: {
 					status: function (row) {
-						debugger;
 								return `<td>
 											<span class="badge ${row.status === 'Scheduled' ? 'bg-info' : row.status === 'Completed' ? 'bg-success' : 'bg-default'}">
 												${row.status}
@@ -157,7 +156,7 @@
 					}
 						else{
 						return `<td>
-									
+									<button class="btn btn-sm btn-outline-primary me-1 viewButton" type="button" onclick="addPrescription('${row.id}')">Add Prescription</button>
 								</td>`;
 					}
 				},

@@ -78,6 +78,8 @@ namespace Medicare.Controllers
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
+                if (user.Roles.Any(x => x.Role.Name == "Doctor"))
+                    return RedirectToAction("Index", "Doctor");
                 return RedirectToAction("Index", "Home");
             }
 

@@ -1,4 +1,6 @@
-﻿namespace Medicare.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Medicare.ViewModels
 {
     public class DoctorViewModel
     {
@@ -14,6 +16,7 @@
         public string RegistrationNumber { get; set; }
         public string? DisplayTitle { get; set; }
         public string? Experience { get; set; }
+        public decimal? ConsultationFee { get; set; }
         public bool CreateLogin { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
@@ -23,12 +26,15 @@
     }
     public class DoctorsEducationViewModel
     {
-        public int Id { get; set; }
-        public Guid DoctorId { get; set; }
-        public string Degree { get; set; }
-        public string Institution { get; set; }
-        public string FieldOfStudy { get; set; }
-        public int YearOfCompletion { get; set; }
+        public int? Id { get; set; }
+        public Guid? DoctorId { get; set; }
+        [Required]
+        public string? Degree { get; set; }
+        [Required]
+        public string? Institution { get; set; }
+        public string? FieldOfStudy { get; set; }
+        [Required]
+        public int? YearOfCompletion { get; set; }
         public string? Notes { get; set; }
     }
     public class DoctorsWithDetailsViewModel
