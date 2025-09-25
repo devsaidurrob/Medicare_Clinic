@@ -37,6 +37,30 @@ namespace Medicare.ViewModels
         public int? YearOfCompletion { get; set; }
         public string? Notes { get; set; }
     }
+    public class DoctorsScheduleViewModel
+    {
+        public Guid Id { get; set; }
+
+        public Guid DoctorId { get; set; }
+        public string DoctorName { get; set; }   // Helpful for displaying in UI
+
+        public DateTime AvailableDate { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+
+        public int? PatientCapacity { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
+        // Derived / convenience property for UI
+        public string ScheduleRange => $"{StartTime:hh\\:mm} - {EndTime:hh\\:mm}";
+
+        // Optional: number of appointments already booked
+        public int BookedAppointments { get; set; }
+    }
     public class DoctorsWithDetailsViewModel
     {
         public Guid Id { get; set; }

@@ -1,0 +1,318 @@
+﻿@{
+    ViewData["Title"] = "Doctor Schedule";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-theme-background">
+                    <h5 class="mb-0">Calendar</h5>
+                </div>
+                <div class="card-body">
+                    <div id="calendar" class="calendar-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-theme-background">
+                    <h5 class="mb-0">Set Your Availability</h5>
+                </div>
+                <div class="card-body">
+                    <form id="scheduleForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Select Date</label>
+                                <input type="text" id="selectedDate" class="form-control" placeholder="Select date or click on calendar">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Patient Capacity</label>
+                                <input type="number" id="patientCapacity" class="form-control" min="1" max="50" placeholder="Number of patients">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Time</label>
+                                <input type="time" id="startTime" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Time</label>
+                                <input type="time" id="endTime" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Save Schedule</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-theme-background">
+                    <h5 class="mb-0">Schedule History</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div id="scheduleHistory" class="schedule-history-container">
+                        <!-- Will be populated with JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Initialize calendar
+            const calendarEl = document.getElementById('calendar');
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set to beginning of day for accurate comparison
+            let currentMonth = today.getMonth();
+            let currentYear = today.getFullYear();
+
+            // Sample schedule data (in a real app, this would come from a server)
+            const sampleSchedules = [
+                { date: '2023-10-15', startTime: '09:00', endTime: '12:00', capacity: 10 },
+                { date: '2023-10-18', startTime: '14:00', endTime: '17:00', capacity: 8 },
+                { date: '2023-10-20', startTime: '10:00', endTime: '16:00', capacity: 15 },
+                { date: '2023-10-22', startTime: '08:00', endTime: '12:00', capacity: 12 },
+                { date: '2023-10-25', startTime: '13:00', endTime: '18:00', capacity: 20 },
+                { date: '2023-10-28', startTime: '09:00', endTime: '15:00', capacity: 18 },
+                { date: '2023-10-30', startTime: '11:00', endTime: '17:00', capacity: 14 }
+            ];
+
+            // Render calendar
+            function renderCalendar(month, year) {
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+
+                let firstDay = new Date(year, month, 1).getDay();
+                let daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+                let calendarHTML = `
+                    <div class="calendar-header d-flex justify-content-between align-items-center mb-2">
+                        <button class="btn btn-sm btn-outline-secondary prev-month">&lt;</button>
+                        <h6 class="mb-0">${monthNames[month]} ${year}</h6>
+                        <button class="btn btn-sm btn-outline-secondary next-month">&gt;</button>
+                    </div>
+                    <table class="table table-bordered calendar-table">
+                        <thead>
+                            <tr>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                let day = 1;
+                for (let i = 0; i < 6; i++) {
+                    calendarHTML += "<tr>";
+                    for (let j = 0; j < 7; j++) {
+                        if (i === 0 && j < firstDay) {
+                            calendarHTML += "<td></td>";
+                        } else if (day > daysInMonth) {
+                            calendarHTML += "<td></td>";
+                        } else {
+                            const currentDate = new Date(year, month, day);
+                            const isToday = currentDate.getTime() === today.getTime();
+                            const isPast = currentDate < today;
+                            const hasSchedule = sampleSchedules.some(s => {
+                                const sDate = new Date(s.date);
+                                return sDate.getDate() === day &&
+                                       sDate.getMonth() === month &&
+                                       sDate.getFullYear() === year;
+                            });
+
+                            calendarHTML += `
+                                <td class="${isToday ? 'bg-theme-background text-white' : ''} ${isPast ? 'past-date' : ''}">
+                                    <div class="calendar-day ${isToday ? 'today' : ''} ${hasSchedule ? 'has-schedule' : ''}
+                                        ${isPast ? 'disabled' : ''}"
+                                        data-date="${year}-${month+1}-${day}"
+                                        ${isPast ? 'style="cursor: not-allowed; opacity: 0.5;"' : ''}>
+                                        ${day}
+                                        ${hasSchedule ? '<span class="schedule-dot"></span>' : ''}
+                                    </div>
+                                </td>
+                            `;
+                            day++;
+                        }
+                    }
+                    calendarHTML += "</tr>";
+                    if (day > daysInMonth) {
+                        break;
+                    }
+                }
+
+                calendarHTML += "</tbody></table>";
+                calendarEl.innerHTML = calendarHTML;
+
+                // Add event listeners
+                $('.prev-month').on('click', function() {
+                    currentMonth--;
+                    if (currentMonth < 0) {
+                        currentMonth = 11;
+                        currentYear--;
+                    }
+                    renderCalendar(currentMonth, currentYear);
+                });
+
+                $('.next-month').on('click', function() {
+                    currentMonth++;
+                    if (currentMonth > 11) {
+                        currentMonth = 0;
+                        currentYear++;
+                    }
+                    renderCalendar(currentMonth, currentYear);
+                });
+
+                // Date selection - only for future dates
+                $('.calendar-day:not(.disabled)').on('click', function() {
+                    $('.calendar-day').removeClass('selected');
+                    $(this).addClass('selected');
+                    const date = $(this).data('date');
+                    $('#selectedDate').val(formatDateForInput(date));
+                });
+            }
+
+            function formatDateForInput(dateString) {
+                const [year, month, day] = dateString.split('-');
+                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            }
+
+            // Populate schedule history
+            function populateScheduleHistory() {
+                let historyHTML = '';
+
+                // Sort schedules by date (newest first)
+                const sortedSchedules = [...sampleSchedules].sort((a, b) =>
+                    new Date(b.date) - new Date(a.date)
+                );
+
+                sortedSchedules.forEach(schedule => {
+                    const formattedDate = new Date(schedule.date).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    historyHTML += `
+                        <div class="schedule-history-item">
+                            <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                                <div>
+                                    <h6 class="mb-1">${formattedDate}</h6>
+                                    <p class="mb-1">Time: ${formatTime(schedule.startTime)} - ${formatTime(schedule.endTime)}</p>
+                                    <small class="text-muted">Patient Capacity: ${schedule.capacity}</small>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger delete-schedule">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                $('#scheduleHistory').html(historyHTML);
+
+                // Add delete functionality
+                $('.delete-schedule').on('click', function() {
+                    $(this).closest('.schedule-history-item').remove();
+                    Swal.fire('Deleted', 'Schedule has been removed', 'info');
+                });
+            }
+
+            // Initialize the calendar
+            renderCalendar(currentMonth, currentYear);
+
+            // Populate schedule history
+            populateScheduleHistory();
+
+            // Form submission
+            $('#scheduleForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const date = $('#selectedDate').val();
+                const startTime = $('#startTime').val();
+                const endTime = $('#endTime').val();
+                const patientCapacity = $('#patientCapacity').val();
+
+                if (!date || !startTime || !endTime || !patientCapacity) {
+                    Swal.fire('Error', 'Please fill all fields', 'error');
+                    return;
+                }
+
+                // Check if selected date is in the past
+                const selectedDate = new Date(date);
+                if (selectedDate < today) {
+                    Swal.fire('Error', 'Cannot schedule for past dates', 'error');
+                    return;
+                }
+
+                if (startTime >= endTime) {
+                    Swal.fire('Error', 'End time must be after start time', 'error');
+                    return;
+                }
+
+                // In a real application, you would send this data to the server
+                // For now, we'll just add it to the schedule history
+                const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                const newScheduleHTML = `
+                    <div class="schedule-history-item">
+                        <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                            <div>
+                                <h6 class="mb-1">${formattedDate}</h6>
+                                <p class="mb-1">Time: ${formatTime(startTime)} - ${formatTime(endTime)}</p>
+                                <small class="text-muted">Patient Capacity: ${patientCapacity}</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger delete-schedule">Delete</button>
+                        </div>
+                    </div>
+                `;
+
+                // Add to the top of the history
+                $('#scheduleHistory').prepend(newScheduleHTML);
+
+                // Add delete functionality to the new item
+                $('#scheduleHistory .delete-schedule').first().on('click', function() {
+                    $(this).closest('.schedule-history-item').remove();
+                    Swal.fire('Deleted', 'Schedule has been removed', 'info');
+                });
+
+                Swal.fire('Success', 'Schedule saved successfully', 'success');
+                this.reset();
+
+                // Update calendar to show the new schedule
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            function formatTime(timeString) {
+                const [hours, minutes] = timeString.split(':');
+                const hour = parseInt(hours);
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const formattedHour = hour % 12 || 12;
+                return `${formattedHour}:${minutes} ${ampm}`;
+            }
+
+            // Initialize with today's date if it's not in the past
+            $('#selectedDate').val(formatDateForInput(`${currentYear}-${currentMonth+1}-${today.getDate()}`));
+        });
+    </script>
+
+    
+}

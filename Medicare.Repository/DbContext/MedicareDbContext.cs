@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ namespace Medicare.Repository.DbContext
 
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<DoctorsEducation> DoctorsEducations { get; set; }
+        public DbSet<DoctorsSchedule> DoctorsSchedules { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -129,6 +131,11 @@ namespace Medicare.Repository.DbContext
                 .WithMany(s => s.DoctorSpecializations)
                 .HasForeignKey(ds => ds.SpecializationId);
 
+            modelBuilder.Entity<DoctorsSchedule>(entity =>
+            {
+                entity.HasIndex(u => u.DoctorId);
+            });
+
 
             #region Stored procedure
 
@@ -192,9 +199,9 @@ namespace Medicare.Repository.DbContext
             );
 
             modelBuilder.Entity<Role>().HasData(
-                new Role { Id = Guid.NewGuid(), Name = "Admin" },
-                new Role { Id = Guid.NewGuid(), Name = "Receptionist" },
-                new Role { Id = Guid.NewGuid(), Name = "Doctor" }
+                new Role { Id = new Guid("263e1b58-7d92-49cc-96e3-d985baa11a96"), Name = "Admin" },
+                new Role { Id = new Guid("da3143fe-c5e4-4d63-8497-b929851c9835"), Name = "Receptionist" },
+                new Role { Id = new Guid("33c7291c-76f9-4121-87b3-5097bf322597"), Name = "Doctor" }
             );
 
             #endregion

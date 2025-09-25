@@ -303,5 +303,10 @@ namespace Medicare.Controllers
                 return JsonResponseHelper.CreateFailureResponse(ex.Message);
             }
         }
+
+        public IActionResult Schedule()
+        {
+            return View();
+        }
     }
 }

@@ -47,6 +47,9 @@ namespace Medicare.Repository.Migrations
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("DoctorsScheduleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
 
@@ -70,6 +73,8 @@ namespace Medicare.Repository.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("DoctorId");
+
+                    b.HasIndex("DoctorsScheduleId");
 
                     b.HasIndex("PatientId");
 
@@ -346,6 +351,37 @@ namespace Medicare.Repository.Migrations
                     b.ToTable("DoctorSpecializations", "OPD");
                 });
 
+            modelBuilder.Entity("Medicare.Repository.Entity.DoctorsSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AvailableDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<int?>("PatientCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorsSchedules", "OPD");
+                });
+
             modelBuilder.Entity("Medicare.Repository.Entity.Patient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -439,17 +475,17 @@ namespace Medicare.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a500e1f5-b86a-44ab-83b2-dfac4d667ab4"),
+                            Id = new Guid("263e1b58-7d92-49cc-96e3-d985baa11a96"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("a7c0e233-4375-403b-bd86-6ef7f6b8cfdf"),
+                            Id = new Guid("da3143fe-c5e4-4d63-8497-b929851c9835"),
                             Name = "Receptionist"
                         },
                         new
                         {
-                            Id = new Guid("f907bf9d-19e1-42da-9539-280cbe67103a"),
+                            Id = new Guid("33c7291c-76f9-4121-87b3-5097bf322597"),
                             Name = "Doctor"
                         });
                 });
@@ -738,6 +774,10 @@ namespace Medicare.Repository.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Medicare.Repository.Entity.DoctorsSchedule", null)
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorsScheduleId");
+
                     b.HasOne("Medicare.Repository.Entity.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
@@ -800,6 +840,17 @@ namespace Medicare.Repository.Migrations
                     b.Navigation("Specialization");
                 });
 
+            modelBuilder.Entity("Medicare.Repository.Entity.DoctorsSchedule", b =>
+                {
+                    b.HasOne("Medicare.Repository.Entity.Doctor", "Doctor")
+                        .WithMany("Schedules")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("Medicare.Repository.Entity.UserRole", b =>
                 {
                     b.HasOne("Medicare.Repository.Entity.Role", "Role")
@@ -833,6 +884,13 @@ namespace Medicare.Repository.Migrations
                     b.Navigation("DoctorSpecializations");
 
                     b.Navigation("Educations");
+
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("Medicare.Repository.Entity.DoctorsSchedule", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("Medicare.Repository.Entity.Patient", b =>
