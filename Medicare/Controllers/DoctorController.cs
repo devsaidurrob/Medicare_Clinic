@@ -18,18 +18,20 @@ namespace Medicare.Controllers
         private readonly IAppointmentRepository _appointmentRepo;
         private readonly IUserRepository _userRepo;
         private readonly IDoctorsEducationRepository _edicationRepo;
+        private readonly IDoctorsScheduleRepository _scheduleRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly EmailService _emailService;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         public DoctorController(IDoctorRepository repo, IUserRepository userRepo, IAppointmentRepository appointmentRepository,
-            IDoctorsEducationRepository doctorsEducationRepository, IUnitOfWork unitOfWork,
+            IDoctorsEducationRepository doctorsEducationRepository, IDoctorsScheduleRepository doctorsScheduleRepository, IUnitOfWork unitOfWork,
             EmailService emailService, IConfiguration configuration, IMapper mapper)
         {
             _repo = repo;
             _userRepo = userRepo;
             _appointmentRepo = appointmentRepository;
             _edicationRepo = doctorsEducationRepository;
+            _scheduleRepo = doctorsScheduleRepository;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
             _configuration = configuration;
@@ -308,5 +310,86 @@ namespace Medicare.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<JsonResult> AddSchedule(CreateDoctorsScheduleViewModel model)
+        {
+            try
+            {
+                var doctorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState
+                        .Where(x => x.Value.Errors.Count > 0)
+                        .ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                        );
+
+                    return JsonResponseHelper.CreateFailureResponse("Validation failed", errors);
+                }
+                var scheduleEntity = _mapper.Map<DoctorsSchedule>(model);
+                scheduleEntity.DoctorId = doctorId;
+                var education = await _scheduleRepo.AddAsync(scheduleEntity);
+                if (education != null)
+                {
+                    var viewModel = _mapper.Map<DoctorsScheduleViewModel>(education);
+                    return JsonResponseHelper.CreateSuccessResponse(viewModel);
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Schedule not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetScheduleHistory()
+        {
+            try
+            {
+                var doctorId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                var schedule = await _scheduleRepo.GetAllAsync(doctorId);
+
+                if (schedule != null)
+                {
+                    var viewModel = _mapper.Map<IEnumerable<DoctorsScheduleViewModel>>(schedule);
+                    return JsonResponseHelper.CreateSuccessResponse(viewModel);
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Schedule not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteSchedule(Guid id)
+        {
+            try
+            {
+                var result = await _scheduleRepo.DeleteAsync(id);
+                if (result)
+                {
+                    return JsonResponseHelper.CreateSuccessResponse(true);
+                }
+                else
+                {
+                    return JsonResponseHelper.CreateFailureResponse("Schedule not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+
     }
 }

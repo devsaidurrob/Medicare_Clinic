@@ -84,6 +84,42 @@ namespace Medicare.Repository.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<string>> GetAvailableTimeSlots(Guid doctorId, DateTime date)
+        {
+            // 1️⃣ Get the doctor's schedule for the selected date
+            var schedule = await _context.DoctorsSchedules
+                .FirstOrDefaultAsync(ds => ds.DoctorId == doctorId && ds.AvailableDate.Date == date.Date);
+
+            if (schedule == null)
+            {
+                // No schedule found for the doctor on this date
+                return new List<string>();
+            }
+
+            // 2️⃣ Get booked appointments for this doctor on this date
+            var bookedTimes = await _context.Appointments
+                .Where(a => a.DoctorId == doctorId && a.AppointmentDate.Date == date.Date)
+                .Select(a => a.AppointmentTime)
+                .ToListAsync();
+
+            // 3️⃣ Generate available slots based on schedule and 30-minute interval
+            var availableSlots = new List<string>();
+            var slotDuration = TimeSpan.FromMinutes(30);
+            var currentTime = schedule.StartTime;
+
+            while (currentTime + slotDuration <= schedule.EndTime)
+            {
+                // Check if this slot is already booked
+                if (!bookedTimes.Contains(currentTime))
+                {
+                    availableSlots.Add(currentTime.ToString(@"hh\:mm"));
+                }
+
+                currentTime = currentTime.Add(slotDuration);
+            }
+            return availableSlots;
+        }
     }
 
 }

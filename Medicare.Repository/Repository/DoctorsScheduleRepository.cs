@@ -38,7 +38,8 @@ namespace Medicare.Repository.Repository
 
         public async Task<IEnumerable<DoctorsSchedule>> GetAllAsync(Guid DoctorId)
         {
-            var result = await _context.DoctorsSchedules.Where(x => x.DoctorId == DoctorId).ToListAsync();
+            var result = await _context.DoctorsSchedules.Where(x => x.DoctorId == DoctorId)
+                .OrderByDescending(x => x.CreatedAt).ToListAsync();
             return result;
         }
     }

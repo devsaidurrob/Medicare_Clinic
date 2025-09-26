@@ -2,7 +2,26 @@
     ViewData["Title"] = "Appointments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .time-slot {
+        padding: 6px 12px;
+        border-radius: 5px;
+        background-color: #0d6efd; /* Bootstrap primary */
+        color: white;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.1s;
+    }
 
+        .time-slot:hover {
+            transform: scale(1.05);
+            background-color: #0b5ed7; /* Bootstrap primary */
+        }
+
+        .time-slot.selected {
+            background-color: #44a210; /* Darker shade when selected */
+        }
+</style>
 <div class="container-fluid">
     <div class="d-flex justify-content-between mb-3">
         <h2>Appointments</h2>
@@ -86,6 +105,15 @@
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
+                                <div class="col-md-4" style="background-color: #bcc2c8; border-radius: 10px;">
+                                    <label for="PatientPhone" class="form-label required">Phone Number</label>
+                                    <input class="form-control" id="PatientPhone" name="PatientPhone" type="tel" required autocomplete="new-password"
+                                           placeholder="Phone number..." />
+                                    <small class="form-text text-muted">
+                                        Search Mobile/Name/Email minimum 3 characters...
+                                    </small>
+                                </div>
+
                                 <div class="col-md-4">
                                     <label for="PatientFirstName" class="form-label required">First Name</label>
                                     <input class="form-control" id="PatientFirstName" name="PatientFirstName" required />
@@ -94,10 +122,7 @@
                                     <label for="PatientLastName" class="form-label required">Last Name</label>
                                     <input class="form-control" id="PatientLastName" name="PatientLastName" required />
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="PatientPhone" class="form-label required">Phone Number</label>
-                                    <input class="form-control" id="PatientPhone" name="PatientPhone" type="tel" required />
-                                </div>
+
                                 <div class="col-md-4">
                                     <label for="PatientEmail" class="form-label required">Email</label>
                                     <input class="form-control" id="PatientEmail" name="PatientEmail" type="email" required />
@@ -152,11 +177,19 @@
                                     <label for="AppointmentDate" class="form-label required">Appointment Date</label>
                                     <input class="form-control" id="AppointmentDate" name="AppointmentDate" type="date" required />
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <label class="form-label required">Appointment Time</label>
+                                    <div id="timeSlotsContainer" class="d-flex flex-wrap gap-2 p-2"
+                                         style="max-height: 120px; overflow-y: auto; border: 1px solid #ced4da; border-radius: 5px;">
+                                        <!-- Time slots will be dynamically appended here -->
+                                    </div>
+                                    <input type="hidden" id="AppointmentTime" name="AppointmentTime" required />
+                                </div>
+                                @* <div class="col-md-4">
                                     <label for="AppointmentTime" class="form-label required">Appointment Time</label>
                                     <input class="form-control" id="AppointmentTime" name="AppointmentTime" type="time" required />
-                                </div>
-                                <div class="col-md-8"></div>
+                                </div> *@
+                                @* <div class="col-md-8"></div> *@
                                 @* <div class="col-md-4">
                                     <label for="AppointmentDuration" class="form-label required">Duration (minutes)</label>
                                     <select class="form-select" id="AppointmentDuration" name="AppointmentDuration" required>
@@ -205,6 +238,8 @@
 
 @section Scripts {
     <script type="text/javascript">
+        var selectedSearchedPatient = {}
+
         $(function () {
             // Initialize Appointment DataTable
             var $appointmentTable = $('#appointmentTable').customedatatable('@Url.Action("GetAppointments", "Appointment")', {}, {
@@ -263,15 +298,15 @@
             });
 
             // Load doctors dropdown
-            $('#Doctor').loadDropdownData(
-                '@Url.Action("GetDoctorsWithDetails", "Dropdown")'
-            ).done(function () {
-                $('#Doctor').select2({
-                    placeholder: "Select Doctor",
-                    width: '100%',
-                    dropdownParent: $('#createAppointmentModal')
-                });
-            });
+            // $('#Doctor').loadDropdownData(
+            //     '@Url.Action("GetDoctorsWithDetails", "Dropdown")'
+            // ).done(function () {
+            //     $('#Doctor').select2({
+            //         placeholder: "Select Doctor",
+            //         width: '100%',
+            //         dropdownParent: $('#createAppointmentModal')
+            //     });
+            // });
 
             // Load departments dropdown
             $('#Department').loadDropdownData(
@@ -283,6 +318,122 @@
                     dropdownParent: $('#createAppointmentModal')
                 });
             });
+
+
+                    // Autocomplete Patient Phone
+            $('#PatientPhone').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("SearchPatients", "Appointment")',
+                        data: { searchTerm: request.term },
+                        success: function (data) {
+                            console.log(data);
+                            response($.map(data.data, function (item) {
+                                return {
+                                    label: `${item.mobileNumber} | ${item.fullName} | ${item.email}`,
+                                    value: item.phone,
+                                    data: item
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2,
+                appendTo: "#createAppointmentModal",   // 👈 force dropdown to be inside modal
+                select: function (event, ui) {
+                    const patient = ui.item.data;
+                    selectedSearchedPatient = patient;
+                    $('#PatientPhone').val(ui.item.value); // set only phone number
+                    $('#PatientFirstName').val(patient.firstName);
+                    $('#PatientLastName').val(patient.lastName);
+                    $('#PatientEmail').val(patient.email);
+                    $('#PatientGender').val(patient.gender);
+                    $('#PatientDateOfBirth').val(patient.dateOfBirth);
+                    $('#PatientAddress').val(patient.address);
+                }
+
+            });
+
+            // When user types manually after selecting a patient
+            $('#PatientPhone').on('input', function() {
+                // If current value does not match selected patient's phone
+                if (selectedSearchedPatient && $(this).val() !== selectedSearchedPatient.mobileNumber) {
+                    selectedSearchedPatient = {}; // clear selected patient
+
+                    // Clear the auto-populated fields
+                    $('#PatientFirstName').val('');
+                    $('#PatientLastName').val('');
+                    $('#PatientEmail').val('');
+                    $('#PatientGender').val('');
+                    $('#PatientDateOfBirth').val('');
+                    $('#PatientAddress').val('');
+                }
+            });
+
+            // $('#PatientPhone').change(function(){
+            //     $(this).val('')
+            // })
+
+            $('#Doctor, #AppointmentDate').change(function() {
+                const doctorId = $('#Doctor').val();
+                const dateStr = $('#AppointmentDate').val();
+                     // Check if doctor is selected and date is valid
+                if (doctorId && dateStr) {
+                    const date = new Date(dateStr);
+                    if (!isNaN(date.getTime())) { // valid date
+                        loadAvailableTimeSlots(doctorId, dateStr);
+                    } else {
+                        $('#timeSlotsContainer').empty(); // clear previous slots if date is invalid
+                        $('#AppointmentTime').val(''); // clear selected time
+                    }
+                } 
+            });
+
+
+            function loadAvailableTimeSlots(doctorId, date) {
+                const $container = $('#timeSlotsContainer');
+                const $timeInput = $('#AppointmentTime');
+
+                $container.empty();  // clear previous slots
+                $timeInput.val('');  // clear previous selection
+
+                if (!doctorId || !date) return;
+
+                // Fetch available slots from server
+                $.ajax({
+                    url: '@Url.Action("GetAvailableTimeSlots", "Appointment")', // implement API endpoint
+                    data: { doctorId: doctorId, date: date },
+                    success: function(response) {
+                        if (response.success) {
+                            $container.empty();
+                            if(response.data.length > 0){
+                                response.data.forEach(slot => {
+                                    const $slot = $('<div>')
+                                        .addClass('time-slot')
+                                        .text(slot)
+                                        .click(function() {
+                                            // Remove previous selection
+                                            $container.find('.time-slot').removeClass('selected');
+                                            $(this).addClass('selected');
+                                            $timeInput.val(slot); // set hidden input
+                                        });
+
+                                    $container.append($slot);
+                                });
+                            }
+                            else {
+                                $container.append('<small class="text-muted">No slots available</small>');
+                            }
+                        } else {
+                            $container.append(`<small class="text-muted">${ response.message }</small>`);
+                        }
+                    },
+                    error: function() {
+                        $container.append('<small class="text-danger">Failed to load slots</small>');
+                    }
+                });
+            }
+
         });
 
         // Initialize modal
@@ -304,7 +455,7 @@
 
             // Load dropdowns
             $('#Doctor').loadDropdownData(
-                '@Url.Action("GetDoctors", "Dropdown")'
+                '@Url.Action("GetDoctorsWithDetails", "Dropdown")'
             ).done(function () {
                 $('#Doctor').select2({
                     placeholder: "Select Doctor",
@@ -330,11 +481,17 @@
         document.getElementById('saveAppointmentBtn').addEventListener('click', async function () {
             const form = document.getElementById('appointmentForm');
             if (form.checkValidity()) {
+                var phoneNumber = $('#PatientPhone').val();
+                if(selectedSearchedPatient.mobileNumber){
+                    phoneNumber = selectedSearchedPatient.mobileNumber;
+                }
                 const appointmentData = {
+                    PatientId:selectedSearchedPatient.id,
                     FirstName: $('#PatientFirstName').val(),
                     LastName: $('#PatientLastName').val(),
                     Email: $('#PatientEmail').val(),
-                    MobileNumber: $('#PatientPhone').val(),
+
+                    MobileNumber: phoneNumber,
                     Gender: $('#PatientGender').val(),
                     DateOfBirth: $('#PatientDateOfBirth').val(),
                     Address: $('#PatientAddress').val(),
@@ -355,7 +512,10 @@
                 postData('@Url.Action("AddAppointment", "Appointment")', appointmentData, {
                     success: function (response) {
                         if (response.success) {
+                            selectedSearchedPatient = {};
                             createAppointmentModal.hide();
+                            $('#appointmentForm')[0].reset();
+                            $('#saveAppointmentBtn').removeAttr('disabled');
                             $('#appointmentTable').data('refresh')();
                             showSuccessToast('Appointment created successfully');
                         } else {

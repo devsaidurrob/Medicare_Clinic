@@ -53,6 +53,7 @@ builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleManagerRepository, RoleManagerRepository>();
 builder.Services.AddScoped<IDoctorsEducationRepository, DoctorsEducationRepository>();
+builder.Services.AddScoped<IDoctorsScheduleRepository, DoctorsScheduleRepository>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

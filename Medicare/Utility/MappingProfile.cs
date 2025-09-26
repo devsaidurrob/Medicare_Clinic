@@ -29,7 +29,12 @@ namespace Medicare.Utility
 
             CreateMap<DoctorsEducation, DoctorsEducationViewModel>().ReverseMap();
 
+            CreateMap<CreateDoctorsScheduleViewModel, DoctorsSchedule>();
+            CreateMap<DoctorsSchedule, DoctorsScheduleViewModel>();
+
             #endregion
+
+            CreateMap<Patient, PatientViewModel>();
 
             CreateMap<Department, DepartmentViewModel>().ReverseMap();
             CreateMap<Specialization, SpecializationViewModel>().ReverseMap();

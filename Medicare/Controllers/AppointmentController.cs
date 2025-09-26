@@ -63,15 +63,21 @@ namespace Medicare.Controllers
             }
             try
             {
-                var patient = _mapper.Map<Patient>(appoitmentViewModel);
-                var patientResult = await _patientRepository.AddAsync(patient);
+                Patient? patient = null;
+                if (appoitmentViewModel.PatientId != null)
+                    patient = await _patientRepository.GetById(appoitmentViewModel.PatientId.Value);
+                if (patient == null)
+                {
+                    patient = await _patientRepository.AddAsync(_mapper.Map<Patient>(appoitmentViewModel));
+                }
 
 
                 // Map Doctor
                 var appoitment = _mapper.Map<Appointment>(appoitmentViewModel);
                 appoitment.Id = Guid.NewGuid();
-                appoitment.PatientId = patientResult.Id;
+                appoitment.PatientId = patient.Id;
                 appoitment.Status = "Scheduled";
+                appoitment.CreatedAt = DateTime.UtcNow;
 
                 // Add doctor via repository
                 await _repo.AddAsync(appoitment);
@@ -103,6 +109,36 @@ namespace Medicare.Controllers
                 }
             }
             catch (Exception e)
+            {
+                return JsonResponseHelper.CreateFailureResponse(e.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> SearchPatients(string searchTerm)
+        {
+            try
+            {
+                var patients = await _patientRepository.SearchPatient(searchTerm);
+                var viewModels = _mapper.Map<IEnumerable<PatientViewModel>>(patients);
+                return JsonResponseHelper.CreateSuccessResponse(viewModels);
+            }
+            catch (Exception ex)
+            {
+                return JsonResponseHelper.CreateFailureResponse(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetAvailableTimeSlots(Guid doctorId, DateTime date)
+        {
+            try
+            {
+                var result = await _repo.GetAvailableTimeSlots(doctorId, date);
+                
+                return JsonResponseHelper.CreateSuccessResponse(result);
+            }
+            catch(Exception e)
             {
                 return JsonResponseHelper.CreateFailureResponse(e.Message);
             }

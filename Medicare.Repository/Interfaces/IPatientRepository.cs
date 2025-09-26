@@ -10,5 +10,7 @@ namespace Medicare.Repository.Interfaces
     public interface IPatientRepository
     {
         Task<Patient> AddAsync(Patient patient);
+        Task<Patient?> GetById(Guid Id);
+        Task<IEnumerable<Patient>> SearchPatient(string searchTerm);
     }
 }

@@ -15,5 +15,6 @@ namespace Medicare.Repository.Interfaces
         Task<Appointment> AddAsync(Appointment appointment);
         Task<Appointment?> UpdateAsync(Appointment appointment);
         Task<bool> DeleteAsync(Guid id);
+        Task<List<string>> GetAvailableTimeSlots(Guid doctorId, DateTime date);
     }
 }

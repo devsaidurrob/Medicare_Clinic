@@ -61,6 +61,18 @@ namespace Medicare.ViewModels
         // Optional: number of appointments already booked
         public int BookedAppointments { get; set; }
     }
+
+    public class CreateDoctorsScheduleViewModel
+    {
+        public Guid DoctorId { get; set; }
+
+        public DateTime AvailableDate { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+
+        public int? PatientCapacity { get; set; }
+
+    }
     public class DoctorsWithDetailsViewModel
     {
         public Guid Id { get; set; }

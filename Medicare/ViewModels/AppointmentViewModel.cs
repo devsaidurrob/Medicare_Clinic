@@ -31,6 +31,7 @@
         public string? Status { get; set; }
 
         #region Patient Details
+        public Guid? PatientId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? Gender { get; set; }
